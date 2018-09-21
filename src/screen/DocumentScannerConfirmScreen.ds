@@ -1,0 +1,58 @@
+DocumentScannerConfirmScreen {
+
+	background-color: #000;
+
+	Content {
+		padding: 24px;
+	}
+
+	Footer {
+		bottom: max($safe-area-bottom-inset, 24px);
+		left: 0px;
+		content-direction: horizontal;
+		content-gravity: center;
+		height: 72px;
+	}
+
+	NavigationBar {
+		border-bottom-color: black;
+	}
+
+	Button.accept {
+
+		anchor-top: 50%;
+		anchor-left: 50%;
+		background-color: #00b09b;
+		border-radius: 24px;
+		height: 48px;
+		left: 75%;
+		padding-left: 24px;
+		padding-right: 24px;
+		top: 50%;
+		width: 40%;
+
+		.label {
+			font-weight: 500;
+			text-color: #fff;
+		}
+	}
+
+	Button.retake {
+
+		anchor-top: 50%;
+		anchor-left: 50%;
+		background-color: #fff;
+		border-radius: 24px;
+		height: 48px;
+		left: 25%;
+		padding-left: 24px;
+		padding-right: 24px;
+		top: 50%;
+		width: 40%;
+
+		.label {
+			font-weight: 500;
+			text-color: #000;
+		}
+	}
+}

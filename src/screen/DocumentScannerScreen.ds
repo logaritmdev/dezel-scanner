@@ -1,0 +1,76 @@
+DocumentScannerScreen {
+
+	Header {
+		top: 0px;
+		left: 0px;
+	}
+
+	Footer {
+		bottom: max($safe-area-bottom-inset, 24px);
+		height: 72px;
+		left: 0px;
+	}
+
+	NavigationBar {
+
+		border-bottom-color: transparent;
+		border-bottom-width: 0px;
+		padding-left: 24px;
+		padding-right: 24px;
+
+		NavigationBarCloseButton {
+
+			background-color: rgba(0, 0, 0, 0.65);
+			border-radius: 18px;
+			height: 36px;
+			touch-offset-top: -12px;
+			touch-offset-left: -12px;
+			touch-offset-right: -12px;
+			touch-offset-bottom: -12px;
+			width: 36px;
+
+			.icon {
+				image-tint: #fff;
+			}
+
+			.label {
+				visible: false;
+			}
+		}
+	}
+
+	ShutterButton {
+		anchor-left: 50%;
+		anchor-top: 50%;
+		left: 50%;
+		top: 50%;
+	}
+
+	FlashButton {
+		anchor-left: 0%;
+		anchor-top: 50%;
+		left: 24px;
+		top: 50%;
+	}
+
+	.outline {
+		drawable: true;
+		left: 0;
+		top: 0;
+	}
+
+	.message {
+		anchor-left: 50%;
+		background-color: rgba(0, 0, 0, 0.65);
+		bottom: 120px;
+		height: 36px;
+		border-radius: 24px;
+		left: 50%;
+		padding-left: 24px;
+		padding-right: 24px;
+		text-color: #fff;
+		text-alignment: center;
+		text-wrapping: none;
+		width: wrap;
+	}
+}

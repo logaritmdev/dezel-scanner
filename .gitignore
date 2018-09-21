@@ -1,0 +1,4 @@
+/node_modules
+/lib/*
+!/lib/.gitkeep
+/platforms/ios/DezelScanner/Frameworks/opencv2.framework

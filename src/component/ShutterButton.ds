@@ -1,0 +1,18 @@
+ShutterButton {
+
+	background-color: rgba(0, 0, 0, 0.65);
+	border-radius: 36px;
+	height: 72px;
+	width: 72px;
+
+	.label {
+		anchor-top: 50%;
+		anchor-left: 50%;
+		background-color: #fff;
+		border-radius: 26px;
+		left: 50%;
+		height: 52px;
+		top: 50%;
+		width: 52px;
+	}
+}
