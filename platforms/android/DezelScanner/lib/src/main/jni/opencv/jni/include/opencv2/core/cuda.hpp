@@ -88,8 +88,8 @@ passed directly to the kernel.
 aligned to a size depending on the hardware. Single-row GpuMat is always a continuous matrix.
 
 @note You are not recommended to leave static or global GpuMat variables allocated, that is, to rely
-on its destructor. The destruction order of such variables and CUDA context is undefined. GPU memory
-release function returns error if the CUDA context has been destroyed before.
+on its destructor. The destruction order of such variables and CUDA layout is undefined. GPU memory
+release function returns error if the CUDA layout has been destroyed before.
 
 Some member functions are described as a "Blocking Call" while some are described as a
 "Non-Blocking Call". Blocking functions are synchronous to host. It is guaranteed that the GPU

@@ -30,6 +30,12 @@
 		C7A3AB71214C4DD500D8B15C /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A3AB70214C4DD500D8B15C /* UIImage.swift */; };
 		C7A3AB73214E9EF500D8B15C /* CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A3AB72214E9EF500D8B15C /* CGImage.swift */; };
 		C7A3AB75214EA51F00D8B15C /* ObjectScannerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A3AB74214EA51F00D8B15C /* ObjectScannerViewDelegate.swift */; };
+		C7F5CFBE217EBE34009D85C1 /* DLExtractorIOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7F5CFBC217EBE34009D85C1 /* DLExtractorIOS.cpp */; };
+		C7F5CFBF217EBE34009D85C1 /* DLExtractorIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F5CFBD217EBE34009D85C1 /* DLExtractorIOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C7F5CFC2217EC020009D85C1 /* DLScannerIOSPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7F5CFC0217EC020009D85C1 /* DLScannerIOSPrivate.cpp */; };
+		C7F5CFC3217EC020009D85C1 /* DLScannerIOSPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F5CFC1217EC020009D85C1 /* DLScannerIOSPrivate.h */; };
+		C7F5CFC5217EC15A009D85C1 /* ObjectExtractorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F5CFC4217EC15A009D85C1 /* ObjectExtractorView.swift */; };
+		C7F5CFC7217EC464009D85C1 /* DocumentExtractorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F5CFC6217EC464009D85C1 /* DocumentExtractorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +75,12 @@
 		C7A3AB70214C4DD500D8B15C /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		C7A3AB72214E9EF500D8B15C /* CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImage.swift; sourceTree = "<group>"; };
 		C7A3AB74214EA51F00D8B15C /* ObjectScannerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectScannerViewDelegate.swift; sourceTree = "<group>"; };
+		C7F5CFBC217EBE34009D85C1 /* DLExtractorIOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DLExtractorIOS.cpp; path = ../../../../shared/DLExtractorIOS.cpp; sourceTree = "<group>"; };
+		C7F5CFBD217EBE34009D85C1 /* DLExtractorIOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DLExtractorIOS.h; path = ../../../../shared/DLExtractorIOS.h; sourceTree = "<group>"; };
+		C7F5CFC0217EC020009D85C1 /* DLScannerIOSPrivate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DLScannerIOSPrivate.cpp; path = ../../../../shared/DLScannerIOSPrivate.cpp; sourceTree = "<group>"; };
+		C7F5CFC1217EC020009D85C1 /* DLScannerIOSPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DLScannerIOSPrivate.h; path = ../../../../shared/DLScannerIOSPrivate.h; sourceTree = "<group>"; };
+		C7F5CFC4217EC15A009D85C1 /* ObjectExtractorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectExtractorView.swift; sourceTree = "<group>"; };
+		C7F5CFC6217EC464009D85C1 /* DocumentExtractorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentExtractorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				C7A3AB4021499A8800D8B15C /* DocumentScannerView.swift */,
+				C7F5CFC6217EC464009D85C1 /* DocumentExtractorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -156,6 +169,7 @@
 			children = (
 				C7A3AB4321499B8F00D8B15C /* ObjectScannerView.swift */,
 				C7A3AB74214EA51F00D8B15C /* ObjectScannerViewDelegate.swift */,
+				C7F5CFC4217EC15A009D85C1 /* ObjectExtractorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -188,8 +202,12 @@
 				C70012062152DAC300CB26D4 /* DLScannerDetection.h */,
 				C70012022152DABA00CB26D4 /* DLScannerIOS.cpp */,
 				C70012032152DABA00CB26D4 /* DLScannerIOS.h */,
+				C7F5CFC0217EC020009D85C1 /* DLScannerIOSPrivate.cpp */,
+				C7F5CFC1217EC020009D85C1 /* DLScannerIOSPrivate.h */,
 				C7A3AB62214ACA8E00D8B15C /* DLScannerPrivate.cpp */,
 				C7A3AB63214ACA8E00D8B15C /* DLScannerPrivate.h */,
+				C7F5CFBC217EBE34009D85C1 /* DLExtractorIOS.cpp */,
+				C7F5CFBD217EBE34009D85C1 /* DLExtractorIOS.h */,
 			);
 			name = CAPI;
 			sourceTree = "<group>";
@@ -223,7 +241,9 @@
 				C7A3AB61214ACA1700D8B15C /* DLScanner.h in Headers */,
 				C7A3AB65214ACA8E00D8B15C /* DLScannerPrivate.h in Headers */,
 				C70012052152DABA00CB26D4 /* DLScannerIOS.h in Headers */,
+				C7F5CFC3217EC020009D85C1 /* DLScannerIOSPrivate.h in Headers */,
 				C70012082152DAC400CB26D4 /* DLScannerDetection.h in Headers */,
+				C7F5CFBF217EBE34009D85C1 /* DLExtractorIOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7F5CFC2217EC020009D85C1 /* DLScannerIOSPrivate.cpp in Sources */,
 				C7A3AB5A214AA3F900D8B15C /* Scanner.swift in Sources */,
 				C7A3AB71214C4DD500D8B15C /* UIImage.swift in Sources */,
 				C7A3AB60214ACA1700D8B15C /* DLScanner.cpp in Sources */,
@@ -336,9 +357,12 @@
 				C7A3AB4121499A8800D8B15C /* DocumentScannerView.swift in Sources */,
 				C7A3AB75214EA51F00D8B15C /* ObjectScannerViewDelegate.swift in Sources */,
 				C7A3AB5C214AA40300D8B15C /* ScannerDelegate.swift in Sources */,
+				C7F5CFC5217EC15A009D85C1 /* ObjectExtractorView.swift in Sources */,
 				C7A3AB552149E00B00D8B15C /* Camera.swift in Sources */,
+				C7F5CFBE217EBE34009D85C1 /* DLExtractorIOS.cpp in Sources */,
 				C7A3AB57214A9C9700D8B15C /* CameraDelegate.swift in Sources */,
 				C7A3AB4421499B8F00D8B15C /* ObjectScannerView.swift in Sources */,
+				C7F5CFC7217EC464009D85C1 /* DocumentExtractorView.swift in Sources */,
 				C7A3AB6A214B070900D8B15C /* DezelScannerModule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

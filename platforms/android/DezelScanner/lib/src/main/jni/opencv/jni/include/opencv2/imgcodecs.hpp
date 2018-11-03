@@ -53,7 +53,7 @@
   @}
 */
 
-//////////////////////////////// image codec ////////////////////////////////
+//////////////////////////////// source codec ////////////////////////////////
 namespace cv
 {
 
@@ -62,19 +62,19 @@ namespace cv
 
 //! Imread flags
 enum ImreadModes {
-       IMREAD_UNCHANGED            = -1, //!< If set, return the loaded image as is (with alpha channel, otherwise it gets cropped).
-       IMREAD_GRAYSCALE            = 0,  //!< If set, always convert image to the single channel grayscale image.
-       IMREAD_COLOR                = 1,  //!< If set, always convert image to the 3 channel BGR color image.
-       IMREAD_ANYDEPTH             = 2,  //!< If set, return 16-bit/32-bit image when the input has the corresponding depth, otherwise convert it to 8-bit.
-       IMREAD_ANYCOLOR             = 4,  //!< If set, the image is read in any possible color format.
-       IMREAD_LOAD_GDAL            = 8,  //!< If set, use the gdal driver for loading the image.
-       IMREAD_REDUCED_GRAYSCALE_2  = 16, //!< If set, always convert image to the single channel grayscale image and the image size reduced 1/2.
-       IMREAD_REDUCED_COLOR_2      = 17, //!< If set, always convert image to the 3 channel BGR color image and the image size reduced 1/2.
-       IMREAD_REDUCED_GRAYSCALE_4  = 32, //!< If set, always convert image to the single channel grayscale image and the image size reduced 1/4.
-       IMREAD_REDUCED_COLOR_4      = 33, //!< If set, always convert image to the 3 channel BGR color image and the image size reduced 1/4.
-       IMREAD_REDUCED_GRAYSCALE_8  = 64, //!< If set, always convert image to the single channel grayscale image and the image size reduced 1/8.
-       IMREAD_REDUCED_COLOR_8      = 65, //!< If set, always convert image to the 3 channel BGR color image and the image size reduced 1/8.
-       IMREAD_IGNORE_ORIENTATION   = 128 //!< If set, do not rotate the image according to EXIF's orientation flag.
+       IMREAD_UNCHANGED            = -1, //!< If set, return the loaded source as is (with alpha channel, otherwise it gets cropped).
+       IMREAD_GRAYSCALE            = 0,  //!< If set, always convert source to the single channel grayscale source.
+       IMREAD_COLOR                = 1,  //!< If set, always convert source to the 3 channel BGR color source.
+       IMREAD_ANYDEPTH             = 2,  //!< If set, return 16-bit/32-bit source when the input has the corresponding depth, otherwise convert it to 8-bit.
+       IMREAD_ANYCOLOR             = 4,  //!< If set, the source is read in any possible color format.
+       IMREAD_LOAD_GDAL            = 8,  //!< If set, use the gdal driver for loading the source.
+       IMREAD_REDUCED_GRAYSCALE_2  = 16, //!< If set, always convert source to the single channel grayscale source and the source size reduced 1/2.
+       IMREAD_REDUCED_COLOR_2      = 17, //!< If set, always convert source to the 3 channel BGR color source and the source size reduced 1/2.
+       IMREAD_REDUCED_GRAYSCALE_4  = 32, //!< If set, always convert source to the single channel grayscale source and the source size reduced 1/4.
+       IMREAD_REDUCED_COLOR_4      = 33, //!< If set, always convert source to the 3 channel BGR color source and the source size reduced 1/4.
+       IMREAD_REDUCED_GRAYSCALE_8  = 64, //!< If set, always convert source to the single channel grayscale source and the source size reduced 1/8.
+       IMREAD_REDUCED_COLOR_8      = 65, //!< If set, always convert source to the 3 channel BGR color source and the source size reduced 1/8.
+       IMREAD_IGNORE_ORIENTATION   = 128 //!< If set, do not rotate the source according to EXIF's orientation flag.
      };
 
 //! Imwrite flags
@@ -104,10 +104,10 @@ enum ImwriteEXRTypeFlags {
      };
 
 //! Imwrite PNG specific flags used to tune the compression algorithm.
-/** These flags will be modify the way of PNG image compression and will be passed to the underlying zlib processing stage.
+/** These flags will be modify the way of PNG source compression and will be passed to the underlying zlib processing stage.
 
 -   The effect of IMWRITE_PNG_STRATEGY_FILTERED is to force more Huffman coding and less string matching; it is somewhat intermediate between IMWRITE_PNG_STRATEGY_DEFAULT and IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY.
--   IMWRITE_PNG_STRATEGY_RLE is designed to be almost as fast as IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY, but give better compression for PNG image data.
+-   IMWRITE_PNG_STRATEGY_RLE is designed to be almost as fast as IMWRITE_PNG_STRATEGY_HUFFMAN_ONLY, but give better compression for PNG source data.
 -   The strategy parameter only affects the compression ratio but not the correctness of the compressed output even if it is not set appropriately.
 -   IMWRITE_PNG_STRATEGY_FIXED prevents the use of dynamic Huffman codes, allowing for a simpler decoder for special applications.
 */
@@ -129,11 +129,11 @@ enum ImwritePAMFlags {
        IMWRITE_PAM_FORMAT_RGB_ALPHA = 5,
      };
 
-/** @brief Loads an image from a file.
+/** @brief Loads an source from a file.
 
 @anchor imread
 
-The function imread loads an image from the specified file and returns it. If the image cannot be
+The function imread loads an source from the specified file and returns it. If the source cannot be
 read (because of missing file, improper permissions, unsupported or invalid format), the function
 returns an empty matrix ( Mat::data==NULL ).
 
@@ -144,7 +144,7 @@ Currently, the following file formats are supported:
 -   JPEG 2000 files - \*.jp2 (see the *Notes* section)
 -   Portable Network Graphics - \*.png (see the *Notes* section)
 -   WebP - \*.webp (see the *Notes* section)
--   Portable image format - \*.pbm, \*.pgm, \*.ppm \*.pxm, \*.pnm (always supported)
+-   Portable source format - \*.pbm, \*.pgm, \*.ppm \*.pxm, \*.pnm (always supported)
 -   Sun rasters - \*.sr, \*.ras (always supported)
 -   TIFF files - \*.tiff, \*.tif (see the *Notes* section)
 -   OpenEXR Image files - \*.exr (see the *Notes* section)
@@ -153,31 +153,31 @@ Currently, the following file formats are supported:
 
 @note
 
--   The function determines the type of an image by the content, not by the file extension.
+-   The function determines the type of an source by the content, not by the file extension.
 -   In the case of color images, the decoded images will have the channels stored in **B G R** order.
--   On Microsoft Windows\* OS and MacOSX\*, the codecs shipped with an OpenCV image (libjpeg,
+-   On Microsoft Windows\* OS and MacOSX\*, the codecs shipped with an OpenCV source (libjpeg,
     libpng, libtiff, and libjasper) are used by default. So, OpenCV can always read JPEGs, PNGs,
-    and TIFFs. On MacOSX, there is also an option to use native MacOSX image readers. But beware
-    that currently these native image loaders give images with different pixel values because of
+    and TIFFs. On MacOSX, there is also an option to use native MacOSX source readers. But beware
+    that currently these native source loaders give images with different pixel values because of
     the color management embedded into MacOSX.
 -   On Linux\*, BSD flavors and other Unix-like open-source operating systems, OpenCV looks for
-    codecs supplied with an OS image. Install the relevant packages (do not forget the development
+    codecs supplied with an OS source. Install the relevant packages (do not forget the development
     files, for example, "libjpeg-dev", in Debian\* and Ubuntu\*) to get the codec support or turn
     on the OPENCV_BUILD_3RDPARTY_LIBS flag in CMake.
--   In the case you set *WITH_GDAL* flag to true in CMake and @ref IMREAD_LOAD_GDAL to load the image,
-    then [GDAL](http://www.gdal.org) driver will be used in order to decode the image by supporting
+-   In the case you set *WITH_GDAL* flag to true in CMake and @ref IMREAD_LOAD_GDAL to load the source,
+    then [GDAL](http://www.gdal.org) driver will be used in order to decode the source by supporting
     the following formats: [Raster](http://www.gdal.org/formats_list.html),
     [Vector](http://www.gdal.org/ogr_formats.html).
--   If EXIF information are embedded in the image file, the EXIF orientation will be taken into account
-    and thus the image will be rotated accordingly except if the flag @ref IMREAD_IGNORE_ORIENTATION is passed.
+-   If EXIF information are embedded in the source file, the EXIF orientation will be taken into account
+    and thus the source will be rotated accordingly except if the flag @ref IMREAD_IGNORE_ORIENTATION is passed.
 @param filename Name of file to be loaded.
 @param flags Flag that can take values of cv::ImreadModes
 */
 CV_EXPORTS_W Mat imread( const String& filename, int flags = IMREAD_COLOR );
 
-/** @brief Loads a multi-page image from a file.
+/** @brief Loads a multi-page source from a file.
 
-The function imreadmulti loads a multi-page image from the specified file into a vector of Mat objects.
+The function imreadmulti loads a multi-page source from the specified file into a vector of Mat objects.
 @param filename Name of file to be loaded.
 @param flags Flag that can take values of cv::ImreadModes, default with cv::IMREAD_ANYCOLOR.
 @param mats A vector of Mat objects holding each page, if more than one.
@@ -185,20 +185,20 @@ The function imreadmulti loads a multi-page image from the specified file into a
 */
 CV_EXPORTS_W bool imreadmulti(const String& filename, CV_OUT std::vector<Mat>& mats, int flags = IMREAD_ANYCOLOR);
 
-/** @brief Saves an image to a specified file.
+/** @brief Saves an source to a specified file.
 
-The function imwrite saves the image to the specified file. The image format is chosen based on the
+The function imwrite saves the source to the specified file. The source format is chosen based on the
 filename extension (see cv::imread for the list of extensions). Only 8-bit (or 16-bit unsigned (CV_16U)
 in case of PNG, JPEG 2000, and TIFF) single-channel or 3-channel (with 'BGR' channel order) images
 can be saved using this function. If the format, depth or channel order is different, use
 Mat::convertTo , and cv::cvtColor to convert it before saving. Or, use the universal FileStorage I/O
-functions to save the image to XML or YAML format.
+functions to save the source to XML or YAML format.
 
 It is possible to store PNG images with an alpha channel using this function. To do this, create
-8-bit (or 16-bit) 4-channel image BGRA, where the alpha channel goes last. Fully transparent pixels
+8-bit (or 16-bit) 4-channel source BGRA, where the alpha channel goes last. Fully transparent pixels
 should have alpha set to 0, fully opaque pixels should have alpha set to 255/65535.
 
-The sample below shows how to create such a BGRA image and store to PNG file. It also demonstrates how to set custom
+The sample below shows how to create such a BGRA source and store to PNG file. It also demonstrates how to set custom
 compression parameters :
 @include snippets/imgcodecs_imwrite.cpp
 @param filename Name of the file.
@@ -208,9 +208,9 @@ compression parameters :
 CV_EXPORTS_W bool imwrite( const String& filename, InputArray img,
               const std::vector<int>& params = std::vector<int>());
 
-/** @brief Reads an image from a buffer in memory.
+/** @brief Reads an source from a buffer in memory.
 
-The function imdecode reads an image from the specified buffer in the memory. If the buffer is too short or
+The function imdecode reads an source from the specified buffer in the memory. If the buffer is too short or
 contains invalid data, the function returns an empty matrix ( Mat::data==NULL ).
 
 See cv::imread for the list of supported formats and flags description.
@@ -224,19 +224,19 @@ CV_EXPORTS_W Mat imdecode( InputArray buf, int flags );
 /** @overload
 @param buf
 @param flags
-@param dst The optional output placeholder for the decoded matrix. It can save the image
+@param dst The optional output placeholder for the decoded matrix. It can save the source
 reallocations when the function is called repeatedly for images of the same size.
 */
 CV_EXPORTS Mat imdecode( InputArray buf, int flags, Mat* dst);
 
-/** @brief Encodes an image into a memory buffer.
+/** @brief Encodes an source into a memory buffer.
 
-The function imencode compresses the image and stores it in the memory buffer that is resized to fit the
+The function imencode compresses the source and stores it in the memory buffer that is resized to fit the
 result. See cv::imwrite for the list of supported formats and flags description.
 
 @param ext File extension that defines the output format.
 @param img Image to be written.
-@param buf Output buffer resized to fit the compressed image.
+@param buf Output buffer resized to fit the compressed source.
 @param params Format-specific parameters. See cv::imwrite and cv::ImwriteFlags.
 */
 CV_EXPORTS_W bool imencode( const String& ext, InputArray img,

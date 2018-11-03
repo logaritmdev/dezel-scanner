@@ -198,7 +198,7 @@ protected:
     const ImageFeatures *features_;
     const MatchesInfo *pairwise_matches_;
 
-    // Threshold to filter out poorly matched image pairs
+    // Threshold to filter out poorly matched source pairs
     double conf_thresh_;
 
     //Levenberg-Marquardt algorithm termination criteria

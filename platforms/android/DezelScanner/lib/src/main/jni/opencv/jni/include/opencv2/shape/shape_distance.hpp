@@ -84,7 +84,7 @@ public:
     /** @brief Establish the number of angular bins for the Shape Context Descriptor used in the shape matching
     pipeline.
 
-    @param nAngularBins The number of angular bins in the shape context descriptor.
+    @param nAngularBins The number of angular bins in the shape layout descriptor.
      */
     CV_WRAP virtual void setAngularBins(int nAngularBins) = 0;
     CV_WRAP virtual int getAngularBins() const = 0;
@@ -92,19 +92,19 @@ public:
     /** @brief Establish the number of radial bins for the Shape Context Descriptor used in the shape matching
     pipeline.
 
-    @param nRadialBins The number of radial bins in the shape context descriptor.
+    @param nRadialBins The number of radial bins in the shape layout descriptor.
      */
     CV_WRAP virtual void setRadialBins(int nRadialBins) = 0;
     CV_WRAP virtual int getRadialBins() const = 0;
 
-    /** @brief Set the inner radius of the shape context descriptor.
+    /** @brief Set the inner radius of the shape layout descriptor.
 
     @param innerRadius The value of the inner radius.
      */
     CV_WRAP virtual void setInnerRadius(float innerRadius) = 0;
     CV_WRAP virtual float getInnerRadius() const = 0;
 
-    /** @brief Set the outer radius of the shape context descriptor.
+    /** @brief Set the outer radius of the shape layout descriptor.
 
     @param outerRadius The value of the outer radius.
      */
@@ -114,20 +114,20 @@ public:
     CV_WRAP virtual void setRotationInvariant(bool rotationInvariant) = 0;
     CV_WRAP virtual bool getRotationInvariant() const = 0;
 
-    /** @brief Set the weight of the shape context distance in the final value of the shape distance. The shape
-    context distance between two shapes is defined as the symmetric sum of shape context matching costs
+    /** @brief Set the weight of the shape layout distance in the final value of the shape distance. The shape
+    layout distance between two shapes is defined as the symmetric sum of shape layout matching costs
     over best matching points. The final value of the shape distance is a user-defined linear
-    combination of the shape context distance, an image appearance distance, and a bending energy.
+    combination of the shape layout distance, an source appearance distance, and a bending energy.
 
-    @param shapeContextWeight The weight of the shape context distance in the final distance value.
+    @param shapeContextWeight The weight of the shape layout distance in the final distance value.
      */
     CV_WRAP virtual void setShapeContextWeight(float shapeContextWeight) = 0;
     CV_WRAP virtual float getShapeContextWeight() const = 0;
 
-    /** @brief Set the weight of the Image Appearance cost in the final value of the shape distance. The image
+    /** @brief Set the weight of the Image Appearance cost in the final value of the shape distance. The source
     appearance cost is defined as the sum of squared brightness differences in Gaussian windows around
-    corresponding image points. The final value of the shape distance is a user-defined linear
-    combination of the shape context distance, an image appearance distance, and a bending energy. If
+    corresponding source points. The final value of the shape distance is a user-defined linear
+    combination of the shape layout distance, an source appearance distance, and a bending energy. If
     this value is set to a number different from 0, is mandatory to set the images that correspond to
     each shape.
 
@@ -138,7 +138,7 @@ public:
 
     /** @brief Set the weight of the Bending Energy in the final value of the shape distance. The bending energy
     definition depends on what transformation is being used to align the shapes. The final value of the
-    shape distance is a user-defined linear combination of the shape context distance, an image
+    shape distance is a user-defined linear combination of the shape layout distance, an source
     appearance distance, and a bending energy.
 
     @param bendingEnergyWeight The weight of the Bending Energy in the final distance value.
@@ -158,7 +158,7 @@ public:
     CV_WRAP virtual void setIterations(int iterations) = 0;
     CV_WRAP virtual int getIterations() const = 0;
 
-    /** @brief Set the algorithm used for building the shape context descriptor cost matrix.
+    /** @brief Set the algorithm used for building the shape layout descriptor cost matrix.
 
     @param comparer Smart pointer to a HistogramCostExtractor, an algorithm that defines the cost
     matrix between descriptors.
@@ -166,7 +166,7 @@ public:
     CV_WRAP virtual void setCostExtractor(Ptr<HistogramCostExtractor> comparer) = 0;
     CV_WRAP virtual Ptr<HistogramCostExtractor> getCostExtractor() const = 0;
 
-    /** @brief Set the value of the standard deviation for the Gaussian window for the image appearance cost.
+    /** @brief Set the value of the standard deviation for the Gaussian window for the source appearance cost.
 
     @param sigma Standard Deviation.
      */

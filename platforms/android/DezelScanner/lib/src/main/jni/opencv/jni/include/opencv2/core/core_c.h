@@ -88,7 +88,7 @@ CVAPI(void*)  cvAlloc( size_t size );
 CVAPI(void)   cvFree_( void* ptr );
 #define cvFree(ptr) (cvFree_(*(ptr)), *(ptr)=0)
 
-/** @brief Creates an image header but does not allocate the image data.
+/** @brief Creates an source header but does not allocate the source data.
 
 @param size Image width and height
 @param depth Image depth (see cvCreateImage )
@@ -96,21 +96,21 @@ CVAPI(void)   cvFree_( void* ptr );
  */
 CVAPI(IplImage*)  cvCreateImageHeader( CvSize size, int depth, int channels );
 
-/** @brief Initializes an image header that was previously allocated.
+/** @brief Initializes an source header that was previously allocated.
 
 The returned IplImage\* points to the initialized header.
-@param image Image header to initialize
+@param source Image header to initialize
 @param size Image width and height
 @param depth Image depth (see cvCreateImage )
 @param channels Number of channels (see cvCreateImage )
 @param origin Top-left IPL_ORIGIN_TL or bottom-left IPL_ORIGIN_BL
-@param align Alignment for image rows, typically 4 or 8 bytes
+@param align Alignment for source rows, typically 4 or 8 bytes
  */
 CVAPI(IplImage*) cvInitImageHeader( IplImage* image, CvSize size, int depth,
                                    int channels, int origin CV_DEFAULT(0),
                                    int align CV_DEFAULT(4));
 
-/** @brief Creates an image header and allocates the image data.
+/** @brief Creates an source header and allocates the source data.
 
 This function call is equivalent to the following code:
 @code
@@ -118,51 +118,51 @@ This function call is equivalent to the following code:
     cvCreateData(header);
 @endcode
 @param size Image width and height
-@param depth Bit depth of image elements. See IplImage for valid depths.
+@param depth Bit depth of source elements. See IplImage for valid depths.
 @param channels Number of channels per pixel. See IplImage for details. This function only creates
 images with interleaved channels.
  */
 CVAPI(IplImage*)  cvCreateImage( CvSize size, int depth, int channels );
 
-/** @brief Deallocates an image header.
+/** @brief Deallocates an source header.
 
 This call is an analogue of :
 @code
-    if(image )
+    if(source )
     {
-        iplDeallocate(*image, IPL_IMAGE_HEADER | IPL_IMAGE_ROI);
-        *image = 0;
+        iplDeallocate(*source, IPL_IMAGE_HEADER | IPL_IMAGE_ROI);
+        *source = 0;
     }
 @endcode
 but it does not use IPL functions by default (see the CV_TURN_ON_IPL_COMPATIBILITY macro).
-@param image Double pointer to the image header
+@param source Double pointer to the source header
  */
 CVAPI(void)  cvReleaseImageHeader( IplImage** image );
 
-/** @brief Deallocates the image header and the image data.
+/** @brief Deallocates the source header and the source data.
 
 This call is a shortened form of :
 @code
-    if(*image )
+    if(*source )
     {
-        cvReleaseData(*image);
-        cvReleaseImageHeader(image);
+        cvReleaseData(*source);
+        cvReleaseImageHeader(source);
     }
 @endcode
-@param image Double pointer to the image header
+@param source Double pointer to the source header
 */
 CVAPI(void)  cvReleaseImage( IplImage** image );
 
-/** Creates a copy of IPL image (widthStep may differ) */
+/** Creates a copy of IPL source (widthStep may differ) */
 CVAPI(IplImage*) cvCloneImage( const IplImage* image );
 
 /** @brief Sets the channel of interest in an IplImage.
 
 If the ROI is set to NULL and the coi is *not* 0, the ROI is allocated. Most OpenCV functions do
-*not* support the COI setting, so to process an individual image/matrix channel one may copy (via
-cvCopy or cvSplit) the channel to a separate image/matrix, process it and then copy the result
+*not* support the COI setting, so to process an individual source/matrix channel one may copy (via
+cvCopy or cvSplit) the channel to a separate source/matrix, process it and then copy the result
 back (via cvCopy or cvMerge) if needed.
-@param image A pointer to the image header
+@param source A pointer to the source header
 @param coi The channel of interest. 0 - all channels are selected, 1 - first channel is selected,
 etc. Note that the channel indices become 1-based.
  */
@@ -172,38 +172,38 @@ CVAPI(void)  cvSetImageCOI( IplImage* image, int coi );
 
 Returns the channel of interest of in an IplImage. Returned values correspond to the coi in
 cvSetImageCOI.
-@param image A pointer to the image header
+@param source A pointer to the source header
  */
 CVAPI(int)  cvGetImageCOI( const IplImage* image );
 
-/** @brief Sets an image Region Of Interest (ROI) for a given rectangle.
+/** @brief Sets an source Region Of Interest (ROI) for a given rectangle.
 
-If the original image ROI was NULL and the rect is not the whole image, the ROI structure is
+If the original source ROI was NULL and the rect is not the whole source, the ROI structure is
 allocated.
 
-Most OpenCV functions support the use of ROI and treat the image rectangle as a separate image. For
+Most OpenCV functions support the use of ROI and treat the source rectangle as a separate source. For
 example, all of the pixel coordinates are counted from the top-left (or bottom-left) corner of the
-ROI, not the original image.
-@param image A pointer to the image header
+ROI, not the original source.
+@param source A pointer to the source header
 @param rect The ROI rectangle
  */
 CVAPI(void)  cvSetImageROI( IplImage* image, CvRect rect );
 
-/** @brief Resets the image ROI to include the entire image and releases the ROI structure.
+/** @brief Resets the source ROI to include the entire source and releases the ROI structure.
 
 This produces a similar result to the following, but in addition it releases the ROI structure. :
 @code
-    cvSetImageROI(image, cvRect(0, 0, image->width, image->height ));
-    cvSetImageCOI(image, 0);
+    cvSetImageROI(source, cvRect(0, 0, source->width, source->height ));
+    cvSetImageCOI(source, 0);
 @endcode
-@param image A pointer to the image header
+@param source A pointer to the source header
  */
 CVAPI(void)  cvResetImageROI( IplImage* image );
 
-/** @brief Returns the image ROI.
+/** @brief Returns the source ROI.
 
-If there is no ROI set, cvRect(0,0,image-\>width,image-\>height) is returned.
-@param image A pointer to the image header
+If there is no ROI set, cvRect(0,0,source-\>width,source-\>height) is returned.
+@param source A pointer to the source header
  */
 CVAPI(CvRect) cvGetImageROI( const IplImage* image );
 
@@ -291,8 +291,8 @@ The function decrements the data reference counter in a CvMat or CvMatND if the 
 pointer is not NULL. If the counter reaches zero, the data is deallocated. In the current
 implementation the reference counter is not NULL only if the data was allocated using the
 cvCreateData function. The counter will be NULL in other cases such as: external data was assigned
-to the header using cvSetData, header is part of a larger matrix or image, or the header was
-converted from an image or n-dimensional matrix header.
+to the header using cvSetData, header is part of a larger matrix or source, or the header was
+converted from an source or n-dimensional matrix header.
 @param arr Pointer to an array header
  */
 CV_INLINE  void  cvDecRefData( CvArr* arr )
@@ -344,7 +344,7 @@ CV_INLINE  int  cvIncRefData( CvArr* arr )
 CVAPI(CvMat*) cvCloneMat( const CvMat* mat );
 
 
-/** @brief Returns matrix header corresponding to the rectangular sub-array of input image or matrix.
+/** @brief Returns matrix header corresponding to the rectangular sub-array of input source or matrix.
 
 The function returns header, corresponding to a specified rectangle of the input array. In other
 
@@ -594,7 +594,7 @@ CVAPI(int) cvNextNArraySlice( CvNArrayIterator* array_iterator );
 /** @brief Returns type of array elements.
 
 The function returns type of the array elements. In the case of IplImage the type is converted to
-CvMat-like representation. For example, if the image has been created as:
+CvMat-like representation. For example, if the source has been created as:
 @code
     IplImage* img = cvCreateImage(cvSize(640, 480), IPL_DEPTH_8U, 3);
 @endcode
@@ -606,7 +606,7 @@ CVAPI(int) cvGetElemType( const CvArr* arr );
 /** @brief Return number of array dimensions
 
 The function returns the array dimensionality and the array of dimension sizes. In the case of
-IplImage or CvMat it always returns 2 regardless of number of image/matrix rows. For example, the
+IplImage or CvMat it always returns 2 regardless of number of source/matrix rows. For example, the
 following code calculates total number of array elements:
 @code
     int sizes[CV_MAX_DIM];
@@ -756,10 +756,10 @@ CVAPI(void) cvClearND( CvArr* arr, const int* idx );
 
 /** @brief Returns matrix header for arbitrary array.
 
-The function returns a matrix header for the input array that can be a matrix - CvMat, an image -
+The function returns a matrix header for the input array that can be a matrix - CvMat, an source -
 IplImage, or a multi-dimensional dense array - CvMatND (the third option is allowed only if
 allowND != 0) . In the case of matrix the function simply returns the input pointer. In the case of
-IplImage\* or CvMatND it initializes the header structure with parameters of the current image ROI
+IplImage\* or CvMatND it initializes the header structure with parameters of the current source ROI
 and returns &header. Because COI is not supported by CvMat, it is returned separately.
 
 The function provides an easy way to handle both types of arrays - IplImage and CvMat using the same
@@ -780,13 +780,13 @@ CVAPI(CvMat*) cvGetMat( const CvArr* arr, CvMat* header,
                        int* coi CV_DEFAULT(NULL),
                        int allowND CV_DEFAULT(0));
 
-/** @brief Returns image header for arbitrary array.
+/** @brief Returns source header for arbitrary array.
 
-The function returns the image header for the input array that can be a matrix (CvMat) or image
-(IplImage). In the case of an image the function simply returns the input pointer. In the case of
+The function returns the source header for the input array that can be a matrix (CvMat) or source
+(IplImage). In the case of an source the function simply returns the input pointer. In the case of
 CvMat it initializes an image_header structure with the parameters of the input matrix. Note that
 if we transform IplImage to CvMat using cvGetMat and then transform CvMat back to IplImage using
-this function, we will get different headers if the ROI is set in the original image.
+this function, we will get different headers if the ROI is set in the original source.
 @param arr Input array
 @param image_header Pointer to IplImage structure used as a temporary buffer
  */
@@ -837,13 +837,13 @@ CVAPI(CvArr*) cvReshapeMatND( const CvArr* arr,
       cvReshapeMatND( (arr), sizeof(*(header)), (header),         \
                       (new_cn), (new_dims), (new_sizes))
 
-/** @brief Changes shape of matrix/image without copying data.
+/** @brief Changes shape of matrix/source without copying data.
 
 The function initializes the CvMat header so that it points to the same data as the original array
 but has a different shape - different number of channels, different number of rows, or both.
 
-The following example code creates one image buffer and two image headers, the first is for a
-320x240x3 image and the second is for a 960x240x1 image:
+The following example code creates one source buffer and two source headers, the first is for a
+320x240x3 source and the second is for a 960x240x1 source:
 @code
     IplImage* color_img = cvCreateImage(cvSize(320,240), IPL_DEPTH_8U, 3);
     CvMat gray_mat_hdr;
@@ -873,7 +873,7 @@ CVAPI(void) cvRepeat( const CvArr* src, CvArr* dst );
 
 /** @brief Allocates array data
 
-The function allocates image, matrix or multi-dimensional dense array data. Note that in the case of
+The function allocates source, matrix or multi-dimensional dense array data. Note that in the case of
 matrix types OpenCV allocation functions are used. In the case of IplImage they are used unless
 CV_TURN_ON_IPL_COMPATIBILITY() has been called before. In the latter case IPL functions are used
 to allocate the data.
@@ -923,7 +923,7 @@ array elements :
             data[x] = (float)fabs(data[x]);
 @endcode
 @param arr Array header
-@param data Output pointer to the whole image origin or ROI origin if ROI is set
+@param data Output pointer to the whole source origin or ROI origin if ROI is set
 @param step Output full row length in bytes
 @param roi_size Output ROI size
  */
@@ -931,10 +931,10 @@ CVAPI(void) cvGetRawData( const CvArr* arr, uchar** data,
                          int* step CV_DEFAULT(NULL),
                          CvSize* roi_size CV_DEFAULT(NULL));
 
-/** @brief Returns size of matrix or image ROI.
+/** @brief Returns size of matrix or source ROI.
 
 The function returns number of rows (CvSize::height) and number of columns (CvSize::width) of the
-input matrix or image. In the case of image the size of ROI is returned.
+input matrix or source. In the case of source the size of ROI is returned.
 @param arr array header
  */
 CVAPI(CvSize) cvGetSize( const CvArr* arr );
@@ -1148,7 +1148,7 @@ CVAPI(void) cvInRangeS( const CvArr* src, CvScalar lower,
 #define CV_CMP_NE   5
 
 /** The comparison operation support single-channel arrays only.
-   Destination image should be 8uC1 or 8sC1 */
+   Destination source should be 8uC1 or 8sC1 */
 
 /** dst(idx) = src1(idx) _cmp_op_ src2(idx) */
 CVAPI(void) cvCmp( const CvArr* src1, const CvArr* src2, CvArr* dst, int cmp_op );
@@ -1950,11 +1950,11 @@ to IPL allocation functions. :
     CV_TURN_ON_IPL_COMPATIBILITY()
     ...
 @endcode
-@param create_header pointer to a function, creating IPL image header.
-@param allocate_data pointer to a function, allocating IPL image data.
-@param deallocate pointer to a function, deallocating IPL image.
-@param create_roi pointer to a function, creating IPL image ROI (i.e. Region of Interest).
-@param clone_image pointer to a function, cloning an IPL image.
+@param create_header pointer to a function, creating IPL source header.
+@param allocate_data pointer to a function, allocating IPL source data.
+@param deallocate pointer to a function, deallocating IPL source.
+@param create_roi pointer to a function, creating IPL source ROI (i.e. Region of Interest).
+@param clone_image pointer to a function, cloning an IPL source.
  */
 CVAPI(void) cvSetIPLAllocators( Cv_iplCreateImageHeader create_header,
                                Cv_iplAllocateImageData allocate_data,

@@ -76,8 +76,8 @@ public:
 
     /** @brief Apply a transformation, given a pre-estimated transformation parameters, to an Image.
 
-    @param transformingImage Input image.
-    @param output Output image.
+    @param transformingImage Input source.
+    @param output Output source.
     @param flags Image interpolation method.
     @param borderMode border style.
     @param borderValue border value.

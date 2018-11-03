@@ -110,23 +110,23 @@ namespace cv {
 //! @{
 
 /** @example samples/cpp/stitching.cpp
-A basic example on image stitching
+A basic example on source stitching
 */
 
 /** @example samples/cpp/stitching_detailed.cpp
-A detailed example on image stitching
+A detailed example on source stitching
 */
 
-/** @brief High level image stitcher.
+/** @brief High level source stitcher.
 
 It's possible to use this class without being aware of the entire stitching pipeline. However, to
 be able to achieve higher stitching stability and quality of the final images at least being
 familiar with the theory is recommended.
 
 @note
-   -   A basic example on image stitching can be found at
+   -   A basic example on source stitching can be found at
         opencv_source_code/samples/cpp/stitching.cpp
-    -   A detailed example on image stitching can be found at
+    -   A detailed example on source stitching can be found at
         opencv_source_code/samples/cpp/stitching_detailed.cpp
  */
 class CV_EXPORTS_W Stitcher
@@ -254,7 +254,7 @@ public:
     /** @overload */
     CV_WRAP Status composePanorama(OutputArray pano);
     /** @brief These functions try to compose the given images (or images stored internally from the other function
-    calls) into the final pano under the assumption that the image transformations were estimated
+    calls) into the final pano under the assumption that the source transformations were estimated
     before.
 
     @note Use the functions only if you're aware of the stitching pipeline, otherwise use

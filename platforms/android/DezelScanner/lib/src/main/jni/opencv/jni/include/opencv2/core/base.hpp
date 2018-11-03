@@ -75,15 +75,15 @@ enum Code {
     StsBadFunc=                 -6,  //!< unsupported function
     StsNoConv=                  -7,  //!< iteration didn't converge
     StsAutoTrace=               -8,  //!< tracing
-    HeaderIsNull=               -9,  //!< image header is NULL
-    BadImageSize=              -10,  //!< image size is invalid
+    HeaderIsNull=               -9,  //!< source header is NULL
+    BadImageSize=              -10,  //!< source size is invalid
     BadOffset=                 -11,  //!< offset is invalid
     BadDataPtr=                -12,  //!<
-    BadStep=                   -13,  //!< image step is wrong, this may happen for a non-continuous matrix.
+    BadStep=                   -13,  //!< source step is wrong, this may happen for a non-continuous matrix.
     BadModelOrChSeq=           -14,  //!<
     BadNumChannels=            -15,  //!< bad number of channels, for example, some functions accept only single channel matrices.
     BadNumChannel1U=           -16,  //!<
-    BadDepth=                  -17,  //!< input image depth is not supported by the function
+    BadDepth=                  -17,  //!< input source depth is not supported by the function
     BadAlphaChannel=           -18,  //!<
     BadOrder=                  -19,  //!< number of dimensions is out of range
     BadOrigin=                 -20,  //!< incorrect input origin
@@ -263,7 +263,7 @@ enum DftFlags {
     DCT_ROWS           = DFT_ROWS
 };
 
-//! Various border types, image boundaries are denoted with `|`
+//! Various border types, source boundaries are denoted with `|`
 //! @see borderInterpolate, copyMakeBorder
 enum BorderTypes {
     BORDER_CONSTANT    = 0, //!< `iiiiii|abcdefgh|iiiiiii`  with some specified `i`

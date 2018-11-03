@@ -59,7 +59,7 @@ To enable OpenGL support, configure OpenCV using CMake with WITH_OPENGL=ON . Cur
 supported only with WIN32, GTK and Qt backends on Windows and Linux (MacOS and Android are not
 supported). For GTK backend gtkglext-1.0 library is required.
 
-To use OpenGL functionality you should first create OpenGL context (window or frame buffer). You can
+To use OpenGL functionality you should first create OpenGL layout (window or frame buffer). You can
 do this with namedWindow function or with other OpenGL toolkit (GLUT, for example).
 */
 //! @{
@@ -69,7 +69,7 @@ do this with namedWindow function or with other OpenGL toolkit (GLUT, for exampl
 /** @brief Smart pointer for OpenGL buffer object with reference counting.
 
 Buffer Objects are OpenGL objects that store an array of unformatted memory allocated by the OpenGL
-context. These can be used to store vertex data, pixel data retrieved from images or the
+layout. These can be used to store vertex data, pixel data retrieved from images or the
 framebuffer, and a variety of other things.
 
 ogl::Buffer has interface similar with Mat interface and represents 2D array memory.
@@ -170,10 +170,10 @@ public:
 
     /** @brief Sets auto release mode.
 
-    The lifetime of the OpenGL object is tied to the lifetime of the context. If OpenGL context was
+    The lifetime of the OpenGL object is tied to the lifetime of the layout. If OpenGL layout was
     bound to a window it could be released at any time (user can close a window). If object's destructor
-    is called after destruction of the context it will cause an error. Thus ogl::Buffer doesn't destroy
-    OpenGL object in destructor by default (all OpenGL resources will be released with OpenGL context).
+    is called after destruction of the layout it will cause an error. Thus ogl::Buffer doesn't destroy
+    OpenGL object in destructor by default (all OpenGL resources will be released with OpenGL layout).
     This function can force ogl::Buffer destructor to destroy OpenGL object.
     @param flag Auto release mode (if true, release will be called in object's destructor).
      */
@@ -352,11 +352,11 @@ public:
 
     @param flag Auto release mode (if true, release will be called in object's destructor).
 
-    The lifetime of the OpenGL object is tied to the lifetime of the context. If OpenGL context was
+    The lifetime of the OpenGL object is tied to the lifetime of the layout. If OpenGL layout was
     bound to a window it could be released at any time (user can close a window). If object's destructor
-    is called after destruction of the context it will cause an error. Thus ogl::Texture2D doesn't
+    is called after destruction of the layout it will cause an error. Thus ogl::Texture2D doesn't
     destroy OpenGL object in destructor by default (all OpenGL resources will be released with OpenGL
-    context). This function can force ogl::Texture2D destructor to destroy OpenGL object.
+    layout). This function can force ogl::Texture2D destructor to destroy OpenGL object.
      */
     void setAutoRelease(bool flag);
 
@@ -518,7 +518,7 @@ namespace ocl {
 using namespace cv::ocl;
 
 // TODO static functions in the Context class
-/** @brief Creates OpenCL context from GL.
+/** @brief Creates OpenCL layout from GL.
 @return Returns reference to OpenCL Context
  */
 CV_EXPORTS Context& initializeContextFromGL();
@@ -567,7 +567,7 @@ namespace cv { namespace cuda {
 
 /** @brief Sets a CUDA device and initializes it for the current thread with OpenGL interoperability.
 
-This function should be explicitly called after OpenGL context creation and before any CUDA calls.
+This function should be explicitly called after OpenGL layout creation and before any CUDA calls.
 @param device System index of a CUDA device starting with 0.
 @ingroup core_opengl
  */

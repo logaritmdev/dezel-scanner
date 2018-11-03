@@ -1,3 +1,4 @@
+import { ref } from 'dezel'
 import { state } from 'dezel'
 import { ImageView } from 'dezel'
 import { Button } from 'dezel'
@@ -19,7 +20,7 @@ export class FlashButton extends Button {
 	 * @property image
 	 * @since 1.0.0
 	 */
-	public readonly image!: ImageView
+	@ref public readonly image!: ImageView
 
 	/**
 	 * The buttons's active state.
@@ -38,6 +39,6 @@ export class FlashButton extends Button {
 	 * @since 1.0.0
 	 */
 	public render() {
-		return super.render().append(<ImageView id="icon" style="icon" image="images/icons/32/bolt.png" />)
+		return super.render().append(<ImageView id="image" style="image" source="images/icons/96/2561506.png" />)
 	}
 }

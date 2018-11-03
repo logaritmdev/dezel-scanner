@@ -23,13 +23,13 @@ export class DocumentOutlineView extends View {
 	 * @property outlineLineColor
 	 * @since 0.1.0
 	 */
-	public outlineLineColor: string = 'rgba(255, 0, 0, 0.75)'
+	public outlineLineColor: string = 'rgba(255, 255, 255, 0.75)'
 
 	/**
 	 * @property outlineFillColor
 	 * @since 0.1.0
 	 */
-	public outlineFillColor: string = 'rgba(255, 0, 0, 0.25)'
+	public outlineFillColor: string = 'rgba(255, 255, 255, 0.15)'
 
 	/**
 	 * @property path
@@ -71,7 +71,16 @@ export class DocumentOutlineView extends View {
 
 		canvas.fillStyle = this.outlineFillColor
 		canvas.strokeStyle = this.outlineLineColor
-		canvas.lineWidth = 5
+		canvas.lineWidth = 2
+
+		// canvas.beginPath()
+		// canvas.moveTo(path[0].x, path[0].y)
+		// canvas.lineTo(path[1].x, path[1].y)
+		// canvas.lineTo(path[2].x, path[2].y)
+		// canvas.lineTo(path[3].x, path[3].y)
+		// canvas.closePath()
+
+		// canvas.fill()
 
 		canvas.beginPath()
 		canvas.moveTo(path[0].x, path[0].y)
@@ -80,7 +89,7 @@ export class DocumentOutlineView extends View {
 		canvas.lineTo(path[3].x, path[3].y)
 		canvas.closePath()
 
-		canvas.fill()
+		canvas.stroke()
 	}
 
 	//--------------------------------------------------------------------------

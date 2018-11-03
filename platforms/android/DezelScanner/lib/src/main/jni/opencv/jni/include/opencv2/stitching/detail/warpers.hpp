@@ -54,14 +54,14 @@ namespace detail {
 //! @addtogroup stitching_warp
 //! @{
 
-/** @brief Rotation-only model image warper interface.
+/** @brief Rotation-only model source warper interface.
  */
 class CV_EXPORTS RotationWarper
 {
 public:
     virtual ~RotationWarper() {}
 
-    /** @brief Projects the image point.
+    /** @brief Projects the source point.
 
     @param pt Source point
     @param K Camera intrinsic parameters
@@ -72,46 +72,46 @@ public:
 
     /** @brief Builds the projection maps according to the given camera data.
 
-    @param src_size Source image size
+    @param src_size Source source size
     @param K Camera intrinsic parameters
     @param R Camera rotation matrix
     @param xmap Projection map for the x axis
     @param ymap Projection map for the y axis
-    @return Projected image minimum bounding box
+    @return Projected source minimum bounding box
      */
     virtual Rect buildMaps(Size src_size, InputArray K, InputArray R, OutputArray xmap, OutputArray ymap) = 0;
 
-    /** @brief Projects the image.
+    /** @brief Projects the source.
 
-    @param src Source image
+    @param src Source source
     @param K Camera intrinsic parameters
     @param R Camera rotation matrix
     @param interp_mode Interpolation mode
     @param border_mode Border extrapolation mode
-    @param dst Projected image
-    @return Project image top-left corner
+    @param dst Projected source
+    @return Project source top-left corner
      */
     virtual Point warp(InputArray src, InputArray K, InputArray R, int interp_mode, int border_mode,
                        OutputArray dst) = 0;
 
-    /** @brief Projects the image backward.
+    /** @brief Projects the source backward.
 
-    @param src Projected image
+    @param src Projected source
     @param K Camera intrinsic parameters
     @param R Camera rotation matrix
     @param interp_mode Interpolation mode
     @param border_mode Border extrapolation mode
-    @param dst_size Backward-projected image size
-    @param dst Backward-projected image
+    @param dst_size Backward-projected source size
+    @param dst Backward-projected source
      */
     virtual void warpBackward(InputArray src, InputArray K, InputArray R, int interp_mode, int border_mode,
                               Size dst_size, OutputArray dst) = 0;
 
     /**
-    @param src_size Source image bounding box
+    @param src_size Source source bounding box
     @param K Camera intrinsic parameters
     @param R Camera rotation matrix
-    @return Projected image minimum bounding box
+    @return Projected source minimum bounding box
      */
     virtual Rect warpRoi(Size src_size, InputArray K, InputArray R) = 0;
 
@@ -158,10 +158,10 @@ public:
 
 protected:
 
-    // Detects ROI of the destination image. It's correct for any projection.
+    // Detects ROI of the destination source. It's correct for any projection.
     virtual void detectResultRoi(Size src_size, Point &dst_tl, Point &dst_br);
 
-    // Detects ROI of the destination image by walking over image border.
+    // Detects ROI of the destination source by walking over source border.
     // Correctness for any projection isn't guaranteed.
     void detectResultRoiByBorder(Size src_size, Point &dst_tl, Point &dst_br);
 
@@ -175,14 +175,14 @@ struct CV_EXPORTS PlaneProjector : ProjectorBase
     void mapBackward(float u, float v, float &x, float &y);
 };
 
-/** @brief Warper that maps an image onto the z = 1 plane.
+/** @brief Warper that maps an source onto the z = 1 plane.
  */
 class CV_EXPORTS PlaneWarper : public RotationWarperBase<PlaneProjector>
 {
 public:
     /** @brief Construct an instance of the plane warper class.
 
-    @param scale Projected image scale multiplier
+    @param scale Projected source scale multiplier
      */
     PlaneWarper(float scale = 1.f) { projector_.scale = scale; }
 
@@ -215,7 +215,7 @@ class CV_EXPORTS AffineWarper : public PlaneWarper
 public:
     /** @brief Construct an instance of the affine warper class.
 
-    @param scale Projected image scale multiplier
+    @param scale Projected source scale multiplier
      */
     AffineWarper(float scale = 1.f) : PlaneWarper(scale) {}
 
@@ -240,9 +240,9 @@ struct CV_EXPORTS SphericalProjector : ProjectorBase
 };
 
 
-/** @brief Warper that maps an image onto the unit sphere located at the origin.
+/** @brief Warper that maps an source onto the unit sphere located at the origin.
 
- Projects image onto unit sphere with origin at (0, 0, 0) and radius scale, measured in pixels.
+ Projects source onto unit sphere with origin at (0, 0, 0) and radius scale, measured in pixels.
  A 360 panorama would therefore have a resulting width of 2 * scale * PI pixels.
  Poles are located at (0, -1, 0) and (0, 1, 0) points.
 */
@@ -251,7 +251,7 @@ class CV_EXPORTS SphericalWarper : public RotationWarperBase<SphericalProjector>
 public:
     /** @brief Construct an instance of the spherical warper class.
 
-    @param scale Radius of the projected sphere, in pixels. An image spanning the
+    @param scale Radius of the projected sphere, in pixels. An source spanning the
                  whole sphere will have a width of 2 * scale * PI pixels.
      */
     SphericalWarper(float scale) { projector_.scale = scale; }
@@ -270,14 +270,14 @@ struct CV_EXPORTS CylindricalProjector : ProjectorBase
 };
 
 
-/** @brief Warper that maps an image onto the x\*x + z\*z = 1 cylinder.
+/** @brief Warper that maps an source onto the x\*x + z\*z = 1 cylinder.
  */
 class CV_EXPORTS CylindricalWarper : public RotationWarperBase<CylindricalProjector>
 {
 public:
     /** @brief Construct an instance of the cylindrical warper class.
 
-    @param scale Projected image scale multiplier
+    @param scale Projected source scale multiplier
      */
     CylindricalWarper(float scale) { projector_.scale = scale; }
 
@@ -557,7 +557,7 @@ struct CV_EXPORTS SphericalPortraitProjector : ProjectorBase
 };
 
 
-// Projects image onto unit sphere with origin at (0, 0, 0).
+// Projects source onto unit sphere with origin at (0, 0, 0).
 // Poles are located NOT at (0, -1, 0) and (0, 1, 0) points, BUT at (1, 0, 0) and (-1, 0, 0) points.
 class CV_EXPORTS SphericalPortraitWarper : public RotationWarperBase<SphericalPortraitProjector>
 {

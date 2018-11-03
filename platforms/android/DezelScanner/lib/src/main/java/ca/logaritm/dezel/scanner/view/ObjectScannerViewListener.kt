@@ -6,6 +6,13 @@ import android.graphics.PointF
 public interface ObjectScannerViewListener {
 
 	/**
+	 * Called when the video feed is activated.
+	 * @method onFindDocument
+	 * @since 0.1.0
+	 */
+	fun onActivate(view: ObjectScannerView)
+
+	/**
 	 * Called when a valid document is found.
 	 * @method onFindDocument
 	 * @since 0.1.0
@@ -32,4 +39,11 @@ public interface ObjectScannerViewListener {
 	 * @since 0.1.0
 	 */
 	fun onMissDocument(view: ObjectScannerView)
+
+	/**
+	 * Called when nothing is found.
+	 * @method onCaptureImage
+	 * @since 0.1.0
+	 */
+	fun onCaptureImage(view: ObjectScannerView, image: Bitmap)
 }

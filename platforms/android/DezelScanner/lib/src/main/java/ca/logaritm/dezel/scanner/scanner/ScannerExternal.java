@@ -1,6 +1,7 @@
 package ca.logaritm.dezel.scanner.scanner;
 
 import android.graphics.Bitmap;
+import android.graphics.PointF;
 
 import java.nio.ByteBuffer;
 
@@ -53,7 +54,7 @@ public class ScannerExternal {
 	 * @since 0.1.0
 	 * @hidden
 	 */
-	static native public void process(long handle, int w, int h, ByteBuffer buf);
+	static native public void process(long handle, int w, int h, byte[] buffer);
 
 	/**
 	 * @method getExtractedImage
@@ -68,5 +69,12 @@ public class ScannerExternal {
 	 * @hidden
 	 */
 	static native public Bitmap getProcessedImage(long handle);
+
+	/**
+	 * @method pullImage
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	static native public Bitmap pullImage(Bitmap image, int width, int height, PointF p1, PointF p2, PointF p3, PointF p4);
 
 }

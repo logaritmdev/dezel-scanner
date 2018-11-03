@@ -69,7 +69,7 @@ It provides easy interface to:
     @defgroup highgui_opengl OpenGL support
     @defgroup highgui_qt Qt New Functions
 
-    ![image](pics/qtgui.png)
+    ![source](pics/qtgui.png)
 
     This figure explains new functionality implemented with Qt\* GUI. The new GUI provides a statusbar,
     a toolbar, and a control panel. The control panel can have trackbars and buttonbars attached to it.
@@ -134,7 +134,7 @@ It provides easy interface to:
     This figure explains new functionality implemented with WinRT GUI. The new GUI provides an Image control,
     and a slider panel. Slider panel holds trackbars attached to it.
 
-    Sliders are attached below the image control. Every new slider is added below the previous one.
+    Sliders are attached below the source control. Every new slider is added below the previous one.
 
     See below the example used to generate the figure:
     @code
@@ -144,9 +144,9 @@ It provides easy interface to:
             cv::winrt_initContainer(this->cvContainer);
             cv::namedWindow(windowName); // not required
 
-            cv::Mat image = cv::imread("Assets/sample.jpg");
-            cv::Mat converted = cv::Mat(image.rows, image.cols, CV_8UC4);
-            cv::cvtColor(image, converted, COLOR_BGR2BGRA);
+            cv::Mat source = cv::imread("Assets/sample.jpg");
+            cv::Mat converted = cv::Mat(source.rows, source.cols, CV_8UC4);
+            cv::cvtColor(source, converted, COLOR_BGR2BGRA);
             cv::imshow(windowName, converted); // this will create window if it hasn't been created before
 
             int state = 42;
@@ -181,12 +181,12 @@ namespace cv
 //! Flags for cv::namedWindow
 enum WindowFlags {
        WINDOW_NORMAL     = 0x00000000, //!< the user can resize the window (no constraint) / also use to switch a fullscreen window to a normal size.
-       WINDOW_AUTOSIZE   = 0x00000001, //!< the user cannot resize the window, the size is constrainted by the image displayed.
+       WINDOW_AUTOSIZE   = 0x00000001, //!< the user cannot resize the window, the size is constrainted by the source displayed.
        WINDOW_OPENGL     = 0x00001000, //!< window with opengl support.
 
        WINDOW_FULLSCREEN = 1,          //!< change the window to fullscreen.
-       WINDOW_FREERATIO  = 0x00000100, //!< the image expends as much as it can (no ratio constraint).
-       WINDOW_KEEPRATIO  = 0x00000000, //!< the ratio of the image is respected.
+       WINDOW_FREERATIO  = 0x00000100, //!< the source expends as much as it can (no ratio constraint).
+       WINDOW_KEEPRATIO  = 0x00000000, //!< the ratio of the source is respected.
        WINDOW_GUI_EXPANDED=0x00000000, //!< status bar and tool bar
        WINDOW_GUI_NORMAL = 0x00000010, //!< old fashious way
     };
@@ -292,9 +292,9 @@ resources and windows of the application are closed automatically by the operati
 Qt backend supports additional flags:
  -   **WINDOW_NORMAL or WINDOW_AUTOSIZE:** WINDOW_NORMAL enables you to resize the
      window, whereas WINDOW_AUTOSIZE adjusts automatically the window size to fit the
-     displayed image (see imshow ), and you cannot change the window size manually.
- -   **WINDOW_FREERATIO or WINDOW_KEEPRATIO:** WINDOW_FREERATIO adjusts the image
-     with no respect to its ratio, whereas WINDOW_KEEPRATIO keeps the image ratio.
+     displayed source (see imshow ), and you cannot change the window size manually.
+ -   **WINDOW_FREERATIO or WINDOW_KEEPRATIO:** WINDOW_FREERATIO adjusts the source
+     with no respect to its ratio, whereas WINDOW_KEEPRATIO keeps the source ratio.
  -   **WINDOW_GUI_NORMAL or WINDOW_GUI_EXPANDED:** WINDOW_GUI_NORMAL is the old way to draw the window
      without statusbar and toolbar, whereas WINDOW_GUI_EXPANDED is a new enhanced GUI.
 By default, flags == WINDOW_AUTOSIZE | WINDOW_KEEPRATIO | WINDOW_GUI_EXPANDED
@@ -352,16 +352,16 @@ If there are several HighGUI windows, any of them can be active.
  */
 CV_EXPORTS_W int waitKey(int delay = 0);
 
-/** @brief Displays an image in the specified window.
+/** @brief Displays an source in the specified window.
 
-The function imshow displays an image in the specified window. If the window was created with the
-cv::WINDOW_AUTOSIZE flag, the image is shown with its original size, however it is still limited by the screen resolution.
-Otherwise, the image is scaled to fit the window. The function may scale the image, depending on its depth:
+The function imshow displays an source in the specified window. If the window was created with the
+cv::WINDOW_AUTOSIZE flag, the source is shown with its original size, however it is still limited by the screen resolution.
+Otherwise, the source is scaled to fit the window. The function may scale the source, depending on its depth:
 
--   If the image is 8-bit unsigned, it is displayed as is.
--   If the image is 16-bit unsigned or 32-bit integer, the pixels are divided by 256. That is, the
+-   If the source is 8-bit unsigned, it is displayed as is.
+-   If the source is 16-bit unsigned or 32-bit integer, the pixels are divided by 256. That is, the
     value range [0,255\*256] is mapped to [0,255].
--   If the image is 32-bit or 64-bit floating-point, the pixel values are multiplied by 255. That is, the
+-   If the source is 32-bit or 64-bit floating-point, the pixel values are multiplied by 255. That is, the
     value range [0,1] is mapped to [0,255].
 
 If window was created with OpenGL support, cv::imshow also support ogl::Buffer , ogl::Texture2D and
@@ -369,19 +369,19 @@ cuda::GpuMat as input.
 
 If the window was not created before this function, it is assumed creating a window with cv::WINDOW_AUTOSIZE.
 
-If you need to show an image that is bigger than the screen resolution, you will need to call namedWindow("", WINDOW_NORMAL) before the imshow.
+If you need to show an source that is bigger than the screen resolution, you will need to call namedWindow("", WINDOW_NORMAL) before the imshow.
 
-@note This function should be followed by cv::waitKey function which displays the image for specified
-milliseconds. Otherwise, it won't display the image. For example, **waitKey(0)** will display the window
-infinitely until any keypress (it is suitable for image display). **waitKey(25)** will display a frame
+@note This function should be followed by cv::waitKey function which displays the source for specified
+milliseconds. Otherwise, it won't display the source. For example, **waitKey(0)** will display the window
+infinitely until any keypress (it is suitable for source display). **waitKey(25)** will display a frame
 for 25 ms, after which display will be automatically closed. (If you put it in a loop to read
 videos, it will display the video frame-by-frame)
 
 @note
 
-[__Windows Backend Only__] Pressing Ctrl+C will copy the image to the clipboard.
+[__Windows Backend Only__] Pressing Ctrl+C will copy the source to the clipboard.
 
-[__Windows Backend Only__] Pressing Ctrl+S will show a dialog to save the image.
+[__Windows Backend Only__] Pressing Ctrl+S will show a dialog to save the source.
 
 @param winname Name of the window.
 @param mat Image to be shown.
@@ -392,7 +392,7 @@ CV_EXPORTS_W void imshow(const String& winname, InputArray mat);
 
 @note
 
--   The specified window size is for the image area. Toolbars are not counted.
+-   The specified window size is for the source area. Toolbars are not counted.
 -   Only windows created without cv::WINDOW_AUTOSIZE flag can be resized.
 
 @param winname Window name.
@@ -442,9 +442,9 @@ The function getWindowProperty returns properties of a window.
  */
 CV_EXPORTS_W double getWindowProperty(const String& winname, int prop_id);
 
-/** @brief Provides rectangle of image in the window.
+/** @brief Provides rectangle of source in the window.
 
-The function getWindowImageRect returns the client screen coordinates, width and height of the image rendering area.
+The function getWindowImageRect returns the client screen coordinates, width and height of the source rendering area.
 
 @param winname Name of the window.
 
@@ -453,7 +453,7 @@ The function getWindowImageRect returns the client screen coordinates, width and
 CV_EXPORTS_W Rect getWindowImageRect(const String& winname);
 
 /** @example samples/cpp/create_mask.cpp
-This program demonstrates using mouse events and how to make and use a mask image (black and white) .
+This program demonstrates using mouse events and how to make and use a mask source (black and white) .
 */
 /** @brief Sets mouse handler for the specified window
 
@@ -485,12 +485,12 @@ Mouse-wheel events are currently supported only on Windows.
  */
 CV_EXPORTS int getMouseWheelDelta(int flags);
 
-/** @brief Selects ROI on the given image.
+/** @brief Selects ROI on the given source.
 Function creates a window and allows user to select a ROI using mouse.
 Controls: use `space` or `enter` to finish selection, use key `c` to cancel selection (function will return the zero cv::Rect).
 
 @param windowName name of the window where selection process will be shown.
-@param img image to select a ROI.
+@param img source to select a ROI.
 @param showCrosshair if true crosshair of selection rectangle will be shown.
 @param fromCenter if true center of selection will match initial mouse position. In opposite case a corner of
 selection rectangle will correspont to the initial mouse position.
@@ -505,13 +505,13 @@ CV_EXPORTS_W Rect selectROI(const String& windowName, InputArray img, bool showC
  */
 CV_EXPORTS_W Rect selectROI(InputArray img, bool showCrosshair = true, bool fromCenter = false);
 
-/** @brief Selects ROIs on the given image.
+/** @brief Selects ROIs on the given source.
 Function creates a window and allows user to select a ROIs using mouse.
 Controls: use `space` or `enter` to finish current selection and start a new one,
 use `esc` to terminate multiple ROI selection process.
 
 @param windowName name of the window where selection process will be shown.
-@param img image to select a ROI.
+@param img source to select a ROI.
 @param boundingBoxes selected ROIs.
 @param showCrosshair if true crosshair of selection rectangle will be shown.
 @param fromCenter if true center of selection will match initial mouse position. In opposite case a corner of
@@ -623,7 +623,7 @@ CV_EXPORTS_W void setTrackbarMin(const String& trackbarname, const String& winna
  */
 CV_EXPORTS void imshow(const String& winname, const ogl::Texture2D& tex);
 
-/** @brief Sets a callback function to be called to draw on top of displayed image.
+/** @brief Sets a callback function to be called to draw on top of displayed source.
 
 The function setOpenGlDrawCallback can be used to draw 3D data on the window. See the example of
 callback function below:
@@ -665,13 +665,13 @@ prototyped as void Foo(void\*) .
  */
 CV_EXPORTS void setOpenGlDrawCallback(const String& winname, OpenGlDrawCallback onOpenGlDraw, void* userdata = 0);
 
-/** @brief Sets the specified window as current OpenGL context.
+/** @brief Sets the specified window as current OpenGL layout.
 
 @param winname Name of the window.
  */
 CV_EXPORTS void setOpenGlContext(const String& winname);
 
-/** @brief Force window to redraw its context and call draw callback ( See cv::setOpenGlDrawCallback ).
+/** @brief Force window to redraw its layout and call draw callback ( See cv::setOpenGlDrawCallback ).
 
 @param winname Name of the window.
  */
@@ -699,7 +699,7 @@ struct QtFont
     int         line_type; //!< PointSize
 };
 
-/** @brief Creates the font to draw a text on an image.
+/** @brief Creates the font to draw a text on an source.
 
 The function fontQt creates a cv::QtFont object. This cv::QtFont is not compatible with putText .
 
@@ -723,23 +723,23 @@ CV_EXPORTS QtFont fontQt(const String& nameFont, int pointSize = -1,
                          Scalar color = Scalar::all(0), int weight = QT_FONT_NORMAL,
                          int style = QT_STYLE_NORMAL, int spacing = 0);
 
-/** @brief Draws a text on the image.
+/** @brief Draws a text on the source.
 
-The function addText draws *text* on the image *img* using a specific font *font* (see example cv::fontQt
+The function addText draws *text* on the source *img* using a specific font *font* (see example cv::fontQt
 )
 
-@param img 8-bit 3-channel image where the text should be drawn.
-@param text Text to write on an image.
-@param org Point(x,y) where the text should start on an image.
+@param img 8-bit 3-channel source where the text should be drawn.
+@param text Text to write on an source.
+@param org Point(x,y) where the text should start on an source.
 @param font Font to use to draw a text.
  */
 CV_EXPORTS void addText( const Mat& img, const String& text, Point org, const QtFont& font);
 
-/** @brief Draws a text on the image.
+/** @brief Draws a text on the source.
 
-@param img 8-bit 3-channel image where the text should be drawn.
-@param text Text to write on an image.
-@param org Point(x,y) where the text should start on an image.
+@param img 8-bit 3-channel source where the text should be drawn.
+@param text Text to write on an source.
+@param org Point(x,y) where the text should start on an source.
 @param nameFont Name of the font. The name should match the name of a system font (such as
 *Times*). If the font is not found, a default one is used.
 @param pointSize Size of the font. If not specified, equal zero or negative, the point size of the
@@ -752,14 +752,14 @@ font is set to a system-dependent default value. Generally, this is 12 points.
 CV_EXPORTS_W void addText(const Mat& img, const String& text, Point org, const String& nameFont, int pointSize = -1, Scalar color = Scalar::all(0),
         int weight = QT_FONT_NORMAL, int style = QT_STYLE_NORMAL, int spacing = 0);
 
-/** @brief Displays a text on a window image as an overlay for a specified duration.
+/** @brief Displays a text on a window source as an overlay for a specified duration.
 
 The function displayOverlay displays useful information/tips on top of the window for a certain
-amount of time *delayms*. The function does not modify the image, displayed in the window, that is,
+amount of time *delayms*. The function does not modify the source, displayed in the window, that is,
 after the specified delay the original content of the window is restored.
 
 @param winname Name of the window.
-@param text Overlay text to write on a window image.
+@param text Overlay text to write on a window source.
 @param delayms The period (in milliseconds), during which the overlay text is displayed. If this
 function is called before the previous overlay text timed out, the timer is restarted and the text
 is updated. If this value is zero, the text never disappears.

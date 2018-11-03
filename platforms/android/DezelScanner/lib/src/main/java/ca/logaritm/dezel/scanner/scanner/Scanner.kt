@@ -5,11 +5,10 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import android.media.Image
 import android.os.Handler
-import android.view.View
+import android.util.Log
 import android.widget.ImageView
 import ca.logaritm.dezel.extension.Delegates
 import ca.logaritm.dezel.extension.isHidden
-import ca.logaritm.dezel.view.graphic.Color
 
 /**
  * @class Scanner
@@ -115,7 +114,22 @@ open class Scanner(context: Context)  {
 			return
 		}
 
-		ScannerExternal.process(this.handle, frame.width, frame.height, planes[0].buffer)
+		val nv21: ByteArray
+		val yBuffer = frame.planes[0].buffer
+		val uBuffer = frame.planes[1].buffer
+		val vBuffer = frame.planes[2].buffer
+
+		val ySize = yBuffer.remaining()
+		val uSize = uBuffer.remaining()
+		val vSize = vBuffer.remaining()
+
+		nv21 = ByteArray(ySize + uSize + vSize)
+
+		yBuffer.get(nv21, 0, ySize)
+		vBuffer.get(nv21, ySize, vSize)
+		uBuffer.get(nv21, ySize + vSize, uSize)
+
+		ScannerExternal.process(this.handle, frame.width, frame.height, nv21)
 
 		if (this.debug) {
 			val bitmap = ScannerExternal.getProcessedImage(this.handle)

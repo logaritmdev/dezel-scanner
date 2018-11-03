@@ -25,18 +25,18 @@ JNIEXPORT void JNICALL Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_de
 
 /*
  * Class:     ca_logaritm_dezel_scanner_scanner_ScannerExternal
- * Method:    setEnabled
- * Signature: (JZ)V
- */
-JNIEXPORT void JNICALL Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_setEnabled
-  (JNIEnv *, jclass, jlong, jboolean);
-
-/*
- * Class:     ca_logaritm_dezel_scanner_scanner_ScannerExternal
  * Method:    setDebug
  * Signature: (JZ)V
  */
 JNIEXPORT void JNICALL Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_setDebug
+  (JNIEnv *, jclass, jlong, jboolean);
+
+/*
+ * Class:     ca_logaritm_dezel_scanner_scanner_ScannerExternal
+ * Method:    setEnabled
+ * Signature: (JZ)V
+ */
+JNIEXPORT void JNICALL Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_setEnabled
   (JNIEnv *, jclass, jlong, jboolean);
 
 /*
@@ -58,10 +58,10 @@ JNIEXPORT void JNICALL Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_re
 /*
  * Class:     ca_logaritm_dezel_scanner_scanner_ScannerExternal
  * Method:    process
- * Signature: (JIILjava/nio/ByteBuffer;)V
+ * Signature: (JII[B)V
  */
 JNIEXPORT void JNICALL Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_process
-  (JNIEnv *, jclass, jlong, jint, jint, jobject);
+  (JNIEnv *, jclass, jlong, jint, jint, jbyteArray);
 
 /*
  * Class:     ca_logaritm_dezel_scanner_scanner_ScannerExternal
@@ -78,6 +78,14 @@ JNIEXPORT jobject JNICALL Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal
  */
 JNIEXPORT jobject JNICALL Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_getProcessedImage
   (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     ca_logaritm_dezel_scanner_scanner_ScannerExternal
+ * Method:    pullImage
+ * Signature: (Landroid/graphics/Bitmap;IILandroid/graphics/PointF;Landroid/graphics/PointF;Landroid/graphics/PointF;Landroid/graphics/PointF;)Landroid/graphics/Bitmap;
+ */
+JNIEXPORT jobject JNICALL Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_pullImage
+  (JNIEnv *, jclass, jobject, jint, jint, jobject, jobject, jobject, jobject);
 
 #ifdef __cplusplus
 }

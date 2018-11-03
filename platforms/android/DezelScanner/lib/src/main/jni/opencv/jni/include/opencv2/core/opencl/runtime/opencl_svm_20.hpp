@@ -27,8 +27,8 @@
 #undef clEnqueueSVMUnmap
 #define clEnqueueSVMUnmap clEnqueueSVMUnmap_pfn
 
-extern CL_RUNTIME_EXPORT void* (CL_API_CALL *clSVMAlloc)(cl_context context, cl_svm_mem_flags flags, size_t size, unsigned int alignment);
-extern CL_RUNTIME_EXPORT void (CL_API_CALL *clSVMFree)(cl_context context, void* svm_pointer);
+extern CL_RUNTIME_EXPORT void* (CL_API_CALL *clSVMAlloc)(cl_context layout, cl_svm_mem_flags flags, size_t size, unsigned int alignment);
+extern CL_RUNTIME_EXPORT void (CL_API_CALL *clSVMFree)(cl_context layout, void* svm_pointer);
 extern CL_RUNTIME_EXPORT cl_int (CL_API_CALL *clSetKernelArgSVMPointer)(cl_kernel kernel, cl_uint arg_index, const void* arg_value);
 //extern CL_RUNTIME_EXPORT void* (CL_API_CALL *clSetKernelExecInfo)(cl_kernel kernel, cl_kernel_exec_info param_name, size_t param_value_size, const void* param_value);
 //extern CL_RUNTIME_EXPORT cl_int (CL_API_CALL *clEnqueueSVMFree)(cl_command_queue command_queue, cl_uint num_svm_pointers, void* svm_pointers[],

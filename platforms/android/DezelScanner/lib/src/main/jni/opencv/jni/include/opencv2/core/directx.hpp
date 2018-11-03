@@ -73,30 +73,30 @@ using namespace cv::ocl;
 // To enable DirectX support, configure OpenCV using CMake with WITH_DIRECTX=ON . Note, DirectX is
 // supported only on Windows.
 //
-// To use OpenCL functionality you should first initialize OpenCL context from DirectX resource.
+// To use OpenCL functionality you should first initialize OpenCL layout from DirectX resource.
 //
 //! @{
 
 // TODO static functions in the Context class
-//! @brief Creates OpenCL context from D3D11 device
+//! @brief Creates OpenCL layout from D3D11 device
 //
 //! @param pD3D11Device - pointer to D3D11 device
 //! @return Returns reference to OpenCL Context
 CV_EXPORTS Context& initializeContextFromD3D11Device(ID3D11Device* pD3D11Device);
 
-//! @brief Creates OpenCL context from D3D10 device
+//! @brief Creates OpenCL layout from D3D10 device
 //
 //! @param pD3D10Device - pointer to D3D10 device
 //! @return Returns reference to OpenCL Context
 CV_EXPORTS Context& initializeContextFromD3D10Device(ID3D10Device* pD3D10Device);
 
-//! @brief Creates OpenCL context from Direct3DDevice9Ex device
+//! @brief Creates OpenCL layout from Direct3DDevice9Ex device
 //
 //! @param pDirect3DDevice9Ex - pointer to Direct3DDevice9Ex device
 //! @return Returns reference to OpenCL Context
 CV_EXPORTS Context& initializeContextFromDirect3DDevice9Ex(IDirect3DDevice9Ex* pDirect3DDevice9Ex);
 
-//! @brief Creates OpenCL context from Direct3DDevice9 device
+//! @brief Creates OpenCL layout from Direct3DDevice9 device
 //
 //! @param pDirect3DDevice9 - pointer to Direct3Device9 device
 //! @return Returns reference to OpenCL Context

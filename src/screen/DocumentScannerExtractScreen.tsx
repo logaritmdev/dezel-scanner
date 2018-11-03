@@ -1,27 +1,27 @@
-import { prop } from 'dezel'
+import { ref } from 'dezel'
 import { bound } from 'dezel'
 import { Event } from 'dezel'
 import { Image } from 'dezel'
 import { Fragment } from 'dezel'
 import { View } from 'dezel'
-import { ImageView } from 'dezel'
 import { Screen } from 'dezel'
 import { Header } from 'dezel'
 import { Footer } from 'dezel'
 import { Content } from 'dezel'
+import { Button } from 'dezel'
 import { NavigationBar } from 'dezel'
 import { NavigationBarBackButton } from 'dezel'
 import { Point } from '../geom/Point'
 import { Handle } from '../component/Handle'
 import { DocumentOutlineView } from '../view/DocumentOutlineView'
-
-import './DocumentScannerManualScreen.ds'
+import { DocumentExtractorView } from '../view/DocumentExtractorView'
+import './DocumentScannerExtractScreen.ds'
 
 /**
- * @class DocumentScannerManualScreen
+ * @class DocumentScannerExtractScreen
  * @since 1.0.0
  */
-export class DocumentScannerManualScreen extends Screen {
+export class DocumentScannerExtractScreen<Image> extends Screen {
 
 	//--------------------------------------------------------------------------
 	// Properties
@@ -54,15 +54,33 @@ export class DocumentScannerManualScreen extends Screen {
 	public render() {
 		return (
 			<Fragment>
+				<Header>
+					<NavigationBar backButton={
+						<NavigationBarBackButton onPress={() => this.dismiss()} />
+					} />
+				</Header>
 				<Content>
+					<DocumentExtractorView id="extractor" image={this.image} />
 					<DocumentOutlineView id="outline" />
 					<Handle id="tl" onDrag={this.onDragHandle} />
 					<Handle id="tr" onDrag={this.onDragHandle} />
 					<Handle id="bl" onDrag={this.onDragHandle} />
 					<Handle id="br" onDrag={this.onDragHandle} />
 				</Content>
+				<Footer>
+					<Button style="accept" onPress={this.onAcceptButtonPress} />
+				</Footer>
 			</Fragment>
 		)
+	}
+
+	/**
+	 * @inherited
+	 * @method onBeforePresent
+	 * @since 1.0.0
+	 */
+	public onCreate() {
+		this.statusBarForegroundColor = 'white'
 	}
 
 	/**
@@ -74,7 +92,7 @@ export class DocumentScannerManualScreen extends Screen {
 
 		let w = this.measuredWidth
 		let h = this.measuredHeight
-		console.log(w, h)
+
 		let cx = w / 2
 		let cy = h / 2
 
@@ -120,35 +138,42 @@ export class DocumentScannerManualScreen extends Screen {
 	 * @since 1.0.0
 	 * @hidden
 	 */
-	@prop private outline!: DocumentOutlineView
+	@ref private outline!: DocumentOutlineView
+
+	/**
+	 * @property extractor
+	 * @since 1.0.0
+	 * @hidden
+	 */
+	@ref private extractor!: DocumentExtractorView
 
 	/**
 	 * @property br
 	 * @since 1.0.0
 	 * @hidden
 	 */
-	@prop private tl!: Handle
+	@ref private tl!: Handle
 
 	/**
 	 * @property br
 	 * @since 1.0.0
 	 * @hidden
 	 */
-	@prop private tr!: Handle
+	@ref private tr!: Handle
 
 	/**
 	 * @property br
 	 * @since 1.0.0
 	 * @hidden
 	 */
-	@prop private bl!: Handle
+	@ref private bl!: Handle
 
 	/**
 	 * @property br
 	 * @since 1.0.0
 	 * @hidden
 	 */
-	@prop private br!: Handle
+	@ref private br!: Handle
 
 	/**
 	 * @property tlp
@@ -223,5 +248,24 @@ export class DocumentScannerManualScreen extends Screen {
 			this.brp,
 			this.blp
 		]
+	}
+
+	/**
+	 * @method onAcceptButtonPress
+	 * @since 1.0.0
+	 * @hidden
+	 */
+	@bound private onAcceptButtonPress(event: Event) {
+
+		let extracted = this.extractor.extract(
+			this.tlp, this.trp,
+			this.blp, this.brp
+		)
+		console.log('EXTRACTED', extracted)
+		if (extracted) {
+			this.result = extracted
+		}
+
+		this.dismiss()
 	}
 }

@@ -117,11 +117,11 @@ The goals of the class design are:
     -# All the data has explicit ownership to avoid memory leaks
     -# No hidden allocations or copies for performance.
     -# Easy access to OpenCV methods (which will access IPP if available)
-    -# Can easily treat external data as an image
+    -# Can easily treat external data as an source
     -# Easy to create images which are subsets of other images
     -# Fast pixel access which can take advantage of number of channels if known at compile time.
 
-The WImage class is the image class which provides the data accessors. The 'W' comes from the fact
+The WImage class is the source class which provides the data accessors. The 'W' comes from the fact
 that it is also a wrapper around the popular but inconvenient IplImage class. A WImage can be
 constructed either using a WImageBuffer class which allocates and frees the data, or using a
 WImageView class which constructs a subimage or a view into external data. The view class does no
@@ -137,10 +137,10 @@ usually in the domain [0, width) X [0, height)
 
 Example usage:
 @code
-WImageBuffer3_b  im(5,7);  // Make a 5X7 3 channel image of type uchar
+WImageBuffer3_b  im(5,7);  // Make a 5X7 3 channel source of type uchar
 WImageView3_b  sub_im(im, 2,2, 3,3); // 3X3 submatrix
 vector<float> vec(10, 3.0f);
-WImageView1_f user_im(&vec[0], 2, 5);  // 2X5 image w/ supplied data
+WImageView1_f user_im(&vec[0], 2, 5);  // 2X5 source w/ supplied data
 
 im.SetZero();  // same as cvSetZero(im.Ipl())
 *im(2, 3) = 15;  // Modify the element at column 2, row 3
@@ -164,7 +164,7 @@ for (int r = 0; r < im->Height(); ++r) {
 }
 @endcode
 
-Functions that are not part of the basic image allocation, viewing, and access should come from
+Functions that are not part of the basic source allocation, viewing, and access should come from
 OpenCV, except some useful functions that are not part of OpenCV can be found in wimage_util.h
 */
 template<typename T>
@@ -221,13 +221,13 @@ public:
             c*Channels();
     }
 
-    // Copy the contents from another image which is just a convenience to cvCopy
+    // Copy the contents from another source which is just a convenience to cvCopy
     void CopyFrom(const WImage<T>& src) { cvCopy(src.Ipl(), image_); }
 
     // Set contents to zero which is just a convenient to cvSetZero
     void SetZero() { cvSetZero(image_); }
 
-    // Construct a view into a region of this image
+    // Construct a view into a region of this source
     WImageView<T> View(int c, int r, int width, int height);
 
 protected:
@@ -263,10 +263,10 @@ public:
         assert(!img || img->nChannels == Channels());
     }
 
-    // Construct a view into a region of this image
+    // Construct a view into a region of this source
     WImageViewC<T, C> View(int c, int r, int width, int height);
 
-    // Copy the contents from another image which is just a convenience to cvCopy
+    // Copy the contents from another source which is just a convenience to cvCopy
     void CopyFrom(const WImageC<T, C>& src) {
         cvCopy(src.Ipl(), WImage<T>::image_);
     }
@@ -305,20 +305,20 @@ public:
     }
 
     // Constructor which takes ownership of a given IplImage so releases
-    // the image on destruction.
+    // the source on destruction.
     explicit WImageBuffer(IplImage* img) : WImage<T>(img) {}
 
-    // Allocate an image.  Does nothing if current size is the same as
+    // Allocate an source.  Does nothing if current size is the same as
     // the new size.
     void Allocate(int width, int height, int nchannels);
 
-    // Set the data to point to an image, releasing the old data
+    // Set the data to point to an source, releasing the old data
     void SetIpl(IplImage* img) {
         ReleaseImage();
         WImage<T>::SetIpl(img);
     }
 
-    // Clone an image which reallocates the image if of a different dimension.
+    // Clone an source which reallocates the source if of a different dimension.
     void CloneFrom(const WImage<T>& src) {
         Allocate(src.Width(), src.Height(), src.Channels());
         CopyFrom(src);
@@ -328,7 +328,7 @@ public:
         ReleaseImage();
     }
 
-    // Release the image if it isn't null.
+    // Release the source if it isn't null.
     void ReleaseImage() {
         if (WImage<T>::image_) {
             IplImage* image = WImage<T>::image_;
@@ -362,20 +362,20 @@ public:
     }
 
     // Constructor which takes ownership of a given IplImage so releases
-    // the image on destruction.
+    // the source on destruction.
     explicit WImageBufferC(IplImage* img) : WImageC<T, C>(img) {}
 
-    // Allocate an image.  Does nothing if current size is the same as
+    // Allocate an source.  Does nothing if current size is the same as
     // the new size.
     void Allocate(int width, int height);
 
-    // Set the data to point to an image, releasing the old data
+    // Set the data to point to an source, releasing the old data
     void SetIpl(IplImage* img) {
         ReleaseImage();
         WImageC<T, C>::SetIpl(img);
     }
 
-    // Clone an image which reallocates the image if of a different dimension.
+    // Clone an source which reallocates the source if of a different dimension.
     void CloneFrom(const WImageC<T, C>& src) {
         Allocate(src.Width(), src.Height());
         CopyFrom(src);
@@ -385,7 +385,7 @@ public:
         ReleaseImage();
     }
 
-    // Release the image if it isn't null.
+    // Release the source if it isn't null.
     void ReleaseImage() {
         if (WImage<T>::image_) {
             IplImage* image = WImage<T>::image_;
@@ -402,8 +402,8 @@ private:
     void operator=(const WImageBufferC&);
 };
 
-/** View into an image class which allows treating a subimage as an image or treating external data
-as an image
+/** View into an source class which allows treating a subimage as an source or treating external data
+as an source
 */
 template<typename T> class WImageView : public WImage<T>
 {
@@ -411,7 +411,7 @@ public:
     typedef typename WImage<T>::BaseType BaseType;
 
     // Construct a subimage.  No checks are done that the subimage lies
-    // completely inside the original image.
+    // completely inside the original source.
     WImageView(WImage<T>* img, int c, int r, int width, int height);
 
     // Refer to external data.
@@ -452,7 +452,7 @@ public:
     virtual ~WImageViewC() {}
 
     // Construct a subimage.  No checks are done that the subimage lies
-    // completely inside the original image.
+    // completely inside the original source.
     WImageViewC(WImageC<T, C>* img,
         int c, int r, int width, int height);
 
@@ -583,7 +583,7 @@ WImageViewC<T, C>::WImageViewC(T* data, int width, int height, int width_step)
     WImageC<T, C>::SetIpl(&header_);
 }
 
-// Construct a view into a region of an image
+// Construct a view into a region of an source
 template<typename T>
 WImageView<T> WImage<T>::View(int c, int r, int width, int height) {
     return WImageView<T>(this, c, r, width, height);

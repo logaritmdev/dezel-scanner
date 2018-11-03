@@ -22,20 +22,20 @@ DLScannerProcessImage(DLScannerRef scanner, int imgc, int imgr, const cv::Mat &s
 	float r = (float) imgc / (float) imgr;
 
 	int cols = DL_SCANNER_RESIZE_COLS;
-	int rows = DL_SCANNER_RESIZE_COLS * r;
+	int rows = DL_SCANNER_RESIZE_COLS / r;
 
 	cv::Mat out;
 	cv::Mat mat;
 
 	resize(src, mat, cv::Size(cols, rows));
 
+	cvtColor(mat, mat, CV_RGBA2GRAY);
+
 	cv::Mat structuringElmt = getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5));
 	morphologyEx(mat, mat, cv::MORPH_OPEN, structuringElmt);
 	morphologyEx(mat, mat, cv::MORPH_CLOSE, structuringElmt);
 	GaussianBlur(mat, mat, cv::Size(7, 7), 0);
 	Canny(mat, mat, 0, 84);
-
-	cvtColor(mat, out, CV_GRAY2RGBA);
 
 	if (scanner->enabled) {
 
@@ -52,12 +52,15 @@ DLScannerProcessImage(DLScannerRef scanner, int imgc, int imgr, const cv::Mat &s
 		DLScannerDetectObjects(scanner, mat, valids, maybes, all);
 
 		if (scanner->debug) {
+
+			cvtColor(mat, out, CV_GRAY2RGBA);
+
 			drawContours(out, all,    -1, cv::Scalar(255, 0, 0, 255), 1);
 			drawContours(out, maybes, -1, cv::Scalar(0, 255, 0, 255), 1);
 			drawContours(out, valids, -1, cv::Scalar(0, 0, 255, 255), 1);
-		}
 
-		scanner->processed = out.clone();
+			scanner->processed = out.clone();
+		}
 
 		/*
 		 * We are not tracking anything but we found something. Let start tracking
@@ -85,7 +88,7 @@ void
 DLScannerDetectObjects(DLScannerRef scanner, const cv::Mat &mat, vector<vector<cv::Point>> &valids, vector<vector<cv::Point>> &maybes, vector<vector<cv::Point>> &rects)
 {
 	const double maybeArea = (mat.cols * mat.rows) * 0.1;
-	const double validArea = (mat.cols * mat.rows) * 0.18;
+	const double validArea = (mat.cols * mat.rows) * 0.15;
 
 	vector<vector<cv::Point>> contours;
 

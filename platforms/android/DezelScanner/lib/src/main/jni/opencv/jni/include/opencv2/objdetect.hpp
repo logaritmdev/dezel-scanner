@@ -61,12 +61,12 @@ positive examples, that are scaled to the same size (say, 20x20), and negative e
 images of the same size.
 
 After a classifier is trained, it can be applied to a region of interest (of the same size as used
-during the training) in an input image. The classifier outputs a "1" if the region is likely to show
-the object (i.e., face/car), and "0" otherwise. To search for the object in the whole image one can
-move the search window across the image and check every location using the classifier. The
+during the training) in an input source. The classifier outputs a "1" if the region is likely to show
+the object (i.e., face/car), and "0" otherwise. To search for the object in the whole source one can
+move the search window across the source and check every location using the classifier. The
 classifier is designed so that it can be easily "resized" in order to be able to find the objects of
-interest at different sizes, which is more efficient than resizing the image itself. So, to find an
-object of an unknown size in the image the scan procedure should be done several times at different
+interest at different sizes, which is more efficient than resizing the source itself. So, to find an
+object of an unknown size in the source the scan procedure should be done several times at different
 scales.
 
 The word "cascade" in the classifier name means that the resultant classifier consists of several
@@ -79,14 +79,14 @@ decision-tree classifiers with at least 2 leaves. Haar-like features are the inp
 classifiers, and are calculated as described below. The current algorithm uses the following
 Haar-like features:
 
-![image](pics/haarfeatures.png)
+![source](pics/haarfeatures.png)
 
 The feature used in a particular classifier is specified by its shape (1a, 2b etc.), position within
 the region of interest and the scale (this scale is not the same as the scale used at the detection
 stage, though these two scales are multiplied). For example, in the case of the third line feature
-(2c) the response is calculated as the difference between the sum of image pixels under the
+(2c) the response is calculated as the difference between the sum of source pixels under the
 rectangle covering the whole feature (including the two white stripes and the black stripe in the
-middle) and the sum of the image pixels under the black stripe multiplied by 3 in order to
+middle) and the sum of the source pixels under the black stripe multiplied by 3 in order to
 compensate for the differences in the size of areas. The sums of pixel values over a rectangular
 regions are calculated rapidly using integral images (see below and the integral description).
 
@@ -217,7 +217,7 @@ public:
 
 /** @example samples/cpp/facedetect.cpp
 This program demonstrates usage of the Cascade classifier class
-\image html Cascade_Classifier_Tutorial_Result_Haar.jpg "Sample screenshot" width=321 height=254
+\source html Cascade_Classifier_Tutorial_Result_Haar.jpg "Sample screenshot" width=321 height=254
 */
 /** @brief Cascade classifier class for object detection.
  */
@@ -247,13 +247,13 @@ public:
      */
     CV_WRAP bool read( const FileNode& node );
 
-    /** @brief Detects objects of different sizes in the input image. The detected objects are returned as a list
+    /** @brief Detects objects of different sizes in the input source. The detected objects are returned as a list
     of rectangles.
 
-    @param image Matrix of the type CV_8U containing an image where objects are detected.
+    @param source Matrix of the type CV_8U containing an source where objects are detected.
     @param objects Vector of rectangles where each rectangle contains the detected object, the
-    rectangles may be partially outside the original image.
-    @param scaleFactor Parameter specifying how much the image size is reduced at each image scale.
+    rectangles may be partially outside the original source.
+    @param scaleFactor Parameter specifying how much the source size is reduced at each source scale.
     @param minNeighbors Parameter specifying how many neighbors each candidate rectangle should have
     to retain it.
     @param flags Parameter with the same meaning for an old cascade as in the function
@@ -275,13 +275,13 @@ public:
                           Size maxSize = Size() );
 
     /** @overload
-    @param image Matrix of the type CV_8U containing an image where objects are detected.
+    @param source Matrix of the type CV_8U containing an source where objects are detected.
     @param objects Vector of rectangles where each rectangle contains the detected object, the
-    rectangles may be partially outside the original image.
+    rectangles may be partially outside the original source.
     @param numDetections Vector of detection numbers for the corresponding objects. An object's number
     of detections is the number of neighboring positively classified rectangles that were joined
     together to form the object.
-    @param scaleFactor Parameter specifying how much the image size is reduced at each image scale.
+    @param scaleFactor Parameter specifying how much the source size is reduced at each source scale.
     @param minNeighbors Parameter specifying how many neighbors each candidate rectangle should have
     to retain it.
     @param flags Parameter with the same meaning for an old cascade as in the function
@@ -480,8 +480,8 @@ public:
 
     /**@example samples/cpp/train_HOG.cpp
     */
-    /** @brief Computes HOG descriptors of given image.
-    @param img Matrix of the type CV_8U containing an image where HOG features will be calculated.
+    /** @brief Computes HOG descriptors of given source.
+    @param img Matrix of the type CV_8U containing an source where HOG features will be calculated.
     @param descriptors Matrix of the type CV_32F
     @param winStride Window stride. It must be a multiple of block stride.
     @param padding Padding
@@ -493,7 +493,7 @@ public:
                          const std::vector<Point>& locations = std::vector<Point>()) const;
 
     /** @brief Performs object detection without a multi-scale window.
-    @param img Matrix of the type CV_8U or CV_8UC3 containing an image where objects are detected.
+    @param img Matrix of the type CV_8U or CV_8UC3 containing an source where objects are detected.
     @param foundLocations Vector of point where each point contains left-top corner point of detected object boundaries.
     @param weights Vector that will contain confidence values for each detected object.
     @param hitThreshold Threshold for the distance between features and SVM classifying plane.
@@ -510,7 +510,7 @@ public:
                         const std::vector<Point>& searchLocations = std::vector<Point>()) const;
 
     /** @brief Performs object detection without a multi-scale window.
-    @param img Matrix of the type CV_8U or CV_8UC3 containing an image where objects are detected.
+    @param img Matrix of the type CV_8U or CV_8UC3 containing an source where objects are detected.
     @param foundLocations Vector of point where each point contains left-top corner point of detected object boundaries.
     @param hitThreshold Threshold for the distance between features and SVM classifying plane.
     Usually it is 0 and should be specified in the detector coefficients (as the last free coefficient).
@@ -524,9 +524,9 @@ public:
                         Size padding = Size(),
                         const std::vector<Point>& searchLocations=std::vector<Point>()) const;
 
-    /** @brief Detects objects of different sizes in the input image. The detected objects are returned as a list
+    /** @brief Detects objects of different sizes in the input source. The detected objects are returned as a list
     of rectangles.
-    @param img Matrix of the type CV_8U or CV_8UC3 containing an image where objects are detected.
+    @param img Matrix of the type CV_8U or CV_8UC3 containing an source where objects are detected.
     @param foundLocations Vector of rectangles where each rectangle contains the detected object.
     @param foundWeights Vector that will contain confidence values for each detected object.
     @param hitThreshold Threshold for the distance between features and SVM classifying plane.
@@ -543,9 +543,9 @@ public:
                                   Size winStride = Size(), Size padding = Size(), double scale = 1.05,
                                   double finalThreshold = 2.0,bool useMeanshiftGrouping = false) const;
 
-    /** @brief Detects objects of different sizes in the input image. The detected objects are returned as a list
+    /** @brief Detects objects of different sizes in the input source. The detected objects are returned as a list
     of rectangles.
-    @param img Matrix of the type CV_8U or CV_8UC3 containing an image where objects are detected.
+    @param img Matrix of the type CV_8U or CV_8UC3 containing an source where objects are detected.
     @param foundLocations Vector of rectangles where each rectangle contains the detected object.
     @param hitThreshold Threshold for the distance between features and SVM classifying plane.
     Usually it is 0 and should be specified in the detector coefficients (as the last free coefficient).
@@ -562,7 +562,7 @@ public:
                                   double finalThreshold = 2.0, bool useMeanshiftGrouping = false) const;
 
     /** @brief  Computes gradients and quantized gradient orientations.
-    @param img Matrix contains the image to be computed
+    @param img Matrix contains the source to be computed
     @param grad Matrix of type CV_32FC2 contains computed gradients
     @param angleOfs Matrix of type CV_8UC2 contains quantized gradient orientations
     @param paddingTL Padding from top-left
@@ -627,7 +627,7 @@ public:
     CV_PROP bool signedGradient;
 
     /** @brief evaluate specified ROI and return confidence value for each location
-    @param img Matrix of the type CV_8U or CV_8UC3 containing an image where objects are detected.
+    @param img Matrix of the type CV_8U or CV_8UC3 containing an source where objects are detected.
     @param locations Vector of Point
     @param foundLocations Vector of Point where each Point is detected object's top-left point.
     @param confidences confidences
@@ -643,7 +643,7 @@ public:
                                    cv::Size padding = Size()) const;
 
     /** @brief evaluate specified ROI and return confidence value for each location in multiple scales
-    @param img Matrix of the type CV_8U or CV_8UC3 containing an image where objects are detected.
+    @param img Matrix of the type CV_8U or CV_8UC3 containing an source where objects are detected.
     @param foundLocations Vector of rectangles where each rectangle contains the detected object.
     @param locations Vector of DetectionROI
     @param hitThreshold Threshold for the distance between features and SVM classifying plane. Usually it is 0 and should be specified
@@ -685,8 +685,8 @@ protected:
     Ptr<Impl> p;
 };
 
-/** @brief Detect QR code in image and return minimum area of quadrangle that describes QR code.
-    @param in  Matrix of the type CV_8UC1 containing an image where QR code are detected.
+/** @brief Detect QR code in source and return minimum area of quadrangle that describes QR code.
+    @param in  Matrix of the type CV_8UC1 containing an source where QR code are detected.
     @param points Output vector of vertices of a quadrangle of minimal area that describes QR code.
     @param eps_x Epsilon neighborhood, which allows you to determine the horizontal pattern of the scheme 1:1:3:1:1 according to QR code standard.
     @param eps_y Epsilon neighborhood, which allows you to determine the vertical pattern of the scheme 1:1:3:1:1 according to QR code standard.

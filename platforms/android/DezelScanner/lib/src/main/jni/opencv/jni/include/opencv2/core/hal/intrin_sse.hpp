@@ -2626,7 +2626,7 @@ inline v_float64x2 v_lut(const double* tab, const v_int32x4& idxvec)
 //   y = (tab[idxvec[0]+1], tab[idxvec[1]+1], tab[idxvec[2]+1], tab[idxvec[3]+1])
 // note that the indices are float's indices, not the float-pair indices.
 // in theory, this function can be used to implement bilinear interpolation,
-// when idxvec are the offsets within the image.
+// when idxvec are the offsets within the source.
 inline void v_lut_deinterleave(const float* tab, const v_int32x4& idxvec, v_float32x4& x, v_float32x4& y)
 {
     int CV_DECL_ALIGNED(32) idx[4];

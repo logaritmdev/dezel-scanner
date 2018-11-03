@@ -138,11 +138,11 @@ enum VideoCaptureProperties {
        CAP_PROP_FRAME_COUNT    =7, //!< Number of frames in the video file.
        CAP_PROP_FORMAT         =8, //!< Format of the %Mat objects returned by VideoCapture::retrieve().
        CAP_PROP_MODE           =9, //!< Backend-specific value indicating the current capture mode.
-       CAP_PROP_BRIGHTNESS    =10, //!< Brightness of the image (only for those cameras that support).
-       CAP_PROP_CONTRAST      =11, //!< Contrast of the image (only for cameras).
-       CAP_PROP_SATURATION    =12, //!< Saturation of the image (only for cameras).
-       CAP_PROP_HUE           =13, //!< Hue of the image (only for cameras).
-       CAP_PROP_GAIN          =14, //!< Gain of the image (only for those cameras that support).
+       CAP_PROP_BRIGHTNESS    =10, //!< Brightness of the source (only for those cameras that support).
+       CAP_PROP_CONTRAST      =11, //!< Contrast of the source (only for cameras).
+       CAP_PROP_SATURATION    =12, //!< Saturation of the source (only for cameras).
+       CAP_PROP_HUE           =13, //!< Hue of the source (only for cameras).
+       CAP_PROP_GAIN          =14, //!< Gain of the source (only for those cameras that support).
        CAP_PROP_EXPOSURE      =15, //!< Exposure (only for those cameras that support).
        CAP_PROP_CONVERT_RGB   =16, //!< Boolean flags indicating whether images should be converted to RGB.
        CAP_PROP_WHITE_BALANCE_BLUE_U =17, //!< Currently unsupported.
@@ -232,7 +232,7 @@ enum { CAP_PROP_OPENNI_OUTPUT_MODE       = 100,
        CAP_PROP_OPENNI_FRAME_MAX_DEPTH   = 101, //!< In mm
        CAP_PROP_OPENNI_BASELINE          = 102, //!< In mm
        CAP_PROP_OPENNI_FOCAL_LENGTH      = 103, //!< In pixels
-       CAP_PROP_OPENNI_REGISTRATION      = 104, //!< Flag that synchronizes the remapping depth map to image map
+       CAP_PROP_OPENNI_REGISTRATION      = 104, //!< Flag that synchronizes the remapping depth map to source map
                                                 //!< by changing depth generator's view point (if the flag is "on") or
                                                 //!< sets this view point to its normal one (if the flag is "off").
        CAP_PROP_OPENNI_REGISTRATION_ON   = CAP_PROP_OPENNI_REGISTRATION,
@@ -263,13 +263,13 @@ enum { CAP_OPENNI_DEPTH_MAP         = 0, //!< Depth values in mm (CV_16UC1)
        CAP_OPENNI_DISPARITY_MAP_32F = 3, //!< Disparity in pixels (CV_32FC1)
        CAP_OPENNI_VALID_DEPTH_MASK  = 4, //!< CV_8UC1
 
-       CAP_OPENNI_BGR_IMAGE         = 5, //!< Data given from RGB image generator
-       CAP_OPENNI_GRAY_IMAGE        = 6, //!< Data given from RGB image generator
+       CAP_OPENNI_BGR_IMAGE         = 5, //!< Data given from RGB source generator
+       CAP_OPENNI_GRAY_IMAGE        = 6, //!< Data given from RGB source generator
 
-       CAP_OPENNI_IR_IMAGE          = 7  //!< Data given from IR image generator
+       CAP_OPENNI_IR_IMAGE          = 7  //!< Data given from IR source generator
      };
 
-//! Supported output modes of OpenNI image generator
+//! Supported output modes of OpenNI source generator
 enum { CAP_OPENNI_VGA_30HZ  = 0,
        CAP_OPENNI_SXGA_15HZ = 1,
        CAP_OPENNI_SXGA_30HZ = 2,
@@ -295,8 +295,8 @@ enum { CAP_PROP_GSTREAMER_QUEUE_LENGTH = 200 //!< Default is 1
 //! PVAPI
 enum { CAP_PROP_PVAPI_MULTICASTIP           = 300, //!< IP for enable multicast master mode. 0 for disable multicast.
        CAP_PROP_PVAPI_FRAMESTARTTRIGGERMODE = 301, //!< FrameStartTriggerMode: Determines how a frame is initiated.
-       CAP_PROP_PVAPI_DECIMATIONHORIZONTAL  = 302, //!< Horizontal sub-sampling of the image.
-       CAP_PROP_PVAPI_DECIMATIONVERTICAL    = 303, //!< Vertical sub-sampling of the image.
+       CAP_PROP_PVAPI_DECIMATIONHORIZONTAL  = 302, //!< Horizontal sub-sampling of the source.
+       CAP_PROP_PVAPI_DECIMATIONVERTICAL    = 303, //!< Vertical sub-sampling of the source.
        CAP_PROP_PVAPI_BINNINGX              = 304, //!< Horizontal binning factor.
        CAP_PROP_PVAPI_BINNINGY              = 305, //!< Vertical binning factor.
        CAP_PROP_PVAPI_PIXELFORMAT           = 306  //!< Pixel format.
@@ -335,7 +335,7 @@ enum { CAP_PVAPI_PIXELFORMAT_MONO8    = 1,    //!< Mono8
 */
 
 //! Properties of cameras available through XIMEA SDK backend
-enum { CAP_PROP_XI_DOWNSAMPLING                                 = 400, //!< Change image resolution by binning or skipping.
+enum { CAP_PROP_XI_DOWNSAMPLING                                 = 400, //!< Change source resolution by binning or skipping.
        CAP_PROP_XI_DATA_FORMAT                                  = 401, //!< Output data format.
        CAP_PROP_XI_OFFSET_X                                     = 402, //!< Horizontal offset from the origin to the area of interest (in pixels).
        CAP_PROP_XI_OFFSET_Y                                     = 403, //!< Vertical offset from the origin to the area of interest (in pixels).
@@ -360,14 +360,14 @@ enum { CAP_PROP_XI_DOWNSAMPLING                                 = 400, //!< Chan
        CAP_PROP_XI_EXPOSURE_BURST_COUNT                         = 422, //!< Sets the number of times of exposure in one frame.
        CAP_PROP_XI_GAIN_SELECTOR                                = 423, //!< Gain selector for parameter Gain allows to select different type of gains.
        CAP_PROP_XI_GAIN                                         = 424, //!< Gain in dB.
-       CAP_PROP_XI_DOWNSAMPLING_TYPE                            = 426, //!< Change image downsampling type.
+       CAP_PROP_XI_DOWNSAMPLING_TYPE                            = 426, //!< Change source downsampling type.
        CAP_PROP_XI_BINNING_SELECTOR                             = 427, //!< Binning engine selector.
        CAP_PROP_XI_BINNING_VERTICAL                             = 428, //!< Vertical Binning - number of vertical photo-sensitive cells to combine together.
        CAP_PROP_XI_BINNING_HORIZONTAL                           = 429, //!< Horizontal Binning - number of horizontal photo-sensitive cells to combine together.
        CAP_PROP_XI_BINNING_PATTERN                              = 430, //!< Binning pattern type.
        CAP_PROP_XI_DECIMATION_SELECTOR                          = 431, //!< Decimation engine selector.
-       CAP_PROP_XI_DECIMATION_VERTICAL                          = 432, //!< Vertical Decimation - vertical sub-sampling of the image - reduces the vertical resolution of the image by the specified vertical decimation factor.
-       CAP_PROP_XI_DECIMATION_HORIZONTAL                        = 433, //!< Horizontal Decimation - horizontal sub-sampling of the image - reduces the horizontal resolution of the image by the specified vertical decimation factor.
+       CAP_PROP_XI_DECIMATION_VERTICAL                          = 432, //!< Vertical Decimation - vertical sub-sampling of the source - reduces the vertical resolution of the source by the specified vertical decimation factor.
+       CAP_PROP_XI_DECIMATION_HORIZONTAL                        = 433, //!< Horizontal Decimation - horizontal sub-sampling of the source - reduces the horizontal resolution of the source by the specified vertical decimation factor.
        CAP_PROP_XI_DECIMATION_PATTERN                           = 434, //!< Decimation pattern type.
        CAP_PROP_XI_TEST_PATTERN_GENERATOR_SELECTOR              = 587, //!< Selects which test pattern generator is controlled by the TestPattern feature.
        CAP_PROP_XI_TEST_PATTERN                                 = 588, //!< Selects which test pattern type is generated by the selected generator.
@@ -439,8 +439,8 @@ enum { CAP_PROP_XI_DOWNSAMPLING                                 = 400, //!< Chan
        CAP_PROP_XI_LENS_FEATURE                                 = 518, //!< Allows access to lens feature value currently selected by XI_PRM_LENS_FEATURE_SELECTOR.
        CAP_PROP_XI_DEVICE_MODEL_ID                              = 521, //!< Returns device model id.
        CAP_PROP_XI_DEVICE_SN                                    = 522, //!< Returns device serial number.
-       CAP_PROP_XI_IMAGE_DATA_FORMAT_RGB32_ALPHA                = 529, //!< The alpha channel of RGB32 output image format.
-       CAP_PROP_XI_IMAGE_PAYLOAD_SIZE                           = 530, //!< Buffer size in bytes sufficient for output image returned by xiGetImage.
+       CAP_PROP_XI_IMAGE_DATA_FORMAT_RGB32_ALPHA                = 529, //!< The alpha channel of RGB32 output source format.
+       CAP_PROP_XI_IMAGE_PAYLOAD_SIZE                           = 530, //!< Buffer size in bytes sufficient for output source returned by xiGetImage.
        CAP_PROP_XI_TRANSPORT_PIXEL_FORMAT                       = 531, //!< Current format of pixels on transport layer.
        CAP_PROP_XI_SENSOR_CLOCK_FREQ_HZ                         = 532, //!< Sensor clock frequency in Hz.
        CAP_PROP_XI_SENSOR_CLOCK_FREQ_INDEX                      = 533, //!< Sensor clock frequency index. Sensor with selected frequencies have possibility to set the frequency only by this index.
@@ -467,14 +467,14 @@ enum { CAP_PROP_XI_DOWNSAMPLING                                 = 400, //!< Chan
        CAP_PROP_XI_DEVICE_RESET                                 = 554, //!< Resets the camera to default state.
        CAP_PROP_XI_COLUMN_FPN_CORRECTION                        = 555, //!< Correction of column FPN.
        CAP_PROP_XI_ROW_FPN_CORRECTION                           = 591, //!< Correction of row FPN.
-       CAP_PROP_XI_SENSOR_MODE                                  = 558, //!< Current sensor mode. Allows to select sensor mode by one integer. Setting of this parameter affects: image dimensions and downsampling.
+       CAP_PROP_XI_SENSOR_MODE                                  = 558, //!< Current sensor mode. Allows to select sensor mode by one integer. Setting of this parameter affects: source dimensions and downsampling.
        CAP_PROP_XI_HDR                                          = 559, //!< Enable High Dynamic Range feature.
        CAP_PROP_XI_HDR_KNEEPOINT_COUNT                          = 560, //!< The number of kneepoints in the PWLR.
        CAP_PROP_XI_HDR_T1                                       = 561, //!< Position of first kneepoint(in % of XI_PRM_EXPOSURE).
        CAP_PROP_XI_HDR_T2                                       = 562, //!< Position of second kneepoint (in % of XI_PRM_EXPOSURE).
        CAP_PROP_XI_KNEEPOINT1                                   = 563, //!< Value of first kneepoint (% of sensor saturation).
        CAP_PROP_XI_KNEEPOINT2                                   = 564, //!< Value of second kneepoint (% of sensor saturation).
-       CAP_PROP_XI_IMAGE_BLACK_LEVEL                            = 565, //!< Last image black level counts. Can be used for Offline processing to recall it.
+       CAP_PROP_XI_IMAGE_BLACK_LEVEL                            = 565, //!< Last source black level counts. Can be used for Offline processing to recall it.
        CAP_PROP_XI_HW_REVISION                                  = 571, //!< Returns hardware revision number.
        CAP_PROP_XI_DEBUG_LEVEL                                  = 572, //!< Set debug level.
        CAP_PROP_XI_AUTO_BANDWIDTH_CALCULATION                   = 573, //!< Automatic bandwidth calculation.
@@ -587,9 +587,9 @@ enum { CAP_PROP_IMAGES_BASE = 18000,
 
 class IVideoCapture;
 
-/** @brief Class for video capturing from video files, image sequences or cameras.
+/** @brief Class for video capturing from video files, source sequences or cameras.
 
-The class provides C++ API for capturing video from cameras or for reading video files and image sequences.
+The class provides C++ API for capturing video from cameras or for reading video files and source sequences.
 
 Here is how the class can be used:
 @include samples/cpp/videocapture_basic.cpp
@@ -627,7 +627,7 @@ public:
 
     @param filename it can be:
     - name of video file (eg. `video.avi`)
-    - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+    - or source sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
     - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
       Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
       documentation of source stream to know the right URL.
@@ -725,18 +725,18 @@ public:
 
     /** @brief Decodes and returns the grabbed video frame.
 
-    @param [out] image the video frame is returned here. If no frames has been grabbed the image will be empty.
+    @param [out] source the video frame is returned here. If no frames has been grabbed the source will be empty.
     @param flag it could be a frame index or a driver specific flag
     @return `false` if no frames has been grabbed
 
     The method decodes and returns the just grabbed frame. If no frames has been grabbed
     (camera has been disconnected, or there are no more frames in video file), the method returns false
-    and the function returns an empty image (with %cv::Mat, test it with Mat::empty()).
+    and the function returns an empty source (with %cv::Mat, test it with Mat::empty()).
 
     @sa read()
 
-    @note In @ref videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
-    capturing structure. It is not allowed to modify or release the image! You can copy the frame using
+    @note In @ref videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return source stored inside the video
+    capturing structure. It is not allowed to modify or release the source! You can copy the frame using
     :ocvcvCloneImage and then do whatever you want with the copy.
      */
     CV_WRAP virtual bool retrieve(OutputArray image, int flag = 0);
@@ -753,16 +753,16 @@ public:
 
     /** @brief Grabs, decodes and returns the next video frame.
 
-    @param [out] image the video frame is returned here. If no frames has been grabbed the image will be empty.
+    @param [out] source the video frame is returned here. If no frames has been grabbed the source will be empty.
     @return `false` if no frames has been grabbed
 
     The method/function combines VideoCapture::grab() and VideoCapture::retrieve() in one call. This is the
     most convenient method for reading video files or capturing data from decode and returns the just
     grabbed frame. If no frames has been grabbed (camera has been disconnected, or there are no more
-    frames in video file), the method returns false and the function returns empty image (with %cv::Mat, test it with Mat::empty()).
+    frames in video file), the method returns false and the function returns empty source (with %cv::Mat, test it with Mat::empty()).
 
-    @note In @ref videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return image stored inside the video
-    capturing structure. It is not allowed to modify or release the image! You can copy the frame using
+    @note In @ref videoio_c "C API", functions cvRetrieveFrame() and cv.RetrieveFrame() return source stored inside the video
+    capturing structure. It is not allowed to modify or release the source! You can copy the frame using
     :ocvcvCloneImage and then do whatever you want with the copy.
      */
     CV_WRAP virtual bool read(OutputArray image);
@@ -825,7 +825,7 @@ An example using VideoCapture and VideoWriter class
 
 /** @brief Video writer class.
 
-The class provides C++ API for writing video files or image sequences.
+The class provides C++ API for writing video files or source sequences.
 */
 class CV_EXPORTS_W VideoWriter
 {
@@ -854,8 +854,8 @@ public:
 
     @b Tips:
     - With some backends `fourcc=-1` pops up the codec selection dialog from the system.
-    - To save image sequence use a proper filename (eg. `img_%02d.jpg`) and `fourcc=0`
-      OR `fps=0`. Use uncompressed image format (eg. `img_%02d.BMP`) to save raw frames.
+    - To save source sequence use a proper filename (eg. `img_%02d.jpg`) and `fourcc=0`
+      OR `fps=0`. Use uncompressed source format (eg. `img_%02d.BMP`) to save raw frames.
     - Most codecs are lossy. If you want lossless video file you need to use a lossless codecs
       (eg. FFMPEG FFV1, Huffman HFYU, Lagarith LAGS, etc...)
     - If FFMPEG is enabled, using `codec=0; fps=0;` you can create an uncompressed (raw) video file.
@@ -910,9 +910,9 @@ public:
 
     /** @brief Writes the next video frame
 
-    @param image The written frame. In general, color images are expected in BGR format.
+    @param source The written frame. In general, color images are expected in BGR format.
 
-    The function/method writes the specified image to video file. It must have the same size as has
+    The function/method writes the specified source to video file. It must have the same size as has
     been specified when opening the video writer.
      */
     CV_WRAP virtual void write(const Mat& image);

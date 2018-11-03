@@ -1,8 +1,10 @@
-import { prop, bound, GestureEvent, PanGestureEvent } from 'dezel'
+
+import { bound } from 'dezel'
 import { Fragment } from 'dezel'
-import { TextView } from 'dezel'
 import { Component } from 'dezel'
+import { GestureEvent } from 'dezel'
 import { PanGesture } from 'dezel'
+import { PanGestureEvent } from 'dezel'
 import './Handle.ds'
 
 /**
@@ -10,10 +12,6 @@ import './Handle.ds'
  * @since 1.0.0
  */
 export class Handle extends Component {
-
-	//--------------------------------------------------------------------------
-	// Properties
-	//--------------------------------------------------------------------------
 
 	//--------------------------------------------------------------------------
 	// Methods
@@ -28,19 +26,6 @@ export class Handle extends Component {
 		let gesture = new PanGesture()
 		gesture.direction = 'both'
 		this.on(gesture, this.onPan)
-	}
-
-	/**
-	 * @inherited
-	 * @method render
-	 * @since 1.0.0
-	 */
-	public render() {
-		return (
-			<Fragment>
-
-			</Fragment>
-		)
 	}
 
 	//--------------------------------------------------------------------------

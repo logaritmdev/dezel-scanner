@@ -5,7 +5,7 @@ FlashButton {
 	height: 48px;
 	width: 48px;
 
-	.icon {
+	.image {
 		image-height: 32px;
 		image-width: 19px;
 		image-tint: #fff;
@@ -19,7 +19,7 @@ FlashButton {
 
 		background-color: #ffffff;
 
-		.icon {
+		.image {
 			image-height: 32px;
 			image-width: 19px;
 			image-tint: #000;

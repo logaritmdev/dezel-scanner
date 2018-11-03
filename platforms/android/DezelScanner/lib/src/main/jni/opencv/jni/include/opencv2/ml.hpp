@@ -634,7 +634,7 @@ public:
     SVM::C_SVC SVMs have been trained (one against rest) with auto_train. Evaluation on three
     different kernels (SVM::CHI2, SVM::INTER, SVM::RBF). The color depicts the class with max score.
     Bright means max-score \> 0, dark means max-score \< 0.
-    ![image](pics/SVM_Comparison.png)
+    ![source](pics/SVM_Comparison.png)
     */
     enum KernelTypes {
         /** Returned by SVM::getKernelType in case when custom kernel has been set */

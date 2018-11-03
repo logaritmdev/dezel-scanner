@@ -62,8 +62,8 @@ public:
     /** @brief Estimates seams.
 
     @param src Source images
-    @param corners Source image top-left corners
-    @param masks Source image masks to update
+    @param corners Source source top-left corners
+    @param masks Source source masks to update
      */
     virtual void find(const std::vector<UMat> &src, const std::vector<Point> &corners,
                       std::vector<UMat> &masks) = 0;
@@ -89,8 +89,8 @@ protected:
     void run();
     /** @brief Resolves masks intersection of two specified images in the given ROI.
 
-    @param first First image index
-    @param second Second image index
+    @param first First source index
+    @param second Second source index
     @param roi Region of interest
      */
     virtual void findInPair(size_t first, size_t second, Rect roi) = 0;

@@ -1,5 +1,6 @@
 #include <DLScanner.h>
 #include <DLScannerAndroid.h>
+#include <DLExtractorAndroid.h>
 #include "wrappers/DLScannerWrapper.h"
 #include "ca_logaritm_dezel_scanner_scanner_ScannerExternal.h"
 #include "jni_module_scanner.h"
@@ -30,14 +31,10 @@ jlong Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_create(JNIEnv *env,
  * Signature: (J)V
  */
 void Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_delete(JNIEnv *env, jclass, jlong scannerPtr) {
-
 	DLScannerRef scanner = reinterpret_cast<DLScannerRef>(scannerPtr);
 	DLScannerWrapperRef wrapper = reinterpret_cast<DLScannerWrapperRef>(DLScannerGetData(scanner));
-
 	wrapper->env->DeleteGlobalRef(wrapper->obj);
-
 	delete wrapper;
-
 	DLScannerDelete(scanner);
 }
 
@@ -90,7 +87,7 @@ void Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_restart(JNIEnv *env,
  * Method:    process
  * Signature: (JIILjava/nio/ByteBuffer;)V
  */
-void Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_process(JNIEnv *env, jclass, jlong scannerPtr, jint w, jint h, jobject buffer) {
+void Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_process(JNIEnv *env, jclass, jlong scannerPtr, jint w, jint h, jbyteArray buffer) {
 	SAVE_ENV(env);
 	DLScannerProcessFrame(env, reinterpret_cast<DLScannerRef>(scannerPtr), w, h, buffer);
 	REST_ENV(env);
@@ -114,3 +111,11 @@ jobject Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_getProcessedImage
 	return DLScannerGetProcessedImage(env, reinterpret_cast<DLScannerRef>(scannerPtr));
 }
 
+/*
+ * Class:     ca_logaritm_dezel_scanner_scanner_ScannerExternal
+ * Method:    pullImage
+ * Signature: (Landroid/graphics/Bitmap;IILandroid/graphics/PointF;Landroid/graphics/PointF;Landroid/graphics/PointF;Landroid/graphics/PointF;)Landroid/graphics/Bitmap;
+ */
+jobject Java_ca_logaritm_dezel_scanner_scanner_ScannerExternal_pullImage(JNIEnv *env, jclass, jobject image, jint w, jint h, jobject p1, jobject p2 , jobject p3, jobject p4) {
+	return DLExtractorPullImage(env, image, w, h, p1, p2, p3, p4);
+}

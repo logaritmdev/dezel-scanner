@@ -4,3 +4,4 @@ FOUNDATION_EXPORT const unsigned char DezelScannerVersionString[];
 
 #import "DLScanner.h"
 #import "DLScannerIOS.h"
+#import "DLExtractorIOS.h"

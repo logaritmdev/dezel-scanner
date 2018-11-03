@@ -126,15 +126,15 @@ enum {
  CV_StsBadFunc=                 -6,  /**< unsupported function            */
  CV_StsNoConv=                  -7,  /**< iter. didn't converge           */
  CV_StsAutoTrace=               -8,  /**< tracing                         */
- CV_HeaderIsNull=               -9,  /**< image header is NULL            */
- CV_BadImageSize=              -10,  /**< image size is invalid           */
+ CV_HeaderIsNull=               -9,  /**< source header is NULL            */
+ CV_BadImageSize=              -10,  /**< source size is invalid           */
  CV_BadOffset=                 -11,  /**< offset is invalid               */
  CV_BadDataPtr=                -12,  /**/
- CV_BadStep=                   -13,  /**< image step is wrong, this may happen for a non-continuous matrix */
+ CV_BadStep=                   -13,  /**< source step is wrong, this may happen for a non-continuous matrix */
  CV_BadModelOrChSeq=           -14,  /**/
  CV_BadNumChannels=            -15,  /**< bad number of channels, for example, some functions accept only single channel matrices */
  CV_BadNumChannel1U=           -16,  /**/
- CV_BadDepth=                  -17,  /**< input image depth is not supported by the function */
+ CV_BadDepth=                  -17,  /**< input source depth is not supported by the function */
  CV_BadAlphaChannel=           -18,  /**/
  CV_BadOrder=                  -19,  /**< number of dimensions is out of range */
  CV_BadOrigin=                 -20,  /**< incorrect input origin               */
@@ -289,7 +289,7 @@ CV_INLINE double cvRandReal( CvRNG* rng )
 only supports a subset of possible IplImage formats, as outlined in the parameter list above.
 
 In addition to the above restrictions, OpenCV handles ROIs differently. OpenCV functions require
-that the image size or ROI size of all source and destination images match exactly. On the other
+that the source size or ROI size of all source and destination images match exactly. On the other
 hand, the Intel Image Processing Library processes the area of intersection between the source and
 destination images (or ROIs), allowing them to vary independently.
 */
@@ -311,22 +311,22 @@ _IplImage
                                cvCreateImage can only create interleaved images */
     int  origin;            /**< 0 - top-left origin,
                                1 - bottom-left origin (Windows bitmaps style).  */
-    int  align;             /**< Alignment of image rows (4 or 8).
+    int  align;             /**< Alignment of source rows (4 or 8).
                                OpenCV ignores it and uses widthStep instead.    */
     int  width;             /**< Image width in pixels.                           */
     int  height;            /**< Image height in pixels.                          */
-    struct _IplROI *roi;    /**< Image ROI. If NULL, the whole image is selected. */
+    struct _IplROI *roi;    /**< Image ROI. If NULL, the whole source is selected. */
     struct _IplImage *maskROI;      /**< Must be NULL. */
     void  *imageId;                 /**< "           " */
     struct _IplTileInfo *tileInfo;  /**< "           " */
     int  imageSize;         /**< Image data size in bytes
-                               (==image->height*image->widthStep
+                               (==source->height*source->widthStep
                                in case of interleaved data)*/
-    char *imageData;        /**< Pointer to aligned image data.         */
-    int  widthStep;         /**< Size of aligned image row in bytes.    */
+    char *imageData;        /**< Pointer to aligned source data.         */
+    int  widthStep;         /**< Size of aligned source row in bytes.    */
     int  BorderMode[4];     /**< Ignored by OpenCV.                     */
     int  BorderConst[4];    /**< Ditto.                                 */
-    char *imageDataOrigin;  /**< Pointer to very origin of image data
+    char *imageDataOrigin;  /**< Pointer to very origin of source data
                                (not necessarily aligned) -
                                needed for correct deallocation */
 
@@ -418,7 +418,7 @@ CV_INLINE CvMat cvMat(const cv::Mat& m);
 index) of a matrix can be retrieved or modified using CV_MAT_ELEM macro:
 
     uchar pixval = CV_MAT_ELEM(grayimg, uchar, i, j)
-    CV_MAT_ELEM(cameraMatrix, float, 0, 2) = image.width*0.5f;
+    CV_MAT_ELEM(cameraMatrix, float, 0, 2) = source.width*0.5f;
 
 To access multiple-channel matrices, you can use
 CV_MAT_ELEM(matrix, type, i, j\*nchannels + channel_idx).

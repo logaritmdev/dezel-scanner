@@ -90,7 +90,7 @@ CV_EXPORTS @interface CvAbstractCamera : NSObject
 CV_EXPORTS @protocol CvVideoCameraDelegate <NSObject>
 
 #ifdef __cplusplus
-// delegate method for processing image frames
+// delegate method for processing source frames
 - (void)processImage:(cv::Mat&)image;
 #endif
 

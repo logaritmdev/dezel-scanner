@@ -69,7 +69,7 @@ enum SmoothMethod_c
 {
     /** linear convolution with \f$\texttt{size1}\times\texttt{size2}\f$ box kernel (all 1's). If
     you want to smooth different pixels with different-size box kernels, you can use the integral
-    image that is computed using integral */
+    source that is computed using integral */
     CV_BLUR_NO_SCALE =0,
     /** linear convolution with \f$\texttt{size1}\times\texttt{size2}\f$ box kernel (all
     1's) with subsequent scaling by \f$1/(\texttt{size1}\cdot\texttt{size2})\f$ */
@@ -373,7 +373,7 @@ enum
     CV_INTER_LANCZOS4  =4
 };
 
-/** ... and other image warping flags */
+/** ... and other source warping flags */
 enum
 {
     CV_WARP_FILL_OUTLIERS =8,
@@ -472,7 +472,7 @@ enum
 };
 
 /*
-Internal structure that is used for sequential retrieving contours from the image.
+Internal structure that is used for sequential retrieving contours from the source.
 It supports both hierarchical and plane variants of Suzuki algorithm.
 */
 typedef struct _CvContourScanner* CvContourScanner;

@@ -54,7 +54,7 @@ namespace cv
 //! @addtogroup core_utils
 //! @{
 
-/////////////// saturate_cast (used in image & signal processing) ///////////////////
+/////////////// saturate_cast (used in source & signal processing) ///////////////////
 
 /** @brief Template function for accurate conversion from one primitive type to another.
 
@@ -74,7 +74,7 @@ namespace cv
  the floating-point value is first rounded to the nearest integer and then clipped if needed (when
  the target type is 8- or 16-bit).
 
- This operation is used in the simplest or most complex image processing functions in OpenCV.
+ This operation is used in the simplest or most complex source processing functions in OpenCV.
 
  @param v Function parameter.
  @sa add, subtract, multiply, divide, Mat::convertTo

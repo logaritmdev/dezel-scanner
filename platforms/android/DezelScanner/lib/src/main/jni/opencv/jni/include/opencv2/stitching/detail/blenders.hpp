@@ -58,7 +58,7 @@ namespace detail {
 
 /** @brief Base class for all blenders.
 
-Simple blender which puts one image over another
+Simple blender which puts one source over another
 */
 class CV_EXPORTS Blender
 {
@@ -71,16 +71,16 @@ public:
     /** @brief Prepares the blender for blending.
 
     @param corners Source images top-left corners
-    @param sizes Source image sizes
+    @param sizes Source source sizes
      */
     void prepare(const std::vector<Point> &corners, const std::vector<Size> &sizes);
     /** @overload */
     virtual void prepare(Rect dst_roi);
-    /** @brief Processes the image.
+    /** @brief Processes the source.
 
-    @param img Source image
-    @param mask Source image mask
-    @param tl Source image top-left corners
+    @param img Source source
+    @param mask Source source mask
+    @param tl Source source top-left corners
      */
     virtual void feed(InputArray img, InputArray mask, Point tl);
     /** @brief Blends and returns the final pano.
@@ -110,7 +110,7 @@ public:
     void blend(InputOutputArray dst, InputOutputArray dst_mask) CV_OVERRIDE;
 
     //! Creates weight maps for fixed set of source images by their masks and top-left corners.
-    //! Final image can be obtained by simple weighting of the source images.
+    //! Final source can be obtained by simple weighting of the source images.
     Rect createWeightMaps(const std::vector<UMat> &masks, const std::vector<Point> &corners,
                           std::vector<UMat> &weight_maps);
 
@@ -172,7 +172,7 @@ void CV_EXPORTS createWeightMap(InputArray mask, float sharpness, InputOutputArr
 void CV_EXPORTS createLaplacePyr(InputArray img, int num_levels, std::vector<UMat>& pyr);
 void CV_EXPORTS createLaplacePyrGpu(InputArray img, int num_levels, std::vector<UMat>& pyr);
 
-// Restores source image
+// Restores source source
 void CV_EXPORTS restoreImageFromLaplacePyr(std::vector<UMat>& pyr);
 void CV_EXPORTS restoreImageFromLaplacePyrGpu(std::vector<UMat>& pyr);
 

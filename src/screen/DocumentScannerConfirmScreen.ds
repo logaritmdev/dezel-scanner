@@ -1,58 +1,72 @@
 DocumentScannerConfirmScreen {
 
-	background-color: #000;
+	background-color: #fff;
 
 	Content {
+		clipped: false;
 		padding: 24px;
 	}
 
 	Footer {
-		bottom: max($safe-area-bottom-inset, 24px);
+		bottom: 0px;
+		background-color: rgba(0, 0, 0, 0.65);
+		content-orientation: horizontal;
+		content-disposition: center;
+		content-arrangement: center;
+		height: 96px;
 		left: 0px;
-		content-direction: horizontal;
-		content-gravity: center;
-		height: 72px;
+		padding-bottom: $safe-area-bottom-inset;
 	}
 
 	NavigationBar {
-		border-bottom-color: black;
+		background-color: rgba(0, 0, 0, 0.65);
+		border-bottom-color: transparent;
+		border-bottom-width: thin;
 	}
 
 	Button.accept {
 
-		anchor-top: 50%;
-		anchor-left: 50%;
-		background-color: #00b09b;
-		border-radius: 24px;
-		height: 48px;
-		left: 75%;
-		padding-left: 24px;
-		padding-right: 24px;
-		top: 50%;
-		width: 40%;
+		background-color: linear-gradient(0deg, #00b09b 0, #38ba79 1);
+		border-radius: 30px;
+		content-arrangement: center;
+		content-disposition: center;
+		height: 60px;
+		margin-left: 24px;
+		margin-right: 24px;
+		width: 60px;
 
 		.label {
-			font-weight: 500;
-			text-color: #fff;
+			background-image: 'images/icons/96/2561355.png';
+			background-image-tint: #fff;
+			background-image-width: 32px;
+			background-image-height: 32px;
+			height: 32px;
+			width: 32px;
 		}
 	}
 
-	Button.retake {
+	Button.append {
 
-		anchor-top: 50%;
-		anchor-left: 50%;
-		background-color: #fff;
-		border-radius: 24px;
-		height: 48px;
-		left: 25%;
-		padding-left: 24px;
-		padding-right: 24px;
-		top: 50%;
-		width: 40%;
+		background-color: linear-gradient(0deg, #00b09b 0, #38ba79 1);
+		border-radius: 30px;
+		content-arrangement: center;
+		content-disposition: center;
+		height: 60px;
+		margin-left: 24px;
+		margin-right: 24px;
+		width: 60px;
 
 		.label {
-			font-weight: 500;
-			text-color: #000;
+			background-image: 'images/icons/96/2561372.png';
+			background-image-tint: #fff;
+			background-image-width: 32px;
+			background-image-height: 32px;
+			height: 32px;
+			width: 32px;
+		}
+
+		.preview {
+			border: 1px red;
 		}
 	}
 }

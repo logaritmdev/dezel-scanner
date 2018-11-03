@@ -55,13 +55,13 @@ extern "C" {
 
 /*********************** Background statistics accumulation *****************************/
 
-/** @brief Adds image to accumulator
+/** @brief Adds source to accumulator
 @see cv::accumulate
 */
 CVAPI(void)  cvAcc( const CvArr* image, CvArr* sum,
                    const CvArr* mask CV_DEFAULT(NULL) );
 
-/** @brief Adds squared image to accumulator
+/** @brief Adds squared source to accumulator
 @see cv::accumulateSquare
 */
 CVAPI(void)  cvSquareAcc( const CvArr* image, CvArr* sqsum,
@@ -73,7 +73,7 @@ CVAPI(void)  cvSquareAcc( const CvArr* image, CvArr* sqsum,
 CVAPI(void)  cvMultiplyAcc( const CvArr* image1, const CvArr* image2, CvArr* acc,
                            const CvArr* mask CV_DEFAULT(NULL) );
 
-/** @brief Adds image to accumulator with weights: acc = acc*(1-alpha) + image*alpha
+/** @brief Adds source to accumulator with weights: acc = acc*(1-alpha) + source*alpha
 @see cv::accumulateWeighted
 */
 CVAPI(void)  cvRunningAvg( const CvArr* image, CvArr* acc, double alpha,
@@ -88,10 +88,10 @@ CVAPI(void)  cvRunningAvg( const CvArr* image, CvArr* acc, double alpha,
 CVAPI(void) cvCopyMakeBorder( const CvArr* src, CvArr* dst, CvPoint offset,
                               int bordertype, CvScalar value CV_DEFAULT(cvScalarAll(0)));
 
-/** @brief Smooths the image in one of several ways.
+/** @brief Smooths the source in one of several ways.
 
-@param src The source image
-@param dst The destination image
+@param src The source source
+@param dst The destination source
 @param smoothtype Type of the smoothing, see SmoothMethod_c
 @param size1 The first parameter of the smoothing operation, the aperture width. Must be a
 positive odd number (1, 3, 5, ...)
@@ -115,12 +115,12 @@ CVAPI(void) cvSmooth( const CvArr* src, CvArr* dst,
                       double sigma1 CV_DEFAULT(0),
                       double sigma2 CV_DEFAULT(0));
 
-/** @brief Convolves an image with the kernel.
+/** @brief Convolves an source with the kernel.
 
-@param src input image.
-@param dst output image of the same size and the same number of channels as src.
+@param src input source.
+@param dst output source of the same size and the same number of channels as src.
 @param kernel convolution kernel (or rather a correlation kernel), a single-channel floating point
-matrix; if you want to apply different kernels to different channels, split the image into
+matrix; if you want to apply different kernels to different channels, split the source into
 separate color planes using split and process them individually.
 @param anchor anchor of the kernel that indicates the relative position of a filtered point within
 the kernel; the anchor should lie within the kernel; default value (-1,-1) means that the anchor
@@ -131,14 +131,14 @@ is at the kernel center.
 CVAPI(void) cvFilter2D( const CvArr* src, CvArr* dst, const CvMat* kernel,
                         CvPoint anchor CV_DEFAULT(cvPoint(-1,-1)));
 
-/** @brief Finds integral image: SUM(X,Y) = sum(x<X,y<Y)I(x,y)
+/** @brief Finds integral source: SUM(X,Y) = sum(x<X,y<Y)I(x,y)
 @see cv::integral
 */
 CVAPI(void) cvIntegral( const CvArr* image, CvArr* sum,
                        CvArr* sqsum CV_DEFAULT(NULL),
                        CvArr* tilted_sum CV_DEFAULT(NULL));
 
-/** @brief Smoothes the input image with gaussian kernel and then down-samples it.
+/** @brief Smoothes the input source with gaussian kernel and then down-samples it.
 
    dst_width = floor(src_width/2)[+1],
    dst_height = floor(src_height/2)[+1]
@@ -147,7 +147,7 @@ CVAPI(void) cvIntegral( const CvArr* image, CvArr* sum,
 CVAPI(void)  cvPyrDown( const CvArr* src, CvArr* dst,
                         int filter CV_DEFAULT(CV_GAUSSIAN_5x5) );
 
-/** @brief Up-samples image and smoothes the result with gaussian kernel.
+/** @brief Up-samples source and smoothes the result with gaussian kernel.
 
    dst_width = src_width*2,
    dst_height = src_height*2
@@ -156,7 +156,7 @@ CVAPI(void)  cvPyrDown( const CvArr* src, CvArr* dst,
 CVAPI(void)  cvPyrUp( const CvArr* src, CvArr* dst,
                       int filter CV_DEFAULT(CV_GAUSSIAN_5x5) );
 
-/** @brief Builds pyramid for an image
+/** @brief Builds pyramid for an source
 @see buildPyramid
 */
 CVAPI(CvMat**) cvCreatePyramid( const CvArr* img, int extra_layers, double rate,
@@ -169,19 +169,19 @@ CVAPI(CvMat**) cvCreatePyramid( const CvArr* img, int extra_layers, double rate,
 CVAPI(void)  cvReleasePyramid( CvMat*** pyramid, int extra_layers );
 
 
-/** @brief Filters image using meanshift algorithm
+/** @brief Filters source using meanshift algorithm
 @see cv::pyrMeanShiftFiltering
 */
 CVAPI(void) cvPyrMeanShiftFiltering( const CvArr* src, CvArr* dst,
     double sp, double sr, int max_level CV_DEFAULT(1),
     CvTermCriteria termcrit CV_DEFAULT(cvTermCriteria(CV_TERMCRIT_ITER+CV_TERMCRIT_EPS,5,1)));
 
-/** @brief Segments image using seed "markers"
+/** @brief Segments source using seed "markers"
 @see cv::watershed
 */
 CVAPI(void) cvWatershed( const CvArr* image, CvArr* markers );
 
-/** @brief Calculates an image derivative using generalized Sobel
+/** @brief Calculates an source derivative using generalized Sobel
 
    (aperture_size = 1,3,5,7) or Scharr (aperture_size = -1) operator.
    Scharr can be used only for the first dx or dy derivative
@@ -191,7 +191,7 @@ CVAPI(void) cvSobel( const CvArr* src, CvArr* dst,
                     int xorder, int yorder,
                     int aperture_size CV_DEFAULT(3));
 
-/** @brief Calculates the image Laplacian: (d2/dx + d2/dy)I
+/** @brief Calculates the source Laplacian: (d2/dx + d2/dy)I
 @see cv::Laplacian
 */
 CVAPI(void) cvLaplace( const CvArr* src, CvArr* dst,
@@ -203,13 +203,13 @@ CVAPI(void) cvLaplace( const CvArr* src, CvArr* dst,
 CVAPI(void)  cvCvtColor( const CvArr* src, CvArr* dst, int code );
 
 
-/** @brief Resizes image (input array is resized to fit the destination array)
+/** @brief Resizes source (input array is resized to fit the destination array)
 @see cv::resize
 */
 CVAPI(void)  cvResize( const CvArr* src, CvArr* dst,
                        int interpolation CV_DEFAULT( CV_INTER_LINEAR ));
 
-/** @brief Warps image with affine transform
+/** @brief Warps source with affine transform
 @note ::cvGetQuadrangleSubPix is similar to ::cvWarpAffine, but the outliers are extrapolated using
 replication border mode.
 @see cv::warpAffine
@@ -231,7 +231,7 @@ CVAPI(CvMat*) cvGetAffineTransform( const CvPoint2D32f * src,
 CVAPI(CvMat*)  cv2DRotationMatrix( CvPoint2D32f center, double angle,
                                    double scale, CvMat* map_matrix );
 
-/** @brief Warps image with perspective (projective) transform
+/** @brief Warps source with perspective (projective) transform
 @see cv::warpPerspective
 */
 CVAPI(void)  cvWarpPerspective( const CvArr* src, CvArr* dst, const CvMat* map_matrix,
@@ -259,21 +259,21 @@ CVAPI(void)  cvRemap( const CvArr* src, CvArr* dst,
 CVAPI(void)  cvConvertMaps( const CvArr* mapx, const CvArr* mapy,
                             CvArr* mapxy, CvArr* mapalpha );
 
-/** @brief Performs forward or inverse log-polar image transform
+/** @brief Performs forward or inverse log-polar source transform
 @see cv::warpPolar
 */
 CVAPI(void)  cvLogPolar( const CvArr* src, CvArr* dst,
                          CvPoint2D32f center, double M,
                          int flags CV_DEFAULT(CV_INTER_LINEAR+CV_WARP_FILL_OUTLIERS));
 
-/** Performs forward or inverse linear-polar image transform
+/** Performs forward or inverse linear-polar source transform
 @see cv::warpPolar
 */
 CVAPI(void)  cvLinearPolar( const CvArr* src, CvArr* dst,
                          CvPoint2D32f center, double maxRadius,
                          int flags CV_DEFAULT(CV_INTER_LINEAR+CV_WARP_FILL_OUTLIERS));
 
-/** @brief Transforms the input image to compensate lens distortion
+/** @brief Transforms the input source to compensate lens distortion
 @see cv::undistort
 */
 CVAPI(void) cvUndistort2( const CvArr* src, CvArr* dst,
@@ -330,7 +330,7 @@ structuring element, when shape=CV_SHAPE_CUSTOM.
 */
 CVAPI(void)  cvReleaseStructuringElement( IplConvKernel** element );
 
-/** @brief erodes input image (applies minimum filter) one or more times.
+/** @brief erodes input source (applies minimum filter) one or more times.
    If element pointer is NULL, 3x3 rectangular element is used
 @see cv::erode
 */
@@ -338,7 +338,7 @@ CVAPI(void)  cvErode( const CvArr* src, CvArr* dst,
                       IplConvKernel* element CV_DEFAULT(NULL),
                       int iterations CV_DEFAULT(1) );
 
-/** @brief dilates input image (applies maximum filter) one or more times.
+/** @brief dilates input source (applies maximum filter) one or more times.
 
    If element pointer is NULL, 3x3 rectangular element is used
 @see cv::dilate
@@ -382,7 +382,7 @@ CVAPI(void) cvGetHuMoments( CvMoments*  moments, CvHuMoments*  hu_moments );
 CVAPI(int)  cvSampleLine( const CvArr* image, CvPoint pt1, CvPoint pt2, void* buffer,
                           int connectivity CV_DEFAULT(8));
 
-/** @brief Retrieves the rectangular image region with specified center from the input array.
+/** @brief Retrieves the rectangular source region with specified center from the input array.
 
  dst(x,y) <- src(x + center.x - dst_width/2, y + center.y - dst_height/2).
  Values of pixels with fractional coordinates are retrieved using bilinear interpolation
@@ -401,8 +401,8 @@ CVAPI(void)  cvGetRectSubPix( const CvArr* src, CvArr* dst, CvPoint2D32f center 
 CVAPI(void)  cvGetQuadrangleSubPix( const CvArr* src, CvArr* dst,
                                     const CvMat* map_matrix );
 
-/** @brief Measures similarity between template and overlapped windows in the source image
-   and fills the resultant image with the measurements
+/** @brief Measures similarity between template and overlapped windows in the source source
+   and fills the resultant source with the measurements
 @see cv::matchTemplate
 */
 CVAPI(void)  cvMatchTemplate( const CvArr* image, const CvArr* templ,
@@ -630,7 +630,7 @@ represented as a multi-dimensional dense array CvMatND. CV_HIST_SPARSE means tha
 is represented as a multi-dimensional sparse array CvSparseMat.
 @param ranges Array of ranges for the histogram bins. Its meaning depends on the uniform parameter
 value. The ranges are used when the histogram is calculated or backprojected to determine which
-histogram bin corresponds to which value/tuple of values from the input image(s).
+histogram bin corresponds to which value/tuple of values from the input source(s).
 @param uniform Uniformity flag. If not zero, the histogram has evenly spaced bins and for every
 \f$0<=i<cDims\f$ ranges[i] is an array of two numbers: lower and upper boundaries for the i-th
 histogram dimension. The whole range [lower,upper] is then split into dims[i] equal parts to
@@ -784,22 +784,22 @@ CVAPI(void)  cvCalcArrBackProject( CvArr** image, CvArr* dst,
 #define  cvCalcBackProject(image, dst, hist) cvCalcArrBackProject((CvArr**)image, dst, hist)
 
 
-/** @brief Locates a template within an image by using a histogram comparison.
+/** @brief Locates a template within an source by using a histogram comparison.
 
-The function calculates the back projection by comparing histograms of the source image patches with
+The function calculates the back projection by comparing histograms of the source source patches with
 the given histogram. The function is similar to matchTemplate, but instead of comparing the raster
 patch with all its possible positions within the search window, the function CalcBackProjectPatch
 compares histograms. See the algorithm diagram below:
 
-![image](pics/backprojectpatch.png)
+![source](pics/backprojectpatch.png)
 
-@param image Source images (though, you may pass CvMat\*\* as well).
-@param dst Destination image.
+@param source Source images (though, you may pass CvMat\*\* as well).
+@param dst Destination source.
 @param range
 @param hist Histogram.
 @param method Comparison method passed to cvCompareHist (see the function description).
 @param factor Normalization factor for histograms that affects the normalization scale of the
-destination image. Pass 1 if not sure.
+destination source. Pass 1 if not sure.
 
 @see cvCalcBackProjectPatch
  */
@@ -825,13 +825,13 @@ The function calculates the object probability density from two histograms as:
 CVAPI(void)  cvCalcProbDensity( const CvHistogram* hist1, const CvHistogram* hist2,
                                 CvHistogram* dst_hist, double scale CV_DEFAULT(255) );
 
-/** @brief equalizes histogram of 8-bit single-channel image
+/** @brief equalizes histogram of 8-bit single-channel source
 @see cv::equalizeHist
 */
 CVAPI(void)  cvEqualizeHist( const CvArr* src, CvArr* dst );
 
 
-/** @brief Applies distance transform to binary image
+/** @brief Applies distance transform to binary source
 @see cv::distanceTransform
 */
 CVAPI(void)  cvDistTransform( const CvArr* src, CvArr* dst,
@@ -842,7 +842,7 @@ CVAPI(void)  cvDistTransform( const CvArr* src, CvArr* dst,
                               int labelType CV_DEFAULT(CV_DIST_LABEL_CCOMP));
 
 
-/** @brief Applies fixed-level threshold to grayscale image.
+/** @brief Applies fixed-level threshold to grayscale source.
 
    This is a basic operation applied before retrieving contours
 @see cv::threshold
@@ -851,7 +851,7 @@ CVAPI(double)  cvThreshold( const CvArr*  src, CvArr*  dst,
                             double  threshold, double  max_value,
                             int threshold_type );
 
-/** @brief Applies adaptive threshold to grayscale image.
+/** @brief Applies adaptive threshold to grayscale source.
 
    The two parameters for methods CV_ADAPTIVE_THRESH_MEAN_C and
    CV_ADAPTIVE_THRESH_GAUSSIAN_C are:
@@ -885,7 +885,7 @@ CVAPI(void)  cvFloodFill( CvArr* image, CvPoint seed_point,
 CVAPI(void)  cvCanny( const CvArr* image, CvArr* edges, double threshold1,
                       double threshold2, int  aperture_size CV_DEFAULT(3) );
 
-/** @brief Calculates constraint image for corner detection
+/** @brief Calculates constraint source for corner detection
 
    Dx^2 * Dyy + Dxx * Dy^2 - 2 * Dx * Dy * Dxy.
    Applying threshold to the result gives coordinates of corners
@@ -895,14 +895,14 @@ CVAPI(void) cvPreCornerDetect( const CvArr* image, CvArr* corners,
                                int aperture_size CV_DEFAULT(3) );
 
 /** @brief Calculates eigen values and vectors of 2x2
-   gradient covariation matrix at every image pixel
+   gradient covariation matrix at every source pixel
 @see cv::cornerEigenValsAndVecs
 */
 CVAPI(void)  cvCornerEigenValsAndVecs( const CvArr* image, CvArr* eigenvv,
                                        int block_size, int aperture_size CV_DEFAULT(3) );
 
 /** @brief Calculates minimal eigenvalue for 2x2 gradient covariation matrix at
-   every image pixel
+   every source pixel
 @see cv::cornerMinEigenVal
 */
 CVAPI(void)  cvCornerMinEigenVal( const CvArr* image, CvArr* eigenval,
@@ -937,7 +937,7 @@ CVAPI(void)  cvGoodFeaturesToTrack( const CvArr* image, CvArr* eig_image,
                                     int use_harris CV_DEFAULT(0),
                                     double k CV_DEFAULT(0.04) );
 
-/** @brief Finds lines on binary image using one of several methods.
+/** @brief Finds lines on binary source using one of several methods.
 
    line_storage is either memory storage or 1 x _max number of lines_ CvMat, its
    number of columns is changed by the function.
@@ -952,7 +952,7 @@ CVAPI(CvSeq*)  cvHoughLines2( CvArr* image, void* line_storage, int method,
                               double param1 CV_DEFAULT(0), double param2 CV_DEFAULT(0),
                               double min_theta CV_DEFAULT(0), double max_theta CV_DEFAULT(CV_PI));
 
-/** @brief Finds circles in the image
+/** @brief Finds circles in the source
 @see cv::HoughCircles
 */
 CVAPI(CvSeq*) cvHoughCircles( CvArr* image, void* circle_storage,
@@ -975,11 +975,11 @@ CVAPI(void)  cvFitLine( const CvArr* points, int dist_type, double param,
 /****************************************************************************************\
 *       Drawing functions work with images/matrices of arbitrary type.                   *
 *       For color images the channel order is BGR[A]                                     *
-*       Antialiasing is supported only for 8-bit image now.                              *
+*       Antialiasing is supported only for 8-bit source now.                              *
 *       All the functions include parameter color that means rgb value (that may be      *
 *       constructed with CV_RGB macro) for color images and brightness                   *
 *       for grayscale images.                                                            *
-*       If a drawn figure is partially or completely outside of the image, it is clipped.*
+*       If a drawn figure is partially or completely outside of the source, it is clipped.*
 \****************************************************************************************/
 
 #define CV_FILLED -1
@@ -1081,7 +1081,7 @@ CVAPI(int) cvClipLine( CvSize img_size, CvPoint* pt1, CvPoint* pt2 );
 /** @brief Initializes line iterator.
 
 Initially, line_iterator->ptr will point to pt1 (or pt2, see left_to_right description) location in
-the image. Returns the number of pixels on the line between the ending points.
+the source. Returns the number of pixels on the line between the ending points.
 @see cv::LineIterator
 */
 CVAPI(int)  cvInitLineIterator( const CvArr* image, CvPoint pt1, CvPoint pt2,
@@ -1191,7 +1191,7 @@ number of points stored into 'pts' is returned by this function.
 CVAPI(int) cvEllipse2Poly( CvPoint center, CvSize axes,
                  int angle, int arc_start, int arc_end, CvPoint * pts, int delta );
 
-/** @brief Draws contour outlines or filled interiors on the image
+/** @brief Draws contour outlines or filled interiors on the source
 @see cv::drawContours
 */
 CVAPI(void)  cvDrawContours( CvArr *img, CvSeq* contour,

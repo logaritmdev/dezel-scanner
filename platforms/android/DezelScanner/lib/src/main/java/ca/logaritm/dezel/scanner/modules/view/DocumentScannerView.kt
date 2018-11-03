@@ -12,8 +12,6 @@ import android.util.Log
 import ca.logaritm.dezel.R
 import ca.logaritm.dezel.core.JavaScriptContext
 import ca.logaritm.dezel.core.JavaScriptFunctionCallback
-import ca.logaritm.dezel.core.JavaScriptGetterCallback
-import ca.logaritm.dezel.core.JavaScriptSetterCallback
 import ca.logaritm.dezel.modules.graphic.Image
 import ca.logaritm.dezel.modules.view.View
 import ca.logaritm.dezel.scanner.view.ObjectScannerView
@@ -166,6 +164,15 @@ open class DocumentScannerView(context: JavaScriptContext) : View(context), Obje
 
 	/**
 	 * @inherited
+	 * @method onActivate
+	 * @since 0.1.0
+	 */
+	override fun onActivate(view: ObjectScannerView) {
+		this.holder.callMethod("nativeOnActivate")
+	}
+
+	/**
+	 * @inherited
 	 * @method onFindDocument
 	 * @since 0.1.0
 	 */
@@ -226,6 +233,15 @@ open class DocumentScannerView(context: JavaScriptContext) : View(context), Obje
 	 */
 	override fun onMissDocument(view: ObjectScannerView) {
 		this.holder.callMethod("nativeOnMissDocument")
+	}
+
+	/**
+	 * @inherited
+	 * @method onCaptureImage
+	 * @since 0.1.0
+	 */
+	override fun onCaptureImage(view: ObjectScannerView, image: Bitmap) {
+		this.holder.callMethod("nativeOnCaptureImage", arrayOf(Image.with(image, this.context).holder))
 	}
 
 	//--------------------------------------------------------------------------
@@ -364,23 +380,23 @@ open class DocumentScannerView(context: JavaScriptContext) : View(context), Obje
 	}
 
 	/**
-	 * @method jsFunction_enableScanner
+	 * @method jsFunction_startScanner
 	 * @since 0.1.0
 	 * @hidden
 	 */
 	@Suppress("unused")
-	open fun jsFunction_enableScanner(callback: JavaScriptFunctionCallback) {
-		this.view.enableScanner()
+	open fun jsFunction_startScanner(callback: JavaScriptFunctionCallback) {
+		this.view.startScanner()
 	}
 
 	/**
-	 * @method jsFunction_disableScanner
+	 * @method jsFunction_stopScanner
 	 * @since 0.1.0
 	 * @hidden
 	 */
 	@Suppress("unused")
-	open fun jsFunction_disableScanner(callback: JavaScriptFunctionCallback) {
-		this.view.disableScanner()
+	open fun jsFunction_stopScanner(callback: JavaScriptFunctionCallback) {
+		this.view.stopScanner()
 	}
 
 	/**
@@ -391,5 +407,25 @@ open class DocumentScannerView(context: JavaScriptContext) : View(context), Obje
 	@Suppress("unused")
 	open fun jsFunction_restartScanner(callback: JavaScriptFunctionCallback) {
 		this.view.restartScanner()
+	}
+
+	/**
+	 * @method jsFunction_toggleFlash
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	@Suppress("unused")
+	open fun jsFunction_toggleFlash(callback: JavaScriptFunctionCallback) {
+		this.view.toggleFlash()
+	}
+
+	/**
+	 * @method jsFunction_captureImage
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	@Suppress("unused")
+	open fun jsFunction_captureImage(callback: JavaScriptFunctionCallback) {
+		this.view.captureImage()
 	}
 }

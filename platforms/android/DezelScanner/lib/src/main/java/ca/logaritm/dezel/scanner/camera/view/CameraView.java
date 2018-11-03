@@ -18,10 +18,14 @@ package ca.logaritm.dezel.scanner.camera.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.graphics.YuvImage;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -44,6 +48,8 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -131,6 +137,8 @@ public class CameraView extends CameraTextureView {
 
 	};
 
+	private boolean mFlashAvailable = false;
+
 	/**
 	 * ID of the current {@link CameraDevice}.
 	 */
@@ -196,13 +204,13 @@ public class CameraView extends CameraTextureView {
 	private Handler mBackgroundHandler;
 
 	/**
-	 * An {@link ImageReader} that handles still image capture.
+	 * An {@link ImageReader} that handles still source capture.
 	 */
 	private ImageReader mImageReader;
 
 	/**
 	 * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
-	 * still image is ready to be saved.
+	 * still source is ready to be saved.
 	 */
 	private final ImageReader.OnImageAvailableListener mOnImageAvailableListener
 		= new ImageReader.OnImageAvailableListener() {
@@ -354,6 +362,62 @@ public class CameraView extends CameraTextureView {
 		stopBackgroundThread();
 	}
 
+	private boolean mFlash = false;
+
+	public void toggleFlash() {
+
+		if (mFlashAvailable == false) {
+			return;
+		}
+
+		try {
+
+			if (mFlash) {
+				mFlash = false;
+				mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
+				mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), null, null);
+			} else {
+				mFlash = true;
+				mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
+				mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), null, null);
+			}
+
+		} catch (CameraAccessException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static Bitmap convert(Image image) {
+
+		byte[] nv21;
+		ByteBuffer yBuffer = image.getPlanes()[0].getBuffer();
+		ByteBuffer uBuffer = image.getPlanes()[1].getBuffer();
+		ByteBuffer vBuffer = image.getPlanes()[2].getBuffer();
+
+		int ySize = yBuffer.remaining();
+		int uSize = uBuffer.remaining();
+		int vSize = vBuffer.remaining();
+
+		nv21 = new byte[ySize + uSize + vSize];
+
+		//U and V are swapped
+		yBuffer.get(nv21, 0, ySize);
+		vBuffer.get(nv21, ySize, vSize);
+		uBuffer.get(nv21, ySize + vSize, uSize);
+
+		int width = image.getWidth();
+		int height = image.getHeight();
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		YuvImage yuv = new YuvImage(nv21, ImageFormat.NV21, width, height, null);
+		yuv.compressToJpeg(new Rect(0, 0, width, height), 100, out);
+
+		byte[] data = out.toByteArray();
+
+		return BitmapFactory.decodeByteArray(data, 0, data.length, null);
+	}
+
 	public void setListener(CameraViewListener listener) {
 		this.mListener = listener;
 	}
@@ -421,15 +485,26 @@ public class CameraView extends CameraTextureView {
 					continue;
 				}
 
-				// For still image captures, we use the largest available size.
+				// For still source captures, we use the largest available size.
 				Size largest = Collections.max(
 					Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
 					new CompareSizesByArea());
 
-				// For still image captures, we use the largest available size.
+				// For still source captures, we use the largest available size.
 				smallest = Collections.min(
 					Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
 					new CompareSizesByArea());
+
+				List<Size> sizes = Arrays.asList(map.getOutputSizes(ImageFormat.JPEG));
+				Collections.sort(sizes, new CompareSizesByArea() );
+				// NOTE
+				// THIS IS to retrieve an OK image size
+				for (Size size : sizes) {
+					smallest = size;
+					if (size.getWidth() >1080) {
+						break;
+					}
+				}
 
 				mImageReader = ImageReader.newInstance(smallest.getWidth(), smallest.getHeight(), ImageFormat.YUV_420_888, 1);
 				mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
@@ -449,6 +524,8 @@ public class CameraView extends CameraTextureView {
 					mTextureView.setAspectRatio(
 						mPreviewSize.getHeight(), mPreviewSize.getWidth());
 				}
+
+				mFlashAvailable = !!characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
 
 				mCameraId = cameraId;
 				return;
@@ -551,7 +628,6 @@ public class CameraView extends CameraTextureView {
 			mPreviewRequestBuilder.addTarget(mSurface);
 			mPreviewRequestBuilder.addTarget(mImageSurface);
 
-
 			// Here, we create a CameraCaptureSession for camera preview.
 			mCameraDevice.createCaptureSession(Arrays.asList(mSurface, mImageReader.getSurface()),
 				new CameraCaptureSession.StateCallback() {
@@ -624,14 +700,14 @@ public class CameraView extends CameraTextureView {
 	}
 
 	/**
-	 * Initiate a still image capture.
+	 * Initiate a still source capture.
 	 */
 	private void takePicture() {
 		lockFocus();
 	}
 
 	/**
-	 * Lock the focus as the first step for a still image capture.
+	 * Lock the focus as the first step for a still source capture.
 	 */
 	private void lockFocus() {
 		try {
@@ -648,7 +724,7 @@ public class CameraView extends CameraTextureView {
 	}
 
 	/**
-	 * Run the precapture sequence for capturing a still image. This method should be called when
+	 * Run the precapture sequence for capturing a still source. This method should be called when
 	 * we get a response in {@link #mCaptureCallback} from {@link #lockFocus()}.
 	 */
 	private void runPrecaptureSequence() {
@@ -674,7 +750,7 @@ public class CameraView extends CameraTextureView {
 	}
 
 	/**
-	 * Unlock the focus. This method should be called when still image capture sequence is
+	 * Unlock the focus. This method should be called when still source capture sequence is
 	 * finished.
 	 */
 	private void unlockFocus() {

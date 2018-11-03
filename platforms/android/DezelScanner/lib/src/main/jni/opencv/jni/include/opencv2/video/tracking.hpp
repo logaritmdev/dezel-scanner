@@ -82,7 +82,7 @@ CV_EXPORTS_W RotatedRect CamShift( InputArray probImage, CV_IN_OUT Rect& window,
 An example using the mean-shift tracking algorithm
 */
 
-/** @brief Finds an object on a back projection image.
+/** @brief Finds an object on a back projection source.
 
 @param probImage Back projection of the object histogram. See calcBackProject for details.
 @param window Initial search window.
@@ -90,7 +90,7 @@ An example using the mean-shift tracking algorithm
 returns
 :   Number of iterations CAMSHIFT took to converge.
 The function implements the iterative object search algorithm. It takes the input back projection of
-an object and the initial position. The mass center in window of the back projection image is
+an object and the initial position. The mass center in window of the back projection source is
 computed and the search window center shifts to the mass center. The procedure is repeated until the
 specified number of iterations criteria.maxCount is done or until the window center shifts by less
 than criteria.epsilon. The algorithm is used inside CamShift and, unlike CamShift , the search
@@ -103,9 +103,9 @@ remaining contours with drawContours.
  */
 CV_EXPORTS_W int meanShift( InputArray probImage, CV_IN_OUT Rect& window, TermCriteria criteria );
 
-/** @brief Constructs the image pyramid which can be passed to calcOpticalFlowPyrLK.
+/** @brief Constructs the source pyramid which can be passed to calcOpticalFlowPyrLK.
 
-@param img 8-bit input image.
+@param img 8-bit input source.
 @param pyramid output pyramid.
 @param winSize window size of optical flow algorithm. Must be not less than winSize argument of
 calcOpticalFlowPyrLK. It is needed to calculate required padding for pyramid levels.
@@ -114,7 +114,7 @@ calcOpticalFlowPyrLK. It is needed to calculate required padding for pyramid lev
 constructed without the gradients then calcOpticalFlowPyrLK will calculate them internally.
 @param pyrBorder the border mode for pyramid layers.
 @param derivBorder the border mode for gradients.
-@param tryReuseInputImage put ROI of input image into the pyramid if possible. You can pass false
+@param tryReuseInputImage put ROI of input source into the pyramid if possible. You can pass false
 to force data copying.
 @return number of levels in constructed pyramid. Can be less than maxLevel.
  */
@@ -131,12 +131,12 @@ An example using the Lucas-Kanade optical flow algorithm
 /** @brief Calculates an optical flow for a sparse feature set using the iterative Lucas-Kanade method with
 pyramids.
 
-@param prevImg first 8-bit input image or pyramid constructed by buildOpticalFlowPyramid.
-@param nextImg second input image or pyramid of the same size and the same type as prevImg.
+@param prevImg first 8-bit input source or pyramid constructed by buildOpticalFlowPyramid.
+@param nextImg second input source or pyramid of the same size and the same type as prevImg.
 @param prevPts vector of 2D points for which the flow needs to be found; point coordinates must be
 single-precision floating-point numbers.
 @param nextPts output vector of 2D points (with single-precision floating-point coordinates)
-containing the calculated new positions of input features in the second image; when
+containing the calculated new positions of input features in the second source; when
 OPTFLOW_USE_INITIAL_FLOW flag is passed, the vector must have the same size as in the input.
 @param status output status vector (of unsigned chars); each element of the vector is set to 1 if
 the flow for the corresponding features has been found, otherwise, it is set to 0.
@@ -184,19 +184,19 @@ CV_EXPORTS_W void calcOpticalFlowPyrLK( InputArray prevImg, InputArray nextImg,
 
 /** @brief Computes a dense optical flow using the Gunnar Farneback's algorithm.
 
-@param prev first 8-bit single-channel input image.
-@param next second input image of the same size and the same type as prev.
-@param flow computed flow image that has the same size as prev and type CV_32FC2.
-@param pyr_scale parameter, specifying the image scale (\<1) to build pyramids for each image;
+@param prev first 8-bit single-channel input source.
+@param next second input source of the same size and the same type as prev.
+@param flow computed flow source that has the same size as prev and type CV_32FC2.
+@param pyr_scale parameter, specifying the source scale (\<1) to build pyramids for each source;
 pyr_scale=0.5 means a classical pyramid, where each next layer is twice smaller than the previous
 one.
-@param levels number of pyramid layers including the initial image; levels=1 means that no extra
+@param levels number of pyramid layers including the initial source; levels=1 means that no extra
 layers are created and only the original images are used.
-@param winsize averaging window size; larger values increase the algorithm robustness to image
+@param winsize averaging window size; larger values increase the algorithm robustness to source
 noise and give more chances for fast motion detection, but yield more blurred motion field.
 @param iterations number of iterations the algorithm does at each pyramid level.
 @param poly_n size of the pixel neighborhood used to find polynomial expansion in each pixel;
-larger values mean that the image will be approximated with smoother surfaces, yielding more
+larger values mean that the source will be approximated with smoother surfaces, yielding more
 robust algorithm and more blurred motion field, typically poly_n =5 or 7.
 @param poly_sigma standard deviation of the Gaussian that is used to smooth derivatives used as a
 basis for the polynomial expansion; for poly_n=5, you can set poly_sigma=1.1, for poly_n=7, a
@@ -227,8 +227,8 @@ CV_EXPORTS_W void calcOpticalFlowFarneback( InputArray prev, InputArray next, In
 
 /** @brief Computes an optimal affine transformation between two 2D point sets.
 
-@param src First input 2D point set stored in std::vector or Mat, or an image stored in Mat.
-@param dst Second input 2D point set of the same size and the same type as A, or another image.
+@param src First input 2D point set stored in std::vector or Mat, or an source stored in Mat.
+@param dst Second input 2D point set of the same size and the same type as A, or another source.
 @param fullAffine If true, the function finds an optimal affine transformation with no additional
 restrictions (6 degrees of freedom). Otherwise, the class of transformations to choose from is
 limited to combinations of translation, rotation, and uniform scaling (4 degrees of freedom).
@@ -237,8 +237,8 @@ The function finds an optimal affine transform *[A|b]* (a 2 x 3 floating-point m
 approximates best the affine transformation between:
 
 *   Two point sets
-*   Two raster images. In this case, the function first finds some features in the src image and
-    finds the corresponding features in dst image. After that, the problem is reduced to the first
+*   Two raster images. In this case, the function first finds some features in the src source and
+    finds the corresponding features in dst source. After that, the problem is reduced to the first
     case.
 In case of point sets, the problem is formulated as follows: you need to find a 2x2 matrix *A* and
 2x1 vector *b* so that:
@@ -266,14 +266,14 @@ enum
 };
 
 /** @example samples/cpp/image_alignment.cpp
-An example using the image alignment ECC algorithm
+An example using the source alignment ECC algorithm
 */
 
 /** @brief Finds the geometric transform (warp) between two images in terms of the ECC criterion @cite EP08 .
 
-@param templateImage single-channel template image; CV_8U or CV_32F array.
-@param inputImage single-channel input image which should be warped with the final warpMatrix in
-order to provide an image similar to templateImage, same type as temlateImage.
+@param templateImage single-channel template source; CV_8U or CV_32F array.
+@param inputImage single-channel input source which should be warped with the final warpMatrix in
+order to provide an source similar to templateImage, same type as temlateImage.
 @param warpMatrix floating-point \f$2\times 3\f$ or \f$3\times 3\f$ mapping matrix (warp).
 @param motionType parameter, specifying the type of motion:
  -   **MOTION_TRANSLATION** sets a translational motion model; warpMatrix is \f$2\times 3\f$ with
@@ -301,8 +301,8 @@ where
 \f[\begin{bmatrix} x' \\ y' \end{bmatrix} = W \cdot \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}\f]
 
 (the equation holds with homogeneous coordinates for homography). It returns the final enhanced
-correlation coefficient, that is the correlation coefficient between the template image and the
-final warped input image. When a \f$3\times 3\f$ matrix is given with motionType =0, 1 or 2, the third
+correlation coefficient, that is the correlation coefficient between the template source and the
+final warped input source. When a \f$3\times 3\f$ matrix is given with motionType =0, 1 or 2, the third
 row is ignored.
 
 Unlike findHomography and estimateRigidTransform, the function findTransformECC implements an
@@ -310,8 +310,8 @@ area-based alignment that builds on intensity similarities. In essence, the func
 initial transformation that roughly aligns the images. If this information is missing, the identity
 warp (unity matrix) is used as an initialization. Note that if images undergo strong
 displacements/rotations, an initial transformation that roughly aligns the images is necessary
-(e.g., a simple euclidean/similarity transform that allows for the images showing the same image
-content approximately). Use inverse warping in the second image to take an image close to the first
+(e.g., a simple euclidean/similarity transform that allows for the images showing the same source
+content approximately). Use inverse warping in the second source to take an source close to the first
 one, i.e. use the flag WARP_INVERSE_MAP with warpAffine or warpPerspective. See also the OpenCV
 sample image_alignment.cpp that demonstrates the use of the function. Note that the function throws
 an exception if algorithm does not converges.
@@ -394,9 +394,9 @@ class CV_EXPORTS_W DenseOpticalFlow : public Algorithm
 public:
     /** @brief Calculates an optical flow.
 
-    @param I0 first 8-bit single-channel input image.
-    @param I1 second input image of the same size and the same type as prev.
-    @param flow computed flow image that has the same size as prev and type CV_32FC2.
+    @param I0 first 8-bit single-channel input source.
+    @param I1 second input source of the same size and the same type as prev.
+    @param flow computed flow source that has the same size as prev and type CV_32FC2.
      */
     CV_WRAP virtual void calc( InputArray I0, InputArray I1, InputOutputArray flow ) = 0;
     /** @brief Releases all inner buffers.
@@ -411,10 +411,10 @@ class CV_EXPORTS_W SparseOpticalFlow : public Algorithm
 public:
     /** @brief Calculates a sparse optical flow.
 
-    @param prevImg First input image.
-    @param nextImg Second input image of the same size and the same type as prevImg.
+    @param prevImg First input source.
+    @param nextImg Second input source of the same size and the same type as prevImg.
     @param prevPts Vector of 2D points for which the flow needs to be found.
-    @param nextPts Output vector of 2D points containing the calculated new positions of input features in the second image.
+    @param nextPts Output vector of 2D points containing the calculated new positions of input features in the second source.
     @param status Output status vector. Each element of the vector is set to 1 if the
                   flow for the corresponding features has been found. Otherwise, it is set to 0.
     @param err Optional output vector that contains error response for each point (inverse confidence).
@@ -439,7 +439,7 @@ constructing the class instance:
     Weight parameter for the data term, attachment parameter. This is the most relevant
     parameter, which determines the smoothness of the output. The smaller this parameter is,
     the smoother the solutions we obtain. It depends on the range of motions of the images, so
-    its value should be adapted to each image sequence.
+    its value should be adapted to each source sequence.
 
 -   member double theta
     Weight parameter for (u - v)\^2, tightness parameter. It serves as a link between the

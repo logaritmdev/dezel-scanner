@@ -117,6 +117,15 @@ open class DocumentScannerView : View, ObjectScannerViewDelegate {
 
 	/**
 	 * @inherited
+	 * @method didActivate
+	 * @since 0.1.0
+	 */
+	open func didActivate(view: ObjectScannerView) {
+		self.holder.callMethod("nativeOnActivate")
+	}
+
+	/**
+	 * @inherited
 	 * @method didFindDocument
 	 * @since 0.1.0
 	 */
@@ -177,6 +186,15 @@ open class DocumentScannerView : View, ObjectScannerViewDelegate {
 	 */
 	open func didMissDocument(view: ObjectScannerView) {
 		self.holder.callMethod("nativeOnMissDocument")
+	}
+
+	/**
+	 * @inherited
+	 * @method didCaptureImage
+	 * @since 0.1.0
+	 */
+	open func didCaptureImage(view: ObjectScannerView, image: UIImage) {
+		self.holder.callMethod("nativeOnCaptureImage", arguments: [Image.with(image, in: self.context).holder])
 	}
 
 	//--------------------------------------------------------------------------
@@ -249,21 +267,21 @@ open class DocumentScannerView : View, ObjectScannerViewDelegate {
 	}
 
 	/**
-	 * @method jsFunction_enableScanner
+	 * @method jsFunction_startScanner
 	 * @since 0.1.0
 	 * @hidden
 	 */
-	@objc open func jsFunction_enableScanner(callback: JavaScriptFunctionCallback) {
-		self.view.enableScanner()
+	@objc open func jsFunction_startScanner(callback: JavaScriptFunctionCallback) {
+		self.view.startScanner()
 	}
 
 	/**
-	 * @method jsFunction_disableScanner
+	 * @method jsFunction_stopScanner
 	 * @since 0.1.0
 	 * @hidden
 	 */
-	@objc open func jsFunction_disableScanner(callback: JavaScriptFunctionCallback) {
-		self.view.disableScanner()
+	@objc open func jsFunction_stopScanner(callback: JavaScriptFunctionCallback) {
+		self.view.stopScanner()
 	}
 
 	/**
@@ -273,5 +291,23 @@ open class DocumentScannerView : View, ObjectScannerViewDelegate {
 	 */
 	@objc open func jsFunction_restartScanner(callback: JavaScriptFunctionCallback) {
 		self.view.restartScanner()
+	}
+
+	/**
+	 * @method jsFunction_toggleFlash
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	@objc open func jsFunction_toggleFlash(callback: JavaScriptFunctionCallback) {
+		self.view.toggleFlash()
+	}
+
+	/**
+	 * @method jsFunction_captureImage
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	@objc open func jsFunction_captureImage(callback: JavaScriptFunctionCallback) {
+		self.view.captureImage()
 	}
 }

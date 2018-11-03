@@ -102,6 +102,15 @@ open class Camera(context: Context): CameraViewListener, SensorEventListener {
 	}
 
 	/**
+	 * Toggles the flash
+	 * @method toggleFlash
+	 * @since 0.1.0
+	 */
+	open fun toggleFlash() {
+		this.preview.toggleFlash()
+	}
+
+	/**
 	 * Stops the camera.
 	 * @method stop
 	 * @since 0.1.0

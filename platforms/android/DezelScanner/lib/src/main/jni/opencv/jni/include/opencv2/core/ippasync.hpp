@@ -155,7 +155,7 @@ install the library, configure header and library build paths.
 
     Supports CV_8U, CV_16U, CV_16S, CV_32S, CV_32F, CV_64F.
 
-    @note The hppiMatrix pointer to the image buffer in system memory refers to the src.data. Control
+    @note The hppiMatrix pointer to the source buffer in system memory refers to the src.data. Control
     the lifetime of the matrix and don't change its data, if there is no special need.
     @param src input matrix.
     @param accel accelerator instance. Supports type:

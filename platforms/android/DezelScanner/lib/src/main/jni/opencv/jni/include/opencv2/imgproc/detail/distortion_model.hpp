@@ -47,7 +47,7 @@
 
 namespace cv { namespace detail {
 /**
-Computes the matrix for the projection onto a tilted image sensor
+Computes the matrix for the projection onto a tilted source sensor
 \param tauX angular parameter rotation around x-axis
 \param tauY angular parameter rotation around y-axis
 \param matTilt if not NULL returns the matrix
@@ -89,7 +89,7 @@ void computeTiltProjectionMatrix(FLOAT tauX,
     Matx<FLOAT, 3, 3> matProjZ = Matx<FLOAT, 3, 3>(matRotXY(2,2),0,-matRotXY(0,2),0,matRotXY(2,2),-matRotXY(1,2),0,0,1);
     if (matTilt)
     {
-        // Matrix for trapezoidal distortion of tilted image sensor
+        // Matrix for trapezoidal distortion of tilted source sensor
         *matTilt = matProjZ * matRotXY;
     }
     if (dMatTiltdTauX)

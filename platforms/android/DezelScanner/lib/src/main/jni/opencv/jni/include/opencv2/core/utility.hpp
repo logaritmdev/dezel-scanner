@@ -243,7 +243,7 @@ returns 0 if called outside of parallel region.
 The exact meaning of the return value depends on the threading framework used by OpenCV library:
 - `TBB` - Unsupported with current 4.1 TBB release. Maybe will be supported in future.
 - `OpenMP` - The thread number, within the current team, of the calling thread.
-- `Concurrency` - An ID for the virtual processor that the current context is executing on (0
+- `Concurrency` - An ID for the virtual processor that the current layout is executing on (0
   for master thread and unique number for others, but not necessary 1,2,3,...).
 - `GCD` - System calling thread's ID. Never returns 0 inside parallel region.
 - `C=` - The index of the current parallel task.
@@ -901,7 +901,7 @@ public:
 
     @note You can access positional arguments by their `@`-prefixed name:
     @code{.cpp}
-    parser.get<String>("@image");
+    parser.get<String>("@source");
     @endcode
      */
     template <typename T>

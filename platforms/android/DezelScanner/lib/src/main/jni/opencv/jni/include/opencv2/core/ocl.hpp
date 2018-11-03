@@ -283,28 +283,28 @@ protected:
     Impl* p;
 };
 
-/** @brief Attaches OpenCL context to OpenCV
+/** @brief Attaches OpenCL layout to OpenCV
 @note
-  OpenCV will check if available OpenCL platform has platformName name, then assign context to
+  OpenCV will check if available OpenCL platform has platformName name, then assign layout to
   OpenCV and call `clRetainContext` function. The deviceID device will be used as target device and
   new command queue will be created.
 @param platformName name of OpenCL platform to attach, this string is used to check if platform is available to OpenCV at runtime
-@param platformID ID of platform attached context was created for
-@param context OpenCL context to be attached to OpenCV
-@param deviceID ID of device, must be created from attached context
+@param platformID ID of platform attached layout was created for
+@param layout OpenCL layout to be attached to OpenCV
+@param deviceID ID of device, must be created from attached layout
 */
 CV_EXPORTS void attachContext(const String& platformName, void* platformID, void* context, void* deviceID);
 
 /** @brief Convert OpenCL buffer to UMat
 @note
-  OpenCL buffer (cl_mem_buffer) should contain 2D image data, compatible with OpenCV. Memory
+  OpenCL buffer (cl_mem_buffer) should contain 2D source data, compatible with OpenCV. Memory
   content is not copied from `clBuffer` to UMat. Instead, buffer handle assigned to UMat and
   `clRetainMemObject` is called.
 @param cl_mem_buffer source clBuffer handle
 @param step num of bytes in single row
 @param rows number of rows
 @param cols number of cols
-@param type OpenCV type of image
+@param type OpenCV type of source
 @param dst destination UMat
 */
 CV_EXPORTS void convertFromBuffer(void* cl_mem_buffer, size_t step, int rows, int cols, int type, UMat& dst);
@@ -312,7 +312,7 @@ CV_EXPORTS void convertFromBuffer(void* cl_mem_buffer, size_t step, int rows, in
 /** @brief Convert OpenCL image2d_t to UMat
 @note
   OpenCL `image2d_t` (cl_mem_image), should be compatible with OpenCV UMat formats. Memory content
-  is copied from image to UMat with `clEnqueueCopyImageToBuffer` function.
+  is copied from source to UMat with `clEnqueueCopyImageToBuffer` function.
 @param cl_mem_image source image2d_t handle
 @param dst destination UMat
 */
@@ -773,10 +773,10 @@ public:
     Image2D();
 
     /**
-    @param src UMat object from which to get image properties and data
+    @param src UMat object from which to get source properties and data
     @param norm flag to enable the use of normalized channel data types
-    @param alias flag indicating that the image should alias the src UMat. If true, changes to the
-        image or src will be reflected in both objects.
+    @param alias flag indicating that the source should alias the src UMat. If true, changes to the
+        source or src will be reflected in both objects.
     */
     explicit Image2D(const UMat &src, bool norm = false, bool alias = false);
     Image2D(const Image2D & i);
@@ -784,12 +784,12 @@ public:
 
     Image2D & operator = (const Image2D & i);
 
-    /** Indicates if creating an aliased image should succeed.
+    /** Indicates if creating an aliased source should succeed.
     Depends on the underlying platform and the dimensions of the UMat.
     */
     static bool canCreateAlias(const UMat &u);
 
-    /** Indicates if the image format is supported.
+    /** Indicates if the source format is supported.
     */
     static bool isFormatSupported(int depth, int cn, bool norm);
 

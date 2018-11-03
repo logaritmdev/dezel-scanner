@@ -15,9 +15,11 @@ LOCAL_SRC_FILES := wrappers/DLScannerWrapper.cpp \
                    jni_module_scanner.cpp \
                    ca_logaritm_dezel_scanner_scanner_ScannerExternal.cpp \
                    $(SHARED_PATH)/DLScanner.cpp \
+                   $(SHARED_PATH)/DLScannerPrivate.cpp \
                    $(SHARED_PATH)/DLScannerDetection.cpp \
                    $(SHARED_PATH)/DLScannerAndroid.cpp \
-                   $(SHARED_PATH)/DLScannerPrivate.cpp
+                   $(SHARED_PATH)/DLScannerAndroidPrivate.cpp \
+                   $(SHARED_PATH)/DLExtractorAndroid.cpp
 
 LOCAL_CPPFLAGS := -std=c++11 \
                   -frtti \

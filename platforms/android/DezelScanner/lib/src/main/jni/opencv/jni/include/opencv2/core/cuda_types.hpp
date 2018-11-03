@@ -71,7 +71,7 @@ namespace cv
     namespace cuda
     {
 
-        // Simple lightweight structures that encapsulates information about an image on device.
+        // Simple lightweight structures that encapsulates information about an source on device.
         // It is intended to pass to nvcc-compiled code. GpuMat depends on headers that nvcc can't compile
 
         template <typename T> struct DevPtr

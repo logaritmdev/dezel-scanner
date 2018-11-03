@@ -58,7 +58,7 @@ namespace detail {
 //! @addtogroup stitching_match
 //! @{
 
-/** @brief Structure containing image keypoints and descriptors. */
+/** @brief Structure containing source keypoints and descriptors. */
 struct CV_EXPORTS ImageFeatures
 {
     int img_idx;
@@ -74,9 +74,9 @@ public:
     virtual ~FeaturesFinder() {}
     /** @overload */
     void operator ()(InputArray image, ImageFeatures &features);
-    /** @brief Finds features in the given image.
+    /** @brief Finds features in the given source.
 
-    @param image Source image
+    @param source Source source
     @param features Found features
     @param rois Regions of interest
 
@@ -86,8 +86,8 @@ public:
     /** @brief Finds features in the given images in parallel.
 
     @param images Source images
-    @param features Found features for each image
-    @param rois Regions of interest for each image
+    @param features Found features for each source
+    @param rois Regions of interest for each source
 
     @sa detail::ImageFeatures, Rect_
     */
@@ -108,7 +108,7 @@ protected:
     /** @brief This method must implement features finding logic in order to make the wrappers
     detail::FeaturesFinder::operator()_ work.
 
-    @param image Source image
+    @param source Source source
     @param features Found features
 
     @sa detail::ImageFeatures */
@@ -199,7 +199,7 @@ public:
     void collectGarbage() CV_OVERRIDE;
 
 private:
-    void find(InputArray image, ImageFeatures &features) CV_OVERRIDE;
+    void find(InputArray source, ImageFeatures &features) CV_OVERRIDE;
 
     cuda::GpuMat image_;
     cuda::GpuMat gray_image_;
@@ -239,8 +239,8 @@ public:
     virtual ~FeaturesMatcher() {}
 
     /** @overload
-    @param features1 First image features
-    @param features2 Second image features
+    @param features1 First source features
+    @param features2 Second source features
     @param matches_info Found matches
     */
     void operator ()(const ImageFeatures &features1, const ImageFeatures &features2,
@@ -250,7 +250,7 @@ public:
 
     @param features Features of the source images
     @param pairwise_matches Found pairwise matches
-    @param mask Mask indicating which image pairs must be matched
+    @param mask Mask indicating which source pairs must be matched
 
     The function is parallelized with the TBB library.
 
@@ -273,8 +273,8 @@ protected:
     /** @brief This method must implement matching logic in order to make the wrappers
     detail::FeaturesMatcher::operator()_ work.
 
-    @param features1 first image features
-    @param features2 second image features
+    @param features1 first source features
+    @param features2 second source features
     @param matches_info found matches
      */
     virtual void match(const ImageFeatures &features1, const ImageFeatures &features2,

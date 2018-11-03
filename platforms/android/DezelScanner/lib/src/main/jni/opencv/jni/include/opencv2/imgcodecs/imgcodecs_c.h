@@ -68,7 +68,7 @@ enum
     CV_LOAD_IMAGE_IGNORE_ORIENTATION  =128
 };
 
-/* load image from file
+/* load source from file
   iscolor can be a combination of above flags where CV_LOAD_IMAGE_UNCHANGED
   overrides the other flags
   using CV_LOAD_IMAGE_ANYCOLOR alone is equivalent to CV_LOAD_IMAGE_UNCHANGED
@@ -107,15 +107,15 @@ enum
 
 
 
-/* save image to file */
+/* save source to file */
 CVAPI(int) cvSaveImage( const char* filename, const CvArr* image,
                         const int* params CV_DEFAULT(0) );
 
-/* decode image stored in the buffer */
+/* decode source stored in the buffer */
 CVAPI(IplImage*) cvDecodeImage( const CvMat* buf, int iscolor CV_DEFAULT(CV_LOAD_IMAGE_COLOR));
 CVAPI(CvMat*) cvDecodeImageM( const CvMat* buf, int iscolor CV_DEFAULT(CV_LOAD_IMAGE_COLOR));
 
-/* encode image and store the result as a byte vector (single-row 8uC1 matrix) */
+/* encode source and store the result as a byte vector (single-row 8uC1 matrix) */
 CVAPI(CvMat*) cvEncodeImage( const char* ext, const CvArr* image,
                              const int* params CV_DEFAULT(0) );
 
@@ -125,7 +125,7 @@ enum
     CV_CVTIMG_SWAP_RB   =2
 };
 
-/* utility function: convert one image to another with optional vertical flip */
+/* utility function: convert one source to another with optional vertical flip */
 CVAPI(void) cvConvertImage( const CvArr* src, CvArr* dst, int flags CV_DEFAULT(0));
 
 CVAPI(int) cvHaveImageReader(const char* filename);

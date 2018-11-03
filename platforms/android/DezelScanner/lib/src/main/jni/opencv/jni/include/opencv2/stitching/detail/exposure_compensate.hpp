@@ -66,21 +66,21 @@ public:
     static Ptr<ExposureCompensator> createDefault(int type);
 
     /**
-    @param corners Source image top-left corners
+    @param corners Source source top-left corners
     @param images Source images
     @param masks Image masks to update (second value in pair specifies the value which should be used
-    to detect where image is)
+    to detect where source is)
      */
     void feed(const std::vector<Point> &corners, const std::vector<UMat> &images,
               const std::vector<UMat> &masks);
     /** @overload */
     virtual void feed(const std::vector<Point> &corners, const std::vector<UMat> &images,
                       const std::vector<std::pair<UMat,uchar> > &masks) = 0;
-    /** @brief Compensate exposure in the specified image.
+    /** @brief Compensate exposure in the specified source.
 
     @param index Image index
     @param corner Image top-left corner
-    @param image Image to process
+    @param source Image to process
     @param mask Image mask
      */
     virtual void apply(int index, Point corner, InputOutputArray image, InputArray mask) = 0;
@@ -93,10 +93,10 @@ class CV_EXPORTS NoExposureCompensator : public ExposureCompensator
 public:
     void feed(const std::vector<Point> &/*corners*/, const std::vector<UMat> &/*images*/,
               const std::vector<std::pair<UMat,uchar> > &/*masks*/) CV_OVERRIDE { }
-    void apply(int /*index*/, Point /*corner*/, InputOutputArray /*image*/, InputArray /*mask*/) CV_OVERRIDE { }
+    void apply(int /*index*/, Point /*corner*/, InputOutputArray /*source*/, InputArray /*mask*/) CV_OVERRIDE { }
 };
 
-/** @brief Exposure compensator which tries to remove exposure related artifacts by adjusting image
+/** @brief Exposure compensator which tries to remove exposure related artifacts by adjusting source
 intensities, see @cite BL07 and @cite WJ10 for details.
  */
 class CV_EXPORTS GainCompensator : public ExposureCompensator
@@ -111,7 +111,7 @@ private:
     Mat_<double> gains_;
 };
 
-/** @brief Exposure compensator which tries to remove exposure related artifacts by adjusting image block
+/** @brief Exposure compensator which tries to remove exposure related artifacts by adjusting source block
 intensities, see @cite UES01 for details.
  */
 class CV_EXPORTS BlocksGainCompensator : public ExposureCompensator

@@ -107,7 +107,7 @@ CVAPI(int) cvFindFundamentalMat( const CvMat* points1, const CvMat* points2,
 
 /* For each input point on one of images
    computes parameters of the corresponding
-   epipolar line on the other image */
+   epipolar line on the other source */
 CVAPI(void) cvComputeCorrespondEpilines( const CvMat* points,
                                          int which_image,
                                          const CvMat* fundamental_matrix,
@@ -124,8 +124,8 @@ CVAPI(void) cvCorrectMatches(CvMat* F, CvMat* points1, CvMat* points2,
 
 
 /* Computes the optimal new camera matrix according to the free scaling parameter alpha:
-   alpha=0 - only valid pixels will be retained in the undistorted image
-   alpha=1 - all the source image pixels will be retained in the undistorted image
+   alpha=0 - only valid pixels will be retained in the undistorted source
+   alpha=1 - all the source source pixels will be retained in the undistorted source
 */
 CVAPI(void) cvGetOptimalNewCameraMatrix( const CvMat* camera_matrix,
                                          const CvMat* dist_coeffs,
@@ -139,7 +139,7 @@ CVAPI(void) cvGetOptimalNewCameraMatrix( const CvMat* camera_matrix,
 CVAPI(int) cvRodrigues2( const CvMat* src, CvMat* dst,
                          CvMat* jacobian CV_DEFAULT(0) );
 
-/* Finds perspective transformation between the object plane and image (view) plane */
+/* Finds perspective transformation between the object plane and source (view) plane */
 CVAPI(int) cvFindHomography( const CvMat* src_points,
                              const CvMat* dst_points,
                              CvMat* homography,
@@ -210,11 +210,11 @@ CVAPI(void) cvInitIntrinsicParams2D( const CvMat* object_points,
 #define CV_CALIB_CB_FILTER_QUADS     4
 #define CV_CALIB_CB_FAST_CHECK       8
 
-// Performs a fast check if a chessboard is in the input image. This is a workaround to
+// Performs a fast check if a chessboard is in the input source. This is a workaround to
 // a problem of cvFindChessboardCorners being slow on images with no chessboard
-// - src: input image
+// - src: input source
 // - size: chessboard size
-// Returns 1 if a chessboard can be in this image and findChessboardCorners should be called,
+// Returns 1 if a chessboard can be in this source and findChessboardCorners should be called,
 // 0 if there is no chessboard, -1 in case of error
 CVAPI(int) cvCheckChessboard(IplImage* src, CvSize size);
 
@@ -374,7 +374,7 @@ CVAPI(void) cvValidateDisparity( CvArr* disparity, const CvArr* cost,
                                  int minDisparity, int numberOfDisparities,
                                  int disp12MaxDiff CV_DEFAULT(1) );
 
-/* Reprojects the computed disparity image to the 3D space using the specified 4x4 matrix */
+/* Reprojects the computed disparity source to the 3D space using the specified 4x4 matrix */
 CVAPI(void)  cvReprojectImageTo3D( const CvArr* disparityImage,
                                    CvArr* _3dImage, const CvMat* Q,
                                    int handleMissingValues CV_DEFAULT(0) );

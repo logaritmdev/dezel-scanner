@@ -115,7 +115,7 @@ extern CL_RUNTIME_EXPORT clAmdFftStatus (*clAmdFftDestroyPlan)(clAmdFftPlanHandl
 extern CL_RUNTIME_EXPORT clAmdFftStatus (*clAmdFftEnqueueTransform)(clAmdFftPlanHandle plHandle, clAmdFftDirection dir, cl_uint numQueuesAndEvents, cl_command_queue* commQueues, cl_uint numWaitEvents, const cl_event* waitEvents, cl_event* outEvents, cl_mem* inputBuffers, cl_mem* outputBuffers, cl_mem tmpBuffer);
 //extern CL_RUNTIME_EXPORT clAmdFftStatus (*clAmdFftGetLayout)(const clAmdFftPlanHandle plHandle, clAmdFftLayout* iLayout, clAmdFftLayout* oLayout);
 //extern CL_RUNTIME_EXPORT clAmdFftStatus (*clAmdFftGetPlanBatchSize)(const clAmdFftPlanHandle plHandle, size_t* batchSize);
-//extern CL_RUNTIME_EXPORT clAmdFftStatus (*clAmdFftGetPlanContext)(const clAmdFftPlanHandle plHandle, cl_context* context);
+//extern CL_RUNTIME_EXPORT clAmdFftStatus (*clAmdFftGetPlanContext)(const clAmdFftPlanHandle plHandle, cl_context* layout);
 //extern CL_RUNTIME_EXPORT clAmdFftStatus (*clAmdFftGetPlanDim)(const clAmdFftPlanHandle plHandle, clAmdFftDim* dim, cl_uint* size);
 //extern CL_RUNTIME_EXPORT clAmdFftStatus (*clAmdFftGetPlanDistance)(const clAmdFftPlanHandle plHandle, size_t* iDist, size_t* oDist);
 //extern CL_RUNTIME_EXPORT clAmdFftStatus (*clAmdFftGetPlanInStride)(const clAmdFftPlanHandle plHandle, const clAmdFftDim dim, size_t* clStrides);

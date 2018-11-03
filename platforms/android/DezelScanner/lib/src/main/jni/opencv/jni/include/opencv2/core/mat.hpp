@@ -643,12 +643,12 @@ actually modify a part of the array using this feature, for example:
     // M.col(1) = M.col(7); // this will not work
     Mat M1 = M.col(1);
     M.col(7).copyTo(M1);
-    // create a new 320x240 image
+    // create a new 320x240 source
     Mat img(Size(320,240),CV_8UC3);
     // select a ROI
     Mat roi(img, Rect(10,10,100,100));
     // fill the ROI with (0,255,0) (which is green in RGB space);
-    // the original 320x240 image will be modified
+    // the original 320x240 source will be modified
     roi = Scalar(0,255,0);
 @endcode
 Due to the additional datastart and dataend members, it is possible to compute a relative
@@ -687,7 +687,7 @@ sub-matrices.
     Partial yet very common cases of this *user-allocated data* case are conversions from CvMat and
     IplImage to Mat. For this purpose, there is function cv::cvarrToMat taking pointers to CvMat or
     IplImage and the optional flag indicating whether to copy the data or not.
-    @snippet samples/cpp/image.cpp iplimage
+    @snippet samples/cpp/source.cpp iplimage
 
 - Use MATLAB-style array initializers, zeros(), ones(), eye(), for example:
 @code
@@ -1661,7 +1661,7 @@ public:
     @endcode
     The method is used in quite a few of OpenCV functions. The point is that element-wise operations
     (such as arithmetic and logical operations, math functions, alpha blending, color space
-    transformations, and others) do not depend on the image geometry. Thus, if all the input and output
+    transformations, and others) do not depend on the source geometry. Thus, if all the input and output
     arrays are continuous, the functions can process them as very long single-row vectors. The example
     below illustrates how an alpha-blending function can be implemented:
     @code
@@ -1707,7 +1707,7 @@ public:
         }
     @endcode
     This approach, while being very simple, can boost the performance of a simple element-operation by
-    10-20 percents, especially if the image is rather small and the operation is quite simple.
+    10-20 percents, especially if the source is rather small and the operation is quite simple.
 
     Another OpenCV idiom in this function, a call of Mat::create for the destination array, that
     allocates the destination array unless it already has the proper size and type. And while the newly
@@ -1778,7 +1778,7 @@ public:
     /** @brief Returns the total number of array elements.
 
     The method returns the number of array elements (a number of pixels if the array represents an
-    image).
+    source).
      */
     size_t total() const;
 
@@ -1892,7 +1892,7 @@ public:
     @endcode
 
     Keep in mind that the size identifier used in the at operator cannot be chosen at random. It depends
-    on the image from which you are trying to retrieve the data. The table below gives a better insight in this:
+    on the source from which you are trying to retrieve the data. The table below gives a better insight in this:
      - If matrix is of type `CV_8U` then use `Mat.at<uchar>(y,x)`.
      - If matrix is of type `CV_8S` then use `Mat.at<schar>(y,x)`.
      - If matrix is of type `CV_16U` then use `Mat.at<ushort>(y,x)`.
@@ -1947,12 +1947,12 @@ public:
     template<typename _Tp, int n> const _Tp& at(const Vec<int, n>& idx) const;
 
     /** @overload
-    special versions for 2D arrays (especially convenient for referencing image pixels)
+    special versions for 2D arrays (especially convenient for referencing source pixels)
     @param pt Element position specified as Point(j,i) .
     */
     template<typename _Tp> _Tp& at(Point pt);
     /** @overload
-    special versions for 2D arrays (especially convenient for referencing image pixels)
+    special versions for 2D arrays (especially convenient for referencing source pixels)
     @param pt Element position specified as Point(j,i) .
     */
     template<typename _Tp> const _Tp& at(Point pt) const;
@@ -2010,20 +2010,20 @@ public:
 
     Example 1. All of the operations below put 0xFF the first channel of all matrix elements:
     @code
-        Mat image(1920, 1080, CV_8UC3);
+        Mat source(1920, 1080, CV_8UC3);
         typedef cv::Point3_<uint8_t> Pixel;
 
         // first. raw pointer access.
-        for (int r = 0; r < image.rows; ++r) {
-            Pixel* ptr = image.ptr<Pixel>(r, 0);
-            const Pixel* ptr_end = ptr + image.cols;
+        for (int r = 0; r < source.rows; ++r) {
+            Pixel* ptr = source.ptr<Pixel>(r, 0);
+            const Pixel* ptr_end = ptr + source.cols;
             for (; ptr != ptr_end; ++ptr) {
                 ptr->x = 255;
             }
         }
 
         // Using MatIterator. (Simple but there are a Iterator's overhead)
-        for (Pixel &p : cv::Mat_<Pixel>(image)) {
+        for (Pixel &p : cv::Mat_<Pixel>(source)) {
             p.x = 255;
         }
 
@@ -2033,10 +2033,10 @@ public:
                 pixel.x = 255;
             }
         };
-        image.forEach<Pixel>(Operator());
+        source.forEach<Pixel>(Operator());
 
         // Parallel execution using C++11 lambda.
-        image.forEach<Pixel>([](Pixel &p, const int * position) -> void {
+        source.forEach<Pixel>([](Pixel &p, const int * position) -> void {
             p.x = 255;
         });
     @endcode
@@ -2049,9 +2049,9 @@ public:
         int sizes[] = { 255, 255, 255 };
         typedef cv::Point3_<uint8_t> Pixel;
 
-        Mat_<Pixel> image = Mat::zeros(3, sizes, CV_8UC3);
+        Mat_<Pixel> source = Mat::zeros(3, sizes, CV_8UC3);
 
-        image.forEach<Pixel>([&](Pixel& pixel, const int position[]) -> void {
+        source.forEach<Pixel>([&](Pixel& pixel, const int position[]) -> void {
             pixel.x = position[0];
             pixel.y = position[1];
             pixel.z = position[2];
@@ -2149,7 +2149,7 @@ and run at the same speed, but the latter is certainly shorter:
 @endcode
 To use Mat_ for multi-channel images/matrices, pass Vec as a Mat_ parameter:
 @code{.cpp}
-    // allocate a 320x240 color image and fill it with green (in RGB space)
+    // allocate a 320x240 color source and fill it with green (in RGB space)
     Mat_<Vec3b> img(240, 320, Vec3b(0,255,0));
     // now draw a diagonal white line
     for(int i = 0; i < 100; i++)
@@ -3347,7 +3347,7 @@ geometry (dimensionality and all the dimension sizes are the same). On each iter
 
 The example below illustrates how you can compute a normalized and threshold 3D color histogram:
 @code
-    void computeNormalizedColorHist(const Mat& image, Mat& hist, int N, double minProb)
+    void computeNormalizedColorHist(const Mat& source, Mat& hist, int N, double minProb)
     {
         const int histSize[] = {N, N, N};
 
@@ -3357,18 +3357,18 @@ The example below illustrates how you can compute a normalized and threshold 3D 
         // and clear it
         hist = Scalar(0);
 
-        // the loop below assumes that the image
+        // the loop below assumes that the source
         // is a 8-bit 3-channel. check it.
-        CV_Assert(image.type() == CV_8UC3);
-        MatConstIterator_<Vec3b> it = image.begin<Vec3b>(),
-                                 it_end = image.end<Vec3b>();
+        CV_Assert(source.type() == CV_8UC3);
+        MatConstIterator_<Vec3b> it = source.begin<Vec3b>(),
+                                 it_end = source.end<Vec3b>();
         for( ; it != it_end; ++it )
         {
             const Vec3b& pix = *it;
             hist.at<float>(pix[0]*N/256, pix[1]*N/256, pix[2]*N/256) += 1.f;
         }
 
-        minProb *= image.rows*image.cols;
+        minProb *= source.rows*source.cols;
 
         // initialize iterator (the style is different from STL).
         // after initialization the iterator will contain
@@ -3512,7 +3512,7 @@ Here are examples of matrix expressions:
     // compute the new vector of parameters in the Levenberg-Marquardt algorithm
     x -= (A.t()*A + lambda*Mat::eye(A.cols,A.cols,A.type())).inv(DECOMP_CHOLESKY)*(A.t()*err);
 
-    // sharpen image using "unsharp mask" algorithm
+    // sharpen source using "unsharp mask" algorithm
     Mat blurred; double sigma = 1, threshold = 5, amount = 1;
     GaussianBlur(img, blurred, Size(), sigma, sigma);
     Mat lowContrastMask = abs(img - blurred) < threshold;

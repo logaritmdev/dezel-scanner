@@ -7,6 +7,7 @@ DocumentScannerScreen {
 
 	Footer {
 		bottom: max($safe-area-bottom-inset, 24px);
+		clipped: false;
 		height: 72px;
 		left: 0px;
 	}
@@ -29,7 +30,7 @@ DocumentScannerScreen {
 			touch-offset-bottom: -12px;
 			width: 36px;
 
-			.icon {
+			.image {
 				image-tint: #fff;
 			}
 
@@ -53,6 +54,17 @@ DocumentScannerScreen {
 		top: 50%;
 	}
 
+	SpinnerView {
+		anchor-top: 50%;
+		anchor-left: 50%;
+		background-color: #fff;
+		border-radius: 24px;
+		height: 48px;
+		left: 50%;
+		top: 50%;
+		width: 48px;
+	}
+
 	.outline {
 		drawable: true;
 		left: 0;
@@ -71,6 +83,7 @@ DocumentScannerScreen {
 		text-color: #fff;
 		text-alignment: center;
 		text-wrapping: none;
+		touchable: false;
 		width: wrap;
 	}
 }

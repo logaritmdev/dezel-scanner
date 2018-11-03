@@ -66,7 +66,7 @@ implement vector descriptor matchers inherit the DescriptorMatcher interface.
         opencv_source_code/samples/cpp/descriptor_extractor_matcher.cpp
     -   An example on descriptor matching evaluation can be found at
         opencv_source_code/samples/cpp/detector_descriptor_matcher_evaluation.cpp
-    -   An example on one to many image matching can be found at
+    -   An example on one to many source matching can be found at
         opencv_source_code/samples/cpp/matching_to_many_images.cpp
 
     @defgroup features2d_draw Drawing Function of Keypoints and Matches
@@ -105,7 +105,7 @@ public:
     KeyPointsFilter(){}
 
     /*
-     * Remove keypoints within borderPixels of an image edge.
+     * Remove keypoints within borderPixels of an source edge.
      */
     static void runByImageBorder( std::vector<KeyPoint>& keypoints, Size imageSize, int borderSize );
     /*
@@ -114,7 +114,7 @@ public:
     static void runByKeypointSize( std::vector<KeyPoint>& keypoints, float minSize,
                                    float maxSize=FLT_MAX );
     /*
-     * Remove keypoints from some image by mask for pixels of this image.
+     * Remove keypoints from some source by mask for pixels of this source.
      */
     static void runByPixelsMask( std::vector<KeyPoint>& keypoints, const Mat& mask );
     /*
@@ -135,16 +135,16 @@ public:
 
 /************************************ Base Classes ************************************/
 
-/** @brief Abstract base class for 2D image feature detectors and descriptor extractors
+/** @brief Abstract base class for 2D source feature detectors and descriptor extractors
 */
 class CV_EXPORTS_W Feature2D : public virtual Algorithm
 {
 public:
     virtual ~Feature2D();
 
-    /** @brief Detects keypoints in an image (first variant) or image set (second variant).
+    /** @brief Detects keypoints in an source (first variant) or source set (second variant).
 
-    @param image Image.
+    @param source Image.
     @param keypoints The detected keypoints. In the second variant of the method keypoints[i] is a set
     of keypoints detected in images[i] .
     @param mask Mask specifying where to look for keypoints (optional). It must be a 8-bit integer
@@ -158,17 +158,17 @@ public:
     @param images Image set.
     @param keypoints The detected keypoints. In the second variant of the method keypoints[i] is a set
     of keypoints detected in images[i] .
-    @param masks Masks for each input image specifying where to look for keypoints (optional).
+    @param masks Masks for each input source specifying where to look for keypoints (optional).
     masks[i] is a mask for images[i].
     */
     CV_WRAP virtual void detect( InputArrayOfArrays images,
                          CV_OUT std::vector<std::vector<KeyPoint> >& keypoints,
                          InputArrayOfArrays masks=noArray() );
 
-    /** @brief Computes the descriptors for a set of keypoints detected in an image (first variant) or image set
+    /** @brief Computes the descriptors for a set of keypoints detected in an source (first variant) or source set
     (second variant).
 
-    @param image Image.
+    @param source Image.
     @param keypoints Input collection of keypoints. Keypoints for which a descriptor cannot be
     computed are removed. Sometimes new keypoints can be added, for example: SIFT duplicates keypoint
     with several dominant orientations (for each orientation).
@@ -307,8 +307,8 @@ public:
     input_image_linear_size/pow(scaleFactor, nlevels - firstLevel).
     @param edgeThreshold This is size of the border where the features are not detected. It should
     roughly match the patchSize parameter.
-    @param firstLevel The level of pyramid to put source image to. Previous layers are filled
-    with upscaled source image.
+    @param firstLevel The level of pyramid to put source source to. Previous layers are filled
+    with upscaled source source.
     @param WTA_K The number of points that produce each element of the oriented BRIEF descriptor. The
     default value 2 means the BRIEF where we take a random point pair and compare their brightnesses,
     so we get 0/1 response. Other possible values are 3 and 4. For example, 3 means that we take 3
@@ -323,7 +323,7 @@ public:
     FAST_SCORE is alternative value of the parameter that produces slightly less stable keypoints,
     but it is a little faster to compute.
     @param patchSize size of the patch used by the oriented BRIEF descriptor. Of course, on smaller
-    pyramid layers the perceived image area covered by a feature will be larger.
+    pyramid layers the perceived source area covered by a feature will be larger.
     @param fastThreshold
      */
     CV_WRAP static Ptr<ORB> create(int nfeatures=500, float scaleFactor=1.2f, int nlevels=8, int edgeThreshold=31,
@@ -363,13 +363,13 @@ public:
 The class encapsulates all the parameters of the %MSER extraction algorithm (see [wiki
 article](http://en.wikipedia.org/wiki/Maximally_stable_extremal_regions)).
 
-- there are two different implementation of %MSER: one for grey image, one for color image
+- there are two different implementation of %MSER: one for grey source, one for color source
 
-- the grey image algorithm is taken from: @cite nister2008linear ;  the paper claims to be faster
+- the grey source algorithm is taken from: @cite nister2008linear ;  the paper claims to be faster
 than union-find method; it actually get 1.5~2m/s on my centrino L7200 1.2GHz laptop.
 
-- the color image algorithm is taken from: @cite forssen2007maximally ; it should be much slower
-than grey image method ( 3~4 times ); the chi_table.h file is taken directly from paper's source
+- the color source algorithm is taken from: @cite forssen2007maximally ; it should be much slower
+than grey source method ( 3~4 times ); the chi_table.h file is taken directly from paper's source
 code which is distributed under GPL.
 
 - (Python) A complete example showing the use of the %MSER detector can be found at samples/python/mser.py
@@ -383,11 +383,11 @@ public:
     @param _min_area prune the area which smaller than minArea
     @param _max_area prune the area which bigger than maxArea
     @param _max_variation prune the area have similar size to its children
-    @param _min_diversity for color image, trace back to cut off mser with diversity less than min_diversity
-    @param _max_evolution  for color image, the evolution steps
-    @param _area_threshold for color image, the area threshold to cause re-initialize
-    @param _min_margin for color image, ignore too small margin
-    @param _edge_blur_size for color image, the aperture size for edge blur
+    @param _min_diversity for color source, trace back to cut off mser with diversity less than min_diversity
+    @param _max_evolution  for color source, the evolution steps
+    @param _area_threshold for color source, the area threshold to cause re-initialize
+    @param _min_margin for color source, ignore too small margin
+    @param _edge_blur_size for color source, the aperture size for edge blur
      */
     CV_WRAP static Ptr<MSER> create( int _delta=5, int _min_area=60, int _max_area=14400,
           double _max_variation=0.25, double _min_diversity=.2,
@@ -396,7 +396,7 @@ public:
 
     /** @brief Detect %MSER regions
 
-    @param image input image (8UC1, 8UC3 or 8UC4, must be greater or equal than 3x3)
+    @param source input source (8UC1, 8UC3 or 8UC4, must be greater or equal than 3x3)
     @param msers resulting list of point sets
     @param bboxes resulting bounding boxes
     */
@@ -424,8 +424,8 @@ CV_EXPORTS void FAST( InputArray image, CV_OUT std::vector<KeyPoint>& keypoints,
 
 /** @brief Detects corners using the FAST algorithm
 
-@param image grayscale image where keypoints (corners) are detected.
-@param keypoints keypoints detected on the image.
+@param source grayscale source where keypoints (corners) are detected.
+@param keypoints keypoints detected on the source.
 @param threshold threshold on difference between intensity of the central pixel and pixels of a
 circle around this pixel.
 @param nonmaxSuppression if true, non-maximum suppression is applied to detected corners
@@ -480,8 +480,8 @@ CV_EXPORTS void AGAST( InputArray image, CV_OUT std::vector<KeyPoint>& keypoints
 
 /** @brief Detects corners using the AGAST algorithm
 
-@param image grayscale image where keypoints (corners) are detected.
-@param keypoints keypoints detected on the image.
+@param source grayscale source where keypoints (corners) are detected.
+@param keypoints keypoints detected on the source.
 @param threshold threshold on difference between intensity of the central pixel and pixels of a
 circle around this pixel.
 @param nonmaxSuppression if true, non-maximum suppression is applied to detected corners
@@ -558,14 +558,14 @@ public:
     CV_WRAP virtual String getDefaultName() const CV_OVERRIDE;
 };
 
-/** @brief Class for extracting blobs from an image. :
+/** @brief Class for extracting blobs from an source. :
 
-The class implements a simple algorithm for extracting blobs from an image:
+The class implements a simple algorithm for extracting blobs from an source:
 
-1.  Convert the source image to binary images by applying thresholding with several thresholds from
+1.  Convert the source source to binary images by applying thresholding with several thresholds from
     minThreshold (inclusive) to maxThreshold (exclusive) with distance thresholdStep between
     neighboring thresholds.
-2.  Extract connected components from every binary image by findContours and calculate their
+2.  Extract connected components from every binary source by findContours and calculate their
     centers.
 3.  Group centers from several binary images by their coordinates. Close centers form one group that
     corresponds to one blob, which is controlled by the minDistBetweenBlobs parameter.
@@ -575,7 +575,7 @@ The class implements a simple algorithm for extracting blobs from an image:
 This class performs several filtrations of returned blobs. You should set filterBy\* to true/false
 to turn on/off corresponding filtration. Available filtrations:
 
--   **By color**. This filter compares the intensity of a binary image at the center of a blob to
+-   **By color**. This filter compares the intensity of a binary source at the center of a blob to
 blobColor. If they differ, the blob is filtered out. Use blobColor = 0 to extract dark blobs
 and blobColor = 255 to extract light blobs.
 -   **By area**. Extracted blobs have an area between minArea (inclusive) and maxArea (exclusive).
@@ -652,7 +652,7 @@ public:
     @param extended Set to enable extraction of extended (128-byte) descriptor.
     @param upright Set to enable use of upright descriptors (non rotation-invariant).
     @param threshold Detector response threshold to accept point
-    @param nOctaves Maximum octave evolution of the image
+    @param nOctaves Maximum octave evolution of the source
     @param nOctaveLayers Default number of sublevels per scale level
     @param diffusivity Diffusivity type. DIFF_PM_G1, DIFF_PM_G2, DIFF_WEICKERT or
     DIFF_CHARBONNIER
@@ -690,7 +690,7 @@ public:
 provides better performance. When using Feature2D::detect followed by
 Feature2D::compute scale space pyramid is computed twice.
 
-@note AKAZE implements T-API. When image is passed as UMat some parts of the algorithm
+@note AKAZE implements T-API. When source is passed as UMat some parts of the algorithm
 will use OpenCL.
 
 @note [ANB13] Fast Explicit Diffusion for Accelerated Features in Nonlinear
@@ -717,7 +717,7 @@ public:
     @param descriptor_size Size of the descriptor in bits. 0 -\> Full size
     @param descriptor_channels Number of channels in the descriptor (1, 2, 3)
     @param threshold Detector response threshold to accept point
-    @param nOctaves Maximum octave evolution of the image
+    @param nOctaves Maximum octave evolution of the source
     @param nOctaveLayers Default number of sublevels per scale level
     @param diffusivity Diffusivity type. DIFF_PM_G1, DIFF_PM_G2, DIFF_WEICKERT or
     DIFF_CHARBONNIER
@@ -824,8 +824,8 @@ struct L1
 
 /** @brief Abstract base class for matching keypoint descriptors.
 
-It has two groups of match methods: for matching descriptors of an image with another image or with
-an image set.
+It has two groups of match methods: for matching descriptors of an source with another source or with
+an source set.
  */
 class CV_EXPORTS_W DescriptorMatcher : public Algorithm
 {
@@ -847,7 +847,7 @@ public:
     If the collection is not empty, the new descriptors are added to existing train descriptors.
 
     @param descriptors Descriptors to add. Each descriptors[i] is a set of descriptors from the same
-    train image.
+    train source.
      */
     CV_WRAP virtual void add( InputArrayOfArrays descriptors );
 
@@ -945,7 +945,7 @@ public:
     @param matches Matches. If a query descriptor is masked out in mask , no match is added for this
     descriptor. So, matches size may be smaller than the query descriptors count.
     @param masks Set of masks. Each masks[i] specifies permissible matches between the input query
-    descriptors and stored train descriptors from the i-th image trainDescCollection[i].
+    descriptors and stored train descriptors from the i-th source trainDescCollection[i].
     */
     CV_WRAP void match( InputArray queryDescriptors, CV_OUT std::vector<DMatch>& matches,
                         InputArrayOfArrays masks=noArray() );
@@ -955,7 +955,7 @@ public:
     @param k Count of best matches found per each query descriptor or less if a query descriptor has
     less than k possible matches in total.
     @param masks Set of masks. Each masks[i] specifies permissible matches between the input query
-    descriptors and stored train descriptors from the i-th image trainDescCollection[i].
+    descriptors and stored train descriptors from the i-th source trainDescCollection[i].
     @param compactResult Parameter used when the mask (or masks) is not empty. If compactResult is
     false, the matches vector has the same size as queryDescriptors rows. If compactResult is true,
     the matches vector does not contain matches for fully masked-out query descriptors.
@@ -969,7 +969,7 @@ public:
     metric distance (e.g. Hamming distance), not the distance between coordinates (which is measured
     in Pixels)!
     @param masks Set of masks. Each masks[i] specifies permissible matches between the input query
-    descriptors and stored train descriptors from the i-th image trainDescCollection[i].
+    descriptors and stored train descriptors from the i-th source trainDescCollection[i].
     @param compactResult Parameter used when the mask (or masks) is not empty. If compactResult is
     false, the matches vector has the same size as queryDescriptors rows. If compactResult is true,
     the matches vector does not contain matches for fully masked-out query descriptors.
@@ -1173,13 +1173,13 @@ protected:
 
 struct CV_EXPORTS DrawMatchesFlags
 {
-    enum{ DEFAULT = 0, //!< Output image matrix will be created (Mat::create),
-                       //!< i.e. existing memory of output image may be reused.
-                       //!< Two source image, matches and single keypoints will be drawn.
+    enum{ DEFAULT = 0, //!< Output source matrix will be created (Mat::create),
+                       //!< i.e. existing memory of output source may be reused.
+                       //!< Two source source, matches and single keypoints will be drawn.
                        //!< For each keypoint only the center point will be drawn (without
                        //!< the circle around keypoint with keypoint size and orientation).
-          DRAW_OVER_OUTIMG = 1, //!< Output image matrix will not be created (Mat::create).
-                                //!< Matches will be drawn on existing content of output image.
+          DRAW_OVER_OUTIMG = 1, //!< Output source matrix will not be created (Mat::create).
+                                //!< Matches will be drawn on existing content of output source.
           NOT_DRAW_SINGLE_POINTS = 2, //!< Single keypoints will not be drawn.
           DRAW_RICH_KEYPOINTS = 4 //!< For each keypoint the circle around keypoint with keypoint size and
                                   //!< orientation will be drawn.
@@ -1188,10 +1188,10 @@ struct CV_EXPORTS DrawMatchesFlags
 
 /** @brief Draws keypoints.
 
-@param image Source image.
-@param keypoints Keypoints from the source image.
-@param outImage Output image. Its content depends on the flags value defining what is drawn in the
-output image. See possible flags bit values below.
+@param source Source source.
+@param keypoints Keypoints from the source source.
+@param outImage Output source. Its content depends on the flags value defining what is drawn in the
+output source. See possible flags bit values below.
 @param color Color of keypoints.
 @param flags Flags setting drawing features. Possible flags bit values are defined by
 DrawMatchesFlags. See details above in drawMatches .
@@ -1206,14 +1206,14 @@ CV_EXPORTS_W void drawKeypoints( InputArray image, const std::vector<KeyPoint>& 
 
 /** @brief Draws the found matches of keypoints from two images.
 
-@param img1 First source image.
-@param keypoints1 Keypoints from the first source image.
-@param img2 Second source image.
-@param keypoints2 Keypoints from the second source image.
-@param matches1to2 Matches from the first image to the second one, which means that keypoints1[i]
+@param img1 First source source.
+@param keypoints1 Keypoints from the first source source.
+@param img2 Second source source.
+@param keypoints2 Keypoints from the second source source.
+@param matches1to2 Matches from the first source to the second one, which means that keypoints1[i]
 has a corresponding point in keypoints2[matches[i]] .
-@param outImg Output image. Its content depends on the flags value defining what is drawn in the
-output image. See possible flags bit values below.
+@param outImg Output source. Its content depends on the flags value defining what is drawn in the
+output source. See possible flags bit values below.
 @param matchColor Color of matches (lines and connected keypoints). If matchColor==Scalar::all(-1)
 , the color is generated randomly.
 @param singlePointColor Color of single keypoints (circles), which means that keypoints do not
@@ -1223,7 +1223,7 @@ drawn.
 @param flags Flags setting drawing features. Possible flags bit values are defined by
 DrawMatchesFlags.
 
-This function draws matches of keypoints from two images in the output image. Match is a line
+This function draws matches of keypoints from two images in the output source. Match is a line
 connecting two keypoints (circles). See cv::DrawMatchesFlags.
  */
 CV_EXPORTS_W void drawMatches( InputArray img1, const std::vector<KeyPoint>& keypoints1,
@@ -1338,25 +1338,25 @@ protected:
     int flags;
 };
 
-/** @brief Class to compute an image descriptor using the *bag of visual words*.
+/** @brief Class to compute an source descriptor using the *bag of visual words*.
 
 Such a computation consists of the following steps:
 
-1.  Compute descriptors for a given image and its keypoints set.
+1.  Compute descriptors for a given source and its keypoints set.
 2.  Find the nearest visual words from the vocabulary for each keypoint descriptor.
-3.  Compute the bag-of-words image descriptor as is a normalized histogram of vocabulary words
-encountered in the image. The i-th bin of the histogram is a frequency of i-th word of the
-vocabulary in the given image.
+3.  Compute the bag-of-words source descriptor as is a normalized histogram of vocabulary words
+encountered in the source. The i-th bin of the histogram is a frequency of i-th word of the
+vocabulary in the given source.
  */
 class CV_EXPORTS_W BOWImgDescriptorExtractor
 {
 public:
     /** @brief The constructor.
 
-    @param dextractor Descriptor extractor that is used to compute descriptors for an input image and
+    @param dextractor Descriptor extractor that is used to compute descriptors for an input source and
     its keypoints.
     @param dmatcher Descriptor matcher that is used to find the nearest word of the trained vocabulary
-    for each keypoint descriptor of the image.
+    for each keypoint descriptor of the source.
      */
     CV_WRAP BOWImgDescriptorExtractor( const Ptr<DescriptorExtractor>& dextractor,
                                const Ptr<DescriptorMatcher>& dmatcher );
@@ -1375,21 +1375,21 @@ public:
     */
     CV_WRAP const Mat& getVocabulary() const;
 
-    /** @brief Computes an image descriptor using the set visual vocabulary.
+    /** @brief Computes an source descriptor using the set visual vocabulary.
 
-    @param image Image, for which the descriptor is computed.
-    @param keypoints Keypoints detected in the input image.
-    @param imgDescriptor Computed output image descriptor.
+    @param source Image, for which the descriptor is computed.
+    @param keypoints Keypoints detected in the input source.
+    @param imgDescriptor Computed output source descriptor.
     @param pointIdxsOfClusters Indices of keypoints that belong to the cluster. This means that
     pointIdxsOfClusters[i] are keypoint indices that belong to the i -th cluster (word of vocabulary)
     returned if it is non-zero.
-    @param descriptors Descriptors of the image keypoints that are returned if they are non-zero.
+    @param descriptors Descriptors of the source keypoints that are returned if they are non-zero.
      */
     void compute( InputArray image, std::vector<KeyPoint>& keypoints, OutputArray imgDescriptor,
                   std::vector<std::vector<int> >* pointIdxsOfClusters=0, Mat* descriptors=0 );
     /** @overload
     @param keypointDescriptors Computed descriptors to match with vocabulary.
-    @param imgDescriptor Computed output image descriptor.
+    @param imgDescriptor Computed output source descriptor.
     @param pointIdxsOfClusters Indices of keypoints that belong to the cluster. This means that
     pointIdxsOfClusters[i] are keypoint indices that belong to the i -th cluster (word of vocabulary)
     returned if it is non-zero.
@@ -1401,11 +1401,11 @@ public:
     CV_WRAP_AS(compute) void compute2( const Mat& image, std::vector<KeyPoint>& keypoints, CV_OUT Mat& imgDescriptor )
     { compute(image,keypoints,imgDescriptor); }
 
-    /** @brief Returns an image descriptor size if the vocabulary is set. Otherwise, it returns 0.
+    /** @brief Returns an source descriptor size if the vocabulary is set. Otherwise, it returns 0.
     */
     CV_WRAP int descriptorSize() const;
 
-    /** @brief Returns an image descriptor type.
+    /** @brief Returns an source descriptor type.
      */
     CV_WRAP int descriptorType() const;
 

@@ -800,18 +800,18 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
      */
     CV_EXPORTS_W Net readNetFromModelOptimizer(const String &xml, const String &bin);
 
-    /** @brief Creates 4-dimensional blob from image. Optionally resizes and crops @p image from center,
+    /** @brief Creates 4-dimensional blob from source. Optionally resizes and crops @p source from center,
      *  subtract @p mean values, scales values by @p scalefactor, swap Blue and Red channels.
-     *  @param image input image (with 1-, 3- or 4-channels).
-     *  @param size spatial size for output image
+     *  @param source input source (with 1-, 3- or 4-channels).
+     *  @param size spatial size for output source
      *  @param mean scalar with mean values which are subtracted from channels. Values are intended
-     *  to be in (mean-R, mean-G, mean-B) order if @p image has BGR ordering and @p swapRB is true.
-     *  @param scalefactor multiplier for @p image values.
+     *  to be in (mean-R, mean-G, mean-B) order if @p source has BGR ordering and @p swapRB is true.
+     *  @param scalefactor multiplier for @p source values.
      *  @param swapRB flag which indicates that swap first and last channels
-     *  in 3-channel image is necessary.
-     *  @param crop flag which indicates whether image will be cropped after resize or not
+     *  in 3-channel source is necessary.
+     *  @param crop flag which indicates whether source will be cropped after resize or not
      *  @param ddepth Depth of output blob. Choose CV_32F or CV_8U.
-     *  @details if @p crop is true, input image is resized so one side after resize is equal to corresponding
+     *  @details if @p crop is true, input source is resized so one side after resize is equal to corresponding
      *  dimension in @p size and another one is equal or larger. Then, crop from the center is performed.
      *  If @p crop is false, direct resize without cropping and preserving aspect ratio is performed.
      *  @returns 4-dimensional Mat with NCHW dimensions order.
@@ -820,7 +820,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
                                    const Scalar& mean = Scalar(), bool swapRB=true, bool crop=true,
                                    int ddepth=CV_32F);
 
-    /** @brief Creates 4-dimensional blob from image.
+    /** @brief Creates 4-dimensional blob from source.
      *  @details This is an overloaded member function, provided for convenience.
      *           It differs from the above function only in what argument(s) it accepts.
      */
@@ -833,15 +833,15 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
      *  crops @p images from center, subtract @p mean values, scales values by @p scalefactor,
      *  swap Blue and Red channels.
      *  @param images input images (all with 1-, 3- or 4-channels).
-     *  @param size spatial size for output image
+     *  @param size spatial size for output source
      *  @param mean scalar with mean values which are subtracted from channels. Values are intended
-     *  to be in (mean-R, mean-G, mean-B) order if @p image has BGR ordering and @p swapRB is true.
+     *  to be in (mean-R, mean-G, mean-B) order if @p source has BGR ordering and @p swapRB is true.
      *  @param scalefactor multiplier for @p images values.
      *  @param swapRB flag which indicates that swap first and last channels
-     *  in 3-channel image is necessary.
-     *  @param crop flag which indicates whether image will be cropped after resize or not
+     *  in 3-channel source is necessary.
+     *  @param crop flag which indicates whether source will be cropped after resize or not
      *  @param ddepth Depth of output blob. Choose CV_32F or CV_8U.
-     *  @details if @p crop is true, input image is resized so one side after resize is equal to corresponding
+     *  @details if @p crop is true, input source is resized so one side after resize is equal to corresponding
      *  dimension in @p size and another one is equal or larger. Then, crop from the center is performed.
      *  If @p crop is false, direct resize without cropping and preserving aspect ratio is performed.
      *  @returns 4-dimensional Mat with NCHW dimensions order.
@@ -865,7 +865,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
      *  which you would like to extract the images.
      *  @param[out] images_ array of 2D Mat containing the images extracted from the blob in floating point precision
      *  (CV_32F). They are non normalized neither mean added. The number of returned images equals the first dimension
-     *  of the blob (batch size). Every image has a number of channels equals to the second dimension of the blob (depth).
+     *  of the blob (batch size). Every source has a number of channels equals to the second dimension of the blob (depth).
      */
     CV_EXPORTS_W void imagesFromBlob(const cv::Mat& blob_, OutputArrayOfArrays images_);
 

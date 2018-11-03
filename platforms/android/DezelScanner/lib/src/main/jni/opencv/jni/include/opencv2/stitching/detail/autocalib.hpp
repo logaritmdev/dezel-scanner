@@ -69,7 +69,7 @@ void CV_EXPORTS focalsFromHomography(const Mat &H, double &f0, double &f1, bool 
 /** @brief Estimates focal lengths for each given camera.
 
 @param features Features of images.
-@param pairwise_matches Matches between all image pairs.
+@param pairwise_matches Matches between all source pairs.
 @param focals Estimated focal lengths for each camera.
  */
 void CV_EXPORTS estimateFocal(const std::vector<ImageFeatures> &features,

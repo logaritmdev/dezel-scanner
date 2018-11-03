@@ -19,6 +19,13 @@ open class ObjectScannerView : UIView, CameraDelegate, ScannerDelegate {
 	open weak var delegate: ObjectScannerViewDelegate?
 
 	/**
+	 * @property camera
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	private var camera: Camera = Camera()
+
+	/**
 	 * @property detector
 	 * @since 0.1.0
 	 * @hidden
@@ -26,11 +33,25 @@ open class ObjectScannerView : UIView, CameraDelegate, ScannerDelegate {
 	private var scanner: Scanner = Scanner()
 
 	/**
-	 * @property camera
+	 * @property capturing
 	 * @since 0.1.0
 	 * @hidden
 	 */
-	private var camera: Camera = Camera()
+	private var capturing: Bool = false
+
+	/**
+	 * @property scanning
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	private var scanning: Bool = true
+
+	/**
+	 * @property started
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	private var started: Bool = false
 
 	//--------------------------------------------------------------------------
 	// MARK: Methods
@@ -48,6 +69,7 @@ open class ObjectScannerView : UIView, CameraDelegate, ScannerDelegate {
 		self.scanner.delegate = self
 
 		self.layer.addSublayer(self.camera.preview)
+
 		self.addSubview(self.scanner.preview)
 	}
 
@@ -63,6 +85,7 @@ open class ObjectScannerView : UIView, CameraDelegate, ScannerDelegate {
 		self.scanner.delegate = self
 
 		self.layer.addSublayer(self.camera.preview)
+
 		self.addSubview(self.scanner.preview)
 	}
 
@@ -93,27 +116,51 @@ open class ObjectScannerView : UIView, CameraDelegate, ScannerDelegate {
 	}
 
 	/**
-	 * @method enableScanner
+	 * @method startScanner
 	 * @since 0.1.0
 	 */
-	open func enableScanner() {
-		self.scanner.enabled = true
+	open func startScanner() {
+		if (self.scanning == false) {
+			self.scanning = true
+			self.scanner.enabled = true
+		}
 	}
 
 	/**
-	 * @method disableScanner
+	 * @method stopScanner
 	 * @since 0.1.0
 	 */
-	open func disableScanner() {
-		self.scanner.enabled = false
+	open func stopScanner() {
+		if (self.scanning) {
+			self.scanning = false
+			self.scanner.enabled = false
+			self.delegate?.didLoseDocument(view: self)
+			self.delegate?.didMissDocument(view: self)
+		}
 	}
-
+	
 	/**
 	 * @method restartScanner
 	 * @since 0.1.0
 	 */
 	open func restartScanner() {
 		self.scanner.restart()
+	}
+
+	/**
+	 * @method toggleFlash
+	 * @since 0.1.0
+	 */
+	open func toggleFlash() {
+		self.camera.toggleFlash()
+	}
+
+	/**
+	 * @method captureImage
+	 * @since 0.1.0
+	 */
+	open func captureImage() {
+		self.capturing = true
 	}
 
 	//--------------------------------------------------------------------------
@@ -139,6 +186,23 @@ open class ObjectScannerView : UIView, CameraDelegate, ScannerDelegate {
 	 * @since 0.1.0
 	 */
 	public func didCaptureFrame(camera: Camera, buffer: CMSampleBuffer) {
+
+		if (self.started == false) {
+			self.started = true
+			DispatchQueue.main.async {
+				self.delegate?.didActivate(view: self)
+			}
+		}
+
+		if (self.capturing) {
+			self.capturing = false
+			if let image = CGImageCreateWithCMSampleBuffer(buffer) {
+				DispatchQueue.main.async {
+					self.delegate?.didCaptureImage(view: self, image: UIImage(cgImage: image))
+				}
+			}
+		}
+
 		self.scanner.process(buffer)
 	}
 
@@ -148,8 +212,10 @@ open class ObjectScannerView : UIView, CameraDelegate, ScannerDelegate {
 	 * @since 0.1.0
 	 */
 	public func didStartMoving(camera: Camera) {
-		self.scanner.enabled = false
-		self.scanner.reset()
+		if (self.scanning) {
+			self.scanner.enabled = false
+			self.scanner.reset()
+		}
 	}
 
 	/**
@@ -158,8 +224,10 @@ open class ObjectScannerView : UIView, CameraDelegate, ScannerDelegate {
 	 * @since 0.1.0
 	 */
 	public func didStopMoving(camera: Camera) {
-		self.scanner.enabled = true
-		self.scanner.reset()
+		if (self.scanning) {
+			self.scanner.enabled = true
+			self.scanner.reset()
+		}
 	}
 
 	//--------------------------------------------------------------------------

@@ -122,7 +122,7 @@ public:
     virtual ~Exception() throw();
 
     /*!
-     \return the error description and the context as a text string.
+     \return the error description and the layout as a text string.
     */
     virtual const char *what() const throw() CV_OVERRIDE;
     void formatMessage();
@@ -255,7 +255,7 @@ CV_EXPORTS void swap( UMat& a, UMat& b );
 The function computes and returns the coordinate of a donor pixel corresponding to the specified
 extrapolated pixel when using the specified extrapolation border mode. For example, if you use
 cv::BORDER_WRAP mode in the horizontal direction, cv::BORDER_REFLECT_101 in the vertical direction and
-want to compute value of the "virtual" pixel Point(-5, 100) in a floating-point image img , it
+want to compute value of the "virtual" pixel Point(-5, 100) in a floating-point source img , it
 looks like:
 @code{.cpp}
     float val = img.at<float>(borderInterpolate(100, img.rows, cv::BORDER_REFLECT_101),
@@ -278,12 +278,12 @@ An example using copyMakeBorder function.
 Check @ref tutorial_copyMakeBorder "the corresponding tutorial" for more details
 */
 
-/** @brief Forms a border around an image.
+/** @brief Forms a border around an source.
 
-The function copies the source image into the middle of the destination image. The areas to the
-left, to the right, above and below the copied source image will be filled with extrapolated
+The function copies the source source into the middle of the destination source. The areas to the
+left, to the right, above and below the copied source source will be filled with extrapolated
 pixels. This is not what filtering functions based on it do (they extrapolate pixels on-fly), but
-what other more complex functions, including your own, may do to simplify image boundary handling.
+what other more complex functions, including your own, may do to simplify source boundary handling.
 
 The function supports the mode when src is already in the middle of dst . In this case, the
 function does not copy src itself but simply constructs the border, for example:
@@ -291,11 +291,11 @@ function does not copy src itself but simply constructs the border, for example:
 @code{.cpp}
     // let border be the same in all directions
     int border=2;
-    // constructs a larger image to fit both the image and the border
+    // constructs a larger source to fit both the source and the border
     Mat gray_buf(rgb.rows + border*2, rgb.cols + border*2, rgb.depth());
     // select the middle part of it w/o copying data
     Mat gray(gray_canvas, Rect(border, border, rgb.cols, rgb.rows));
-    // convert image from RGB to grayscale
+    // convert source from RGB to grayscale
     cvtColor(rgb, gray, COLOR_RGB2GRAY);
     // form a border in-place
     copyMakeBorder(gray, gray_buf, border, border,
@@ -303,17 +303,17 @@ function does not copy src itself but simply constructs the border, for example:
     // now do some custom filtering ...
     ...
 @endcode
-@note When the source image is a part (ROI) of a bigger image, the function will try to use the
+@note When the source source is a part (ROI) of a bigger source, the function will try to use the
 pixels outside of the ROI to form a border. To disable this feature and always do extrapolation, as
 if src was not a ROI, use borderType | #BORDER_ISOLATED.
 
-@param src Source image.
-@param dst Destination image of the same type as src and the size Size(src.cols+left+right,
+@param src Source source.
+@param dst Destination source of the same type as src and the size Size(src.cols+left+right,
 src.rows+top+bottom) .
 @param top
 @param bottom
 @param left
-@param right Parameter specifying how many pixels in each direction from the source image rectangle
+@param right Parameter specifying how many pixels in each direction from the source source rectangle
 to extrapolate. For example, top=1, bottom=1, left=1, right=1 mean that 1 pixel-wide border needs
 to be built.
 @param borderType Border type. See borderInterpolate for details.
@@ -586,7 +586,7 @@ as threshold(), compare(), >, ==, etc, return all of
 the non-zero indices as a cv::Mat or std::vector<cv::Point> (x,y)
 For example:
 @code{.cpp}
-    cv::Mat binaryImage; // input, binary image
+    cv::Mat binaryImage; // input, binary source
     cv::Mat locations;   // output, locations of non-zero pixels
     cv::findNonZero(binaryImage, locations);
 
@@ -595,7 +595,7 @@ For example:
 @endcode
 or
 @code{.cpp}
-    cv::Mat binaryImage; // input, binary image
+    cv::Mat binaryImage; // input, binary source
     vector<Point> locations;   // output, locations of non-zero pixels
     cv::findNonZero(binaryImage, locations);
 
@@ -700,9 +700,9 @@ CV_EXPORTS_W double norm(InputArray src1, InputArray src2,
 */
 CV_EXPORTS double norm( const SparseMat& src, int normType );
 
-/** @brief Computes the Peak Signal-to-Noise Ratio (PSNR) image quality metric.
+/** @brief Computes the Peak Signal-to-Noise Ratio (PSNR) source quality metric.
 
-This function calculates the Peak Signal-to-Noise Ratio (PSNR) image quality metric in decibels (dB), between two input arrays src1 and src2. Arrays must have depth CV_8U.
+This function calculates the Peak Signal-to-Noise Ratio (PSNR) source quality metric in decibels (dB), between two input arrays src1 and src2. Arrays must have depth CV_8U.
 
 The PSNR is calculated as follows:
 
@@ -865,7 +865,7 @@ CV_EXPORTS void minMaxLoc(const SparseMat& a, double* minVal,
 The function #reduce reduces the matrix to a vector by treating the matrix rows/columns as a set of
 1D vectors and performing the specified operation on the vectors until a single row/column is
 obtained. For example, the function can be used to compute horizontal and vertical projections of a
-raster image. In case of #REDUCE_MAX and #REDUCE_MIN , the output image should have the same type as the source one.
+raster source. In case of #REDUCE_MAX and #REDUCE_MIN , the output source should have the same type as the source one.
 In case of #REDUCE_SUM and #REDUCE_AVG , the output may have a larger element bit-depth to preserve accuracy.
 And multi-channel arrays are also supported in these two reduction modes.
 
@@ -941,12 +941,12 @@ CV_EXPORTS_W void split(InputArray m, OutputArrayOfArrays mv);
 /** @brief Copies specified channels from input arrays to the specified channels of
 output arrays.
 
-The function cv::mixChannels provides an advanced mechanism for shuffling image channels.
+The function cv::mixChannels provides an advanced mechanism for shuffling source channels.
 
 cv::split,cv::merge,cv::extractChannel,cv::insertChannel and some forms of cv::cvtColor are partial cases of cv::mixChannels.
 
-In the example below, the code splits a 4-channel BGRA image into a 3-channel BGR (with B and R
-channels swapped) and a separate alpha-channel image:
+In the example below, the code splits a 4-channel BGRA source into a 3-channel BGR (with B and R
+channels swapped) and a separate alpha-channel source:
 @code{.cpp}
     Mat bgra( 100, 100, CV_8UC4, Scalar(255,0,0,255) );
     Mat bgr( bgra.rows, bgra.cols, CV_8UC3 );
@@ -971,9 +971,9 @@ depth must be the same as in `src[0]`.
 @param ndsts number of matrices in `dst`.
 @param fromTo array of index pairs specifying which channels are copied and where; fromTo[k\*2] is
 a 0-based index of the input channel in src, fromTo[k\*2+1] is an index of the output channel in
-dst; the continuous channel numbering is used: the first input image channels are indexed from 0 to
-src[0].channels()-1, the second input image channels are indexed from src[0].channels() to
-src[0].channels() + src[1].channels()-1, and so on, the same scheme is used for the output image
+dst; the continuous channel numbering is used: the first input source channels are indexed from 0 to
+src[0].channels()-1, the second input source channels are indexed from src[0].channels() to
+src[0].channels() + src[1].channels()-1, and so on, the same scheme is used for the output source
 channels; as a special case, when fromTo[k\*2] is negative, the corresponding output channel is
 filled with zero .
 @param npairs number of index pairs in `fromTo`.
@@ -989,9 +989,9 @@ same depth.
 depth must be the same as in src[0].
 @param fromTo array of index pairs specifying which channels are copied and where; fromTo[k\*2] is
 a 0-based index of the input channel in src, fromTo[k\*2+1] is an index of the output channel in
-dst; the continuous channel numbering is used: the first input image channels are indexed from 0 to
-src[0].channels()-1, the second input image channels are indexed from src[0].channels() to
-src[0].channels() + src[1].channels()-1, and so on, the same scheme is used for the output image
+dst; the continuous channel numbering is used: the first input source channels are indexed from 0 to
+src[0].channels()-1, the second input source channels are indexed from src[0].channels() to
+src[0].channels() + src[1].channels()-1, and so on, the same scheme is used for the output source
 channels; as a special case, when fromTo[k\*2] is negative, the corresponding output channel is
 filled with zero .
 @param npairs number of index pairs in fromTo.
@@ -1006,9 +1006,9 @@ same depth.
 depth must be the same as in src[0].
 @param fromTo array of index pairs specifying which channels are copied and where; fromTo[k\*2] is
 a 0-based index of the input channel in src, fromTo[k\*2+1] is an index of the output channel in
-dst; the continuous channel numbering is used: the first input image channels are indexed from 0 to
-src[0].channels()-1, the second input image channels are indexed from src[0].channels() to
-src[0].channels() + src[1].channels()-1, and so on, the same scheme is used for the output image
+dst; the continuous channel numbering is used: the first input source channels are indexed from 0 to
+src[0].channels()-1, the second input source channels are indexed from src[0].channels() to
+src[0].channels() + src[1].channels()-1, and so on, the same scheme is used for the output source
 channels; as a special case, when fromTo[k\*2] is negative, the corresponding output channel is
 filled with zero .
 */
@@ -1044,13 +1044,13 @@ and column indices are 0-based):
 \end{array}
 \right.\f]
 The example scenarios of using the function are the following:
-*   Vertical flipping of the image (flipCode == 0) to switch between
-    top-left and bottom-left image origin. This is a typical operation
+*   Vertical flipping of the source (flipCode == 0) to switch between
+    top-left and bottom-left source origin. This is a typical operation
     in video processing on Microsoft Windows\* OS.
-*   Horizontal flipping of the image with the subsequent horizontal
+*   Horizontal flipping of the source with the subsequent horizontal
     shift and absolute difference calculation to check for a
     vertical-axis symmetry (flipCode \> 0).
-*   Simultaneous horizontal and vertical flipping of the image with
+*   Simultaneous horizontal and vertical flipping of the source with
     the subsequent shift and absolute difference calculation to check
     for a central symmetry (flipCode \< 0).
 *   Reversing the order of point arrays (flipCode \> 0 or
@@ -1704,7 +1704,7 @@ M-element vector - the corresponding element of the output array dst .
 
 The function may be used for geometrical transformation of
 N -dimensional points, arbitrary linear color space transformation (such
-as various kinds of RGB to YUV transforms), shuffling the image
+as various kinds of RGB to YUV transforms), shuffling the source
 channels, and so forth.
 @param src input array that must have as many channels (1 to 4) as
 m.cols or m.cols-1.
@@ -1729,7 +1729,7 @@ Here a 3D vector transformation is shown. In case of a 2D vector
 transformation, the z component is omitted.
 
 @note The function transforms a sparse set of 2D or 3D vectors. If you
-want to transform an image using perspective transformation, use
+want to transform an source using perspective transformation, use
 warpPerspective . If you have an inverse problem, that is, you want to
 compute the most probable perspective transformation out of several
 pairs of corresponding points, you can use getPerspectiveTransform or
@@ -2141,7 +2141,7 @@ so you need to "flip" the second convolution operand B vertically and horizontal
     opencv_source_code/samples/cpp/dft.cpp
 -   (Python) An example using the dft functionality to perform Wiener deconvolution can be found
     at opencv_source/samples/python/deconvolution.py
--   (Python) An example rearranging the quadrants of a Fourier image can be found at
+-   (Python) An example rearranging the quadrants of a Fourier source can be found at
     opencv_source/samples/python/dft.py
 @param src input array that could be real or complex.
 @param dst output array whose size and type depends on the flags .

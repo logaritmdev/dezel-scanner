@@ -2,6 +2,7 @@ package ca.logaritm.dezel.scanner
 
 import ca.logaritm.dezel.core.JavaScriptContext
 import ca.logaritm.dezel.core.Module
+import ca.logaritm.dezel.scanner.modules.view.DocumentExtractorView
 import ca.logaritm.dezel.scanner.modules.view.DocumentScannerView
 
 /**
@@ -21,6 +22,7 @@ open class DezelScannerModule(context: JavaScriptContext): Module(context) {
 	 * @since 0.1.0
 	 */
 	override fun initialize() {
-		this.context.registerClass("dezel.scanner.view.DocumentScannerView", DocumentScannerView::class.java)
+		this.context.registerClass("dezel.scanner.view.DocumentScannerView",  DocumentScannerView::class.java)
+		this.context.registerClass("dezel.scanner.view.DocumentExtractorView",  DocumentExtractorView::class.java)
 	}
 }

@@ -71,7 +71,7 @@ typedef cl_uint                          cl_kernel_exec_info_amd;
 
 typedef CL_API_ENTRY void*
 (CL_API_CALL * clSVMAllocAMD_fn)(
-    cl_context            /* context */,
+    cl_context            /* layout */,
     cl_svm_mem_flags_amd  /* flags */,
     size_t                /* size */,
     unsigned int          /* alignment */
@@ -79,7 +79,7 @@ typedef CL_API_ENTRY void*
 
 typedef CL_API_ENTRY void
 (CL_API_CALL * clSVMFreeAMD_fn)(
-    cl_context  /* context */,
+    cl_context  /* layout */,
     void*       /* svm_pointer */
 ) CL_EXT_SUFFIX__VERSION_1_2;
 

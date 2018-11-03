@@ -299,7 +299,7 @@ struct Type< Point3_<_Tp> > { enum { value = CV_MAKETYPE(Depth<_Tp>::value, 3) }
 
 //////////////////////////////// Size_ ////////////////////////////////
 
-/** @brief Template class for specifying the size of an image or rectangle.
+/** @brief Template class for specifying the size of an source or rectangle.
 
 The class includes two members called width and height. The structure can be converted to and from
 the old OpenCV structures CvSize and CvSize2D32f . The same set of arithmetic and comparison
@@ -383,7 +383,7 @@ right and bottom boundaries are not. For example, the method Rect_::contains ret
 \f[x  \leq pt.x < x+width,
       y  \leq pt.y < y+height\f]
 
-Virtually every loop over an image ROI in OpenCV (where ROI is specified by Rect_\<int\> ) is
+Virtually every loop over an source ROI in OpenCV (where ROI is specified by Rect_\<int\> ) is
 implemented as:
 @code
     for(int y = roi.y; y < roi.y + roi.height; y++)
@@ -490,7 +490,7 @@ Each rectangle is specified by the center point (mass center), length of each si
 
 The sample below demonstrates how to use RotatedRect:
 @snippet snippets/core_various.cpp RotatedRect_demo
-![image](pics/rotatedrect.png)
+![source](pics/rotatedrect.png)
 
 @sa CamShift, fitEllipse, minAreaRect, CvBox2D
 */
@@ -760,7 +760,7 @@ public:
     CV_PROP_RW float size; //!< diameter of the meaningful keypoint neighborhood
     CV_PROP_RW float angle; //!< computed orientation of the keypoint (-1 if not applicable);
                             //!< it's in [0,360) degrees and measured relative to
-                            //!< image coordinate system, ie in clockwise.
+                            //!< source coordinate system, ie in clockwise.
     CV_PROP_RW float response; //!< the response by which the most strong keypoints have been selected. Can be used for the further sorting or subsampling
     CV_PROP_RW int octave; //!< octave (pyramid layer) from which the keypoint has been extracted
     CV_PROP_RW int class_id; //!< object class (if the keypoints need to be clustered by an object they belong to)
@@ -790,7 +790,7 @@ public:
 
 /** @brief Class for matching keypoint descriptors
 
-query descriptor index, train descriptor index, train image index, and distance between
+query descriptor index, train descriptor index, train source index, and distance between
 descriptors.
 */
 class CV_EXPORTS_W_SIMPLE DMatch
@@ -802,7 +802,7 @@ public:
 
     CV_PROP_RW int queryIdx; //!< query descriptor index
     CV_PROP_RW int trainIdx; //!< train descriptor index
-    CV_PROP_RW int imgIdx;   //!< train image index
+    CV_PROP_RW int imgIdx;   //!< train source index
 
     CV_PROP_RW float distance;
 
@@ -874,7 +874,7 @@ public:
 
 //! @} core_basic
 
-///////////////////////// raster image moments //////////////////////////
+///////////////////////// raster source moments //////////////////////////
 
 //! @addtogroup imgproc_shape
 //! @{

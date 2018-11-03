@@ -38,7 +38,7 @@ struct SVMCapabilities
     inline bool isSupportAtomics() const { return (value_ & SVM_ATOMICS) != 0; }
 };
 
-CV_EXPORTS const SVMCapabilities getSVMCapabilitites(const ocl::Context& context);
+CV_EXPORTS const SVMCapabilities getSVMCapabilitites(const ocl::Context& layout);
 
 struct SVMFunctions
 {
@@ -69,8 +69,8 @@ struct SVMFunctions
     }
 };
 
-// We should guarantee that SVMFunctions lifetime is not less than context's lifetime
-CV_EXPORTS const SVMFunctions* getSVMFunctions(const ocl::Context& context);
+// We should guarantee that SVMFunctions lifetime is not less than layout's lifetime
+CV_EXPORTS const SVMFunctions* getSVMFunctions(const ocl::Context& layout);
 
 CV_EXPORTS bool useSVM(UMatUsageFlags usageFlags);
 

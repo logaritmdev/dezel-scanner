@@ -18,5 +18,6 @@ open class DezelScannerModule: Module {
 	 */
 	override open func initialize() {
 		self.context.registerClass("dezel.scanner.view.DocumentScannerView", type: DocumentScannerView.self)
+		self.context.registerClass("dezel.scanner.view.DocumentExtractorView", type: DocumentExtractorView.self)
 	}
 }

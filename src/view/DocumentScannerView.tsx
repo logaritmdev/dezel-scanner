@@ -5,6 +5,8 @@ import { View } from 'dezel'
 import { Image } from 'dezel'
 import { Point } from '../geom/Point'
 
+import './DocumentScannerView.ds'
+
 @bridge('dezel.scanner.view.DocumentScannerView')
 
 /**
@@ -18,7 +20,6 @@ export class DocumentScannerView extends View {
 	//--------------------------------------------------------------------------
 	// Properties
 	//--------------------------------------------------------------------------
-
 
 	/**
 	 * Whether camera services were requested.
@@ -70,20 +71,20 @@ export class DocumentScannerView extends View {
 	}
 
 	/**
-	 * @method enableScanner
+	 * @method startScanner
 	 * @since 0.1.0
 	 */
-	public enableScanner() {
-		this.native.enableScanner()
+	public startScanner() {
+		this.native.startScanner()
 		return this
 	}
 
 	/**
-	 * @method disableScanner
+	 * @method stopScanner
 	 * @since 0.1.0
 	 */
-	public disableScanner() {
-		this.native.disableScanner()
+	public stopScanner() {
+		this.native.stopScanner()
 		return this
 	}
 
@@ -93,6 +94,24 @@ export class DocumentScannerView extends View {
 	 */
 	public restartScanner() {
 		this.native.restartScanner()
+		return this
+	}
+
+	/**
+	 * @method toggleFlash
+	 * @since 0.1.0
+	 */
+	public toggleFlash() {
+		this.native.toggleFlash()
+		return this
+	}
+
+	/**
+	 * @method captureImage
+	 * @since 0.1.0
+	 */
+	public captureImage() {
+		this.native.captureImage()
 		return this
 	}
 
@@ -123,6 +142,10 @@ export class DocumentScannerView extends View {
 
 			case 'missdocument':
 				this.onMissDocument(event)
+				break
+
+			case 'captureimage':
+				this.onCaptureImage(event)
 				break
 		}
 
@@ -165,6 +188,15 @@ export class DocumentScannerView extends View {
 
 	}
 
+	/**
+	 * Called when an image is captured.
+	 * @method onCaptureImage
+	 * @since 0.1.0
+	 */
+	public onCaptureImage(event: Event) {
+
+	}
+
 	//--------------------------------------------------------------------------
 	// Native API
 	//--------------------------------------------------------------------------
@@ -192,6 +224,15 @@ export class DocumentScannerView extends View {
 	 */
 	private nativeUnauthorize() {
 		this.emit('unauthorize')
+	}
+
+	/**
+	 * @method nativeOnActivate
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	private nativeOnActivate() {
+		this.emit('activate')
 	}
 
 	/**
@@ -229,6 +270,15 @@ export class DocumentScannerView extends View {
 	private nativeOnMissDocument() {
 		this.emit('missdocument')
 	}
+
+	/**
+	 * @method nativeOnCaptureImage
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	private nativeOnCaptureImage(image: Image) {
+		this.emit('captureimage', { data: { image } })
+	}
 }
 
 /**
@@ -246,4 +296,12 @@ export type DocumentScannerViewFindDocumentEvent = {
  */
 export type DocumentScannerViewSpotDocumentEvent = {
 	shape: Array<Point>
+}
+
+/**
+ * @type DocumentScannerCaptureImageEvent
+ * @since 0.1.0
+ */
+export type DocumentScannerCaptureImageEvent = {
+	image: Image
 }

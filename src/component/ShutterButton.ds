@@ -1,6 +1,6 @@
 ShutterButton {
 
-	background-color: rgba(0, 0, 0, 0.65);
+	background-color: rgba(0, 0, 0, 0.75);
 	border-radius: 36px;
 	height: 72px;
 	width: 72px;
@@ -9,10 +9,10 @@ ShutterButton {
 		anchor-top: 50%;
 		anchor-left: 50%;
 		background-color: #fff;
-		border-radius: 26px;
+		border-radius: 30px;
 		left: 50%;
-		height: 52px;
+		height: 60px;
 		top: 50%;
-		width: 52px;
+		width: 60px;
 	}
 }

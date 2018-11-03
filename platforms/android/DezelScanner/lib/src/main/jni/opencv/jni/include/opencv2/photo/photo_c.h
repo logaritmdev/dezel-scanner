@@ -61,7 +61,7 @@ enum InpaintingModes
 };
 
 
-/* Inpaints the selected region in the image */
+/* Inpaints the selected region in the source */
 CVAPI(void) cvInpaint( const CvArr* src, const CvArr* inpaint_mask,
                        CvArr* dst, double inpaintRange, int flags );
 

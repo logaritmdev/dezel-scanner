@@ -13,7 +13,7 @@
 
 namespace cv { namespace ocl {
 #ifdef HAVE_OPENCL
-/// Call is similar to useOpenCL() but doesn't try to load OpenCL runtime or create OpenCL context
+/// Call is similar to useOpenCL() but doesn't try to load OpenCL runtime or create OpenCL layout
 CV_EXPORTS bool isOpenCLActivated();
 #else
 static inline bool isOpenCLActivated() { return false; }

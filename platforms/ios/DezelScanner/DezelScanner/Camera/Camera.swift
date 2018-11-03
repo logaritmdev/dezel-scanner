@@ -21,7 +21,7 @@ open class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 	/**
 	 * The camera preview layer.
 	 * @property preview
-	 * @since 0.1.0
+	 * @since 0.1.0cg
 	 */
     private(set) public var preview: AVCaptureVideoPreviewLayer!
 
@@ -86,6 +86,33 @@ open class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 	}
 
 	/**
+	 * Indicates whether the camera exists and is usable.
+	 * @method isAvailable
+	 * @since 0.1.0
+	 */
+	public func isAvailable() -> Bool {
+		return self.device != nil
+	}
+
+	/**
+	 * Indicates whether the camera authorization has been requested.
+	 * @method isRequested
+	 * @since 0.1.0
+	 */
+	public func isRequested() -> Bool {
+		return AVCaptureDevice.authorizationStatus(for: .video) != .notDetermined
+	}
+
+	/**
+	 * Indicates whether the camera authorization has been granted.
+	 * @method isAuthorized
+	 * @since 0.1.0
+	 */
+	public func isAuthorized() -> Bool {
+		return AVCaptureDevice.authorizationStatus(for: .video) == .authorized
+	}
+
+	/**
 	 * Starts the camera.
 	 * @method start
 	 * @since 0.1.0
@@ -136,30 +163,38 @@ open class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 	}
 
 	/**
-	 * Indicates whether the camera exists and is usable.
-	 * @method isAvailable
+	 * Toggles the flash.
+	 * @method toggleFlash
 	 * @since 0.1.0
 	 */
-	public func isAvailable() -> Bool {
-		return self.device != nil
-	}
+	public func toggleFlash() {
 
-	/**
-	 * Indicates whether the camera authorization has been requested.
-	 * @method isRequested
-	 * @since 0.1.0
-	 */
-	public func isRequested() -> Bool {
-		return AVCaptureDevice.authorizationStatus(for: .video) != .notDetermined
-	}
+		guard let device = self.device else {
+			return
+		}
 
-	/**
-	 * Indicates whether the camera authorization has been granted.
-	 * @method isAuthorized
-	 * @since 0.1.0
-	 */
-	public func isAuthorized() -> Bool {
-		return AVCaptureDevice.authorizationStatus(for: .video) == .authorized
+		if (device.hasTorch) {
+
+			do {
+
+				try device.lockForConfiguration()
+
+				if (device.torchMode == .on) {
+					device.torchMode = .off
+				} else {
+					do {
+						try device.setTorchModeOn(level: 1.0)
+					} catch {
+						print(error)
+					}
+				}
+
+				device.unlockForConfiguration()
+
+			} catch {
+				print(error)
+			}
+		}
 	}
 
 	//--------------------------------------------------------------------------
@@ -178,7 +213,7 @@ open class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 		}
 
 		self.session.beginConfiguration()
-		self.session.sessionPreset = AVCaptureSession.Preset.medium
+		self.session.sessionPreset = AVCaptureSession.Preset.hd1920x1080
 
 		do {
 

@@ -5,6 +5,8 @@ jclass BitmapClass;
 jclass BitmapConfigClass;
 jclass ScannerClass;
 jfieldID Bitmap_ARGB_8888;
+jfieldID PointFX;
+jfieldID PointFY;
 jmethodID PointFConstructor;
 jmethodID BitmapCreate;
 jmethodID ScannerOnFindObject;

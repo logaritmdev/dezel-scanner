@@ -2,12 +2,15 @@ package ca.logaritm.dezel.scanner.view
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.PointF
 import android.media.Image
 import android.util.Log
 import android.view.ViewGroup
 import ca.logaritm.dezel.scanner.camera.Camera
 import ca.logaritm.dezel.scanner.camera.CameraListener
+import ca.logaritm.dezel.scanner.camera.view.CameraView
 import ca.logaritm.dezel.scanner.scanner.Scanner
 import ca.logaritm.dezel.scanner.scanner.ScannerListener
 import ca.logaritm.dezel.view.graphic.Convert
@@ -49,6 +52,27 @@ open class ObjectScannerView(context: Context) : ViewGroup(context), CameraListe
 	 */
 	private var scanner: Scanner = Scanner(context)
 
+	/**
+	 * @property capturing
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	private var capturing: Boolean = false
+
+	/**
+	 * @property scanning
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	private var scanning: Boolean = true
+
+	/**
+	 * @property started
+	 * @since 0.1.0
+	 * @hidden
+	 */
+	private var started: Boolean = false
+
 	//--------------------------------------------------------------------------
 	// Methods
 	//--------------------------------------------------------------------------
@@ -58,12 +82,14 @@ open class ObjectScannerView(context: Context) : ViewGroup(context), CameraListe
 	 * @since 0.1.0
 	 */
 	init {
+
 		this.addView(this.camera.preview)
 		this.addView(this.scanner.preview)
 		this.camera.listener = this
 		this.scanner.listener = this
+		//this.scanner.preview.alpha = 0.75f
+
 		this.scanner.debug = true
-		this.scanner.preview.alpha = 0.5f
 	}
 
 	/**
@@ -85,19 +111,27 @@ open class ObjectScannerView(context: Context) : ViewGroup(context), CameraListe
 	}
 
 	/**
-	 * @method enableScanner
+	 * @method startScanner
 	 * @since 0.1.0
 	 */
-	open fun enableScanner() {
-		this.scanner.enabled = true
+	open fun startScanner() {
+		if (this.scanning == false) {
+			this.scanning = true
+			this.scanner.enabled = true
+		}
 	}
 
 	/**
-	 * @method disableScanner
+	 * @method stopScanner
 	 * @since 0.1.0
 	 */
-	open fun disableScanner() {
-		this.scanner.enabled = false
+	open fun stopScanner() {
+		if (this.scanning) {
+			this.scanning = false
+			this.scanner.enabled = false
+			this.listener?.onLoseDocument(this)
+			this.listener?.onMissDocument(this)
+		}
 	}
 
 	/**
@@ -105,7 +139,23 @@ open class ObjectScannerView(context: Context) : ViewGroup(context), CameraListe
 	 * @since 0.1.0
 	 */
 	open fun restartScanner() {
-		this.scanner.reset()
+		this.scanner.restart()
+	}
+
+	/**
+	 * @method toggleFlash
+	 * @since 0.1.0
+	 */
+	open fun toggleFlash() {
+		this.camera.toggleFlash()
+	}
+
+	/**
+	 * @method captureImage
+	 * @since 0.1.0
+	 */
+	open fun captureImage() {
+		this.capturing = true
 	}
 
 	/**
@@ -139,6 +189,32 @@ open class ObjectScannerView(context: Context) : ViewGroup(context), CameraListe
 	 * @since 0.1.0
 	 */
 	override fun onCaptureFrame(camera: Camera, frame: Image) {
+
+		if (this.started == false) {
+			this.started = true
+			this.post {
+				this.listener?.onActivate(this)
+			}
+		}
+
+		if (this.capturing) {
+			this.capturing = false
+
+			val bitmap = CameraView.convert(frame)
+			if (bitmap != null) {
+
+				val matrix = Matrix()
+				matrix.postRotate(90f)
+				val rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+				this.post {
+					this.listener?.onCaptureImage(this, rotated)
+				}
+			}
+
+			return
+		}
+
 		this.scanner.process(frame)
 	}
 
@@ -148,8 +224,10 @@ open class ObjectScannerView(context: Context) : ViewGroup(context), CameraListe
 	 * @since 0.1.0
 	 */
 	override fun onStartMoving(camera: Camera) {
-		this.scanner.enabled = false
-		this.scanner.reset()
+		if (this.scanning) {
+			this.scanner.enabled = false
+			this.scanner.reset()
+		}
 	}
 
 	/**
@@ -158,8 +236,10 @@ open class ObjectScannerView(context: Context) : ViewGroup(context), CameraListe
 	 * @since 0.1.0
 	 */
 	override fun onStopMoving(camera: Camera) {
-		this.scanner.enabled = true
-		this.scanner.reset()
+		if (this.scanning) {
+			this.scanner.enabled = true
+			this.scanner.reset()
+		}
 	}
 
 	//--------------------------------------------------------------------------

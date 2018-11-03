@@ -1,9 +1,0 @@
-DocumentScannerManualScreen {
-
-	background-color: grey;
-
-	DocumentOutlineView {
-		top: 0;
-		left: 0;
-	}
-}

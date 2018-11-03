@@ -1,0 +1,14 @@
+//
+// Created by Jean-Philippe Déry on 2018-10-31.
+//
+
+#ifndef CLASSIPRO_DLSCANNERANDROIDPRIVATE_H
+#define CLASSIPRO_DLSCANNERANDROIDPRIVATE_H
+
+
+class DLScannerAndroidPrivate {
+
+};
+
+
+#endif //CLASSIPRO_DLSCANNERANDROIDPRIVATE_H

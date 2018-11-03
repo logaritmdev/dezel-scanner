@@ -14,7 +14,7 @@ jfieldID
 JNIGetField(JNIEnv *env, jclass cls, const char *name, const char *sign)
 {
 	auto res = env->GetFieldID(cls, name, sign);
-	if (res == NULL) LOGE("Unable to find static field %s with signature %s", name, sign);
+	if (res == NULL) LOGE("Unable to find field %s with signature %s", name, sign);
 	return res;
 }
 
@@ -76,6 +76,20 @@ JNI_OnLoad(JavaVM* vm, void* reserved)
 		BitmapConfigClass,
 		"ARGB_8888",
 		"Landroid/graphics/Bitmap$Config;"
+	);
+
+	PointFX = JNIGetField(
+		env,
+		PointFClass,
+		"x",
+		"F"
+	);
+
+	PointFY = JNIGetField(
+		env,
+		PointFClass,
+		"y",
+		"F"
 	);
 
 	PointFConstructor = JNIGetMethod(

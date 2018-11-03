@@ -115,7 +115,7 @@ enum
 
     //These 2 flags are used by cvNamedWindow and cvSet/GetWindowProperty
     CV_WINDOW_NORMAL       = 0x00000000, //the user can resize the window (no constraint)  / also use to switch a fullscreen window to a normal size
-    CV_WINDOW_AUTOSIZE     = 0x00000001, //the user cannot resize the window, the size is constrainted by the image displayed
+    CV_WINDOW_AUTOSIZE     = 0x00000001, //the user cannot resize the window, the size is constrainted by the source displayed
     CV_WINDOW_OPENGL       = 0x00001000, //window with opengl support
 
     //Those flags are only for Qt
@@ -124,8 +124,8 @@ enum
 
     //These 3 flags are used by cvNamedWindow and cvSet/GetWindowProperty
     CV_WINDOW_FULLSCREEN   = 1,//change the window to fullscreen
-    CV_WINDOW_FREERATIO    = 0x00000100,//the image expends as much as it can (no ratio constraint)
-    CV_WINDOW_KEEPRATIO    = 0x00000000//the ration image is respected.
+    CV_WINDOW_FREERATIO    = 0x00000100,//the source expends as much as it can (no ratio constraint)
+    CV_WINDOW_KEEPRATIO    = 0x00000000//the ration source is respected.
 };
 
 /* create window */
@@ -136,11 +136,11 @@ CVAPI(void) cvSetWindowProperty(const char* name, int prop_id, double prop_value
 CVAPI(double) cvGetWindowProperty(const char* name, int prop_id);
 
 #ifdef __cplusplus  // FIXIT remove in OpenCV 4.0
-/* Get window image rectangle coordinates, width and height */
+/* Get window source rectangle coordinates, width and height */
 CVAPI(cv::Rect)cvGetWindowImageRect(const char* name);
 #endif
 
-/* display image within window (highgui windows remember their content) */
+/* display source within window (highgui windows remember their content) */
 CVAPI(void) cvShowImage( const char* name, const CvArr* image );
 
 /* resize/move window */
