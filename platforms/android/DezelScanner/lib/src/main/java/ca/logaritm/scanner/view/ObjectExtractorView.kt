@@ -1,4 +1,4 @@
-package ca.logaritm.dezel.scanner.view
+package ca.logaritm.scanner.view
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,9 +6,7 @@ import android.graphics.PointF
 import android.view.ViewGroup
 import android.widget.ImageView
 import ca.logaritm.dezel.extension.Delegates
-import ca.logaritm.dezel.scanner.camera.CameraListener
-import ca.logaritm.dezel.scanner.scanner.ScannerExternal
-import ca.logaritm.dezel.scanner.scanner.ScannerListener
+import ca.logaritm.scanner.scanner.ScannerExternal
 import ca.logaritm.dezel.view.graphic.Convert
 
 open class ObjectExtractorView(context: Context) : ViewGroup(context) {

@@ -1,4 +1,4 @@
-package ca.logaritm.dezel.scanner.modules.view
+package ca.logaritm.scanner.modules.view
 
 import android.Manifest
 import android.app.AlertDialog
@@ -8,14 +8,13 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import android.os.Build
 import android.support.v4.content.LocalBroadcastManager
-import android.util.Log
-import ca.logaritm.dezel.R
+import ca.logaritm.scanner.R
 import ca.logaritm.dezel.core.JavaScriptContext
 import ca.logaritm.dezel.core.JavaScriptFunctionCallback
 import ca.logaritm.dezel.modules.graphic.Image
 import ca.logaritm.dezel.modules.view.View
-import ca.logaritm.dezel.scanner.view.ObjectScannerView
-import ca.logaritm.dezel.scanner.view.ObjectScannerViewListener
+import ca.logaritm.scanner.view.ObjectScannerView
+import ca.logaritm.scanner.view.ObjectScannerViewListener
 
 
 open class DocumentScannerView(context: JavaScriptContext) : View(context), ObjectScannerViewListener {
@@ -113,8 +112,7 @@ open class DocumentScannerView(context: JavaScriptContext) : View(context), Obje
 	 * @hidden
 	 */
 	@Throws(Throwable::class)
-	override fun finalize() {
-		this.dispose()
+	protected fun finalize() {
 		LocalBroadcastManager.getInstance(this.context.application).unregisterReceiver(this.applicationEnterBackgroundReceiver)
 		LocalBroadcastManager.getInstance(this.context.application).unregisterReceiver(this.applicationEnterForegroundReceiver)
 		LocalBroadcastManager.getInstance(this.context.application).unregisterReceiver(this.applicationPermissionChangedReceiver)
@@ -122,10 +120,10 @@ open class DocumentScannerView(context: JavaScriptContext) : View(context), Obje
 
 	/**
 	 * @inherited
-	 * @method createView
+	 * @method createContentView
 	 * @since 0.1.0
 	 */
-	override fun createView(): ObjectScannerView {
+	override fun createContentView(): ObjectScannerView {
 		return ObjectScannerView(this.context.application)
 	}
 

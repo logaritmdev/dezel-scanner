@@ -13,7 +13,7 @@ DLExtractorPullImage(JNIEnv* env, jobject image, int imgc, int imgr, jobject p1,
 {
 	cv::Mat src(imgr, imgc, CV_8UC4);
 
-	DLScannerImportImage(env, image, src);
+	DLScannerConvertImage(env, image, src);
 
 	jint p1x = (jint) env->GetFloatField(p1, PointFX);
 	jint p1y = (jint) env->GetFloatField(p1, PointFY);
@@ -34,8 +34,8 @@ DLExtractorPullImage(JNIEnv* env, jobject image, int imgc, int imgr, jobject p1,
 	points.push_back(cv::Point(p4x, p4y));
 
 	DLScannerRef scanner = DLScannerCreate();
-	scanner->imgc = imgc;
-	scanner->imgr = imgr;
+	scanner->naturalImageCols = imgc;
+	scanner->naturalImageRows = imgr;
 
 	cv::Mat extracted;
 	DLScannerExtractTrackedObject(scanner, src, src, extracted, points);

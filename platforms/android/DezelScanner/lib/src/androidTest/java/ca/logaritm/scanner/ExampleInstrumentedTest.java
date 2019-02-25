@@ -1,4 +1,4 @@
-package ca.logaritm.dezel;
+package ca.logaritm.scanner;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

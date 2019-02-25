@@ -116,8 +116,8 @@ DLScannerOrderPointsClockwise(DLScannerRef scanner, vector<cv::Point> points, ve
 void
 DLScannerScalePoints(DLScannerRef scanner, const vector<cv::Point> &points, vector<cv::Point> &out)
 {
-	float sx = (float) scanner->imgc / (float) scanner->processed.cols;
-	float sy = (float) scanner->imgr / (float) scanner->processed.rows;
+	float sx = (float) scanner->naturalImageCols / (float) scanner->resizedImageCols;
+	float sy = (float) scanner->naturalImageRows / (float) scanner->resizedImageRows;
 
 	DLScannerScalePointsBy(scanner, points, out, sx, sy);
 }
@@ -139,8 +139,8 @@ DLScannerExtractTrackedObject(DLScannerRef scanner, const cv::Mat &src, const cv
 	vector<cv::Point> ordered;
 	vector<cv::Point> scaled;
 
-	float sx = (float) scanner->imgc / (float) mat.cols;
-	float sy = (float) scanner->imgr / (float) mat.rows;
+	float sx = (float) scanner->naturalImageCols / (float) mat.cols;
+	float sy = (float) scanner->naturalImageRows / (float) mat.rows;
 
 	DLScannerScalePointsBy(scanner, points, scaled, sx, sy);
 
@@ -191,7 +191,7 @@ DLScannerExtractTrackedObject(DLScannerRef scanner, const cv::Mat &src, const cv
 
 	cv::Mat ratio = (n2.t() * (a.inv().t()) * (a.inv()) * n2) / (n3.t() * (a.inv().t()) * (a.inv()) * n3);
 
-  	float r = sqrt(ratio.at<float>(0,0));
+  	float r = sqrt(ratio.at<float>(0, 0));
 	float w;
 	float h;
 

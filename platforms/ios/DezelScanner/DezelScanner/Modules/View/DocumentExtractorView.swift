@@ -22,10 +22,10 @@ open class DocumentExtractorView : View {
 
 	/**
 	 * @inherited
-	 * @method createView
-	 * @since 0.1.0
+	 * @method createContentView
+	 * @since 0.5.0
 	 */
-	override open func createView() -> UIView {
+	override open func createContentView() -> UIView {
 		return ObjectExtractorView(frame: .zero)
 	}
 

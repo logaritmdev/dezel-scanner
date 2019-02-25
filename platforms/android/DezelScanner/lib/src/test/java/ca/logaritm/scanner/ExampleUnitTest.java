@@ -1,4 +1,4 @@
-package ca.logaritm.dezel;
+package ca.logaritm.scanner;
 
 import org.junit.Test;
 

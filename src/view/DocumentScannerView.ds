@@ -1,3 +1,5 @@
 DocumentScannerView {
 	background-color: #000;
+	height: fill;
+	width: fill;
 }

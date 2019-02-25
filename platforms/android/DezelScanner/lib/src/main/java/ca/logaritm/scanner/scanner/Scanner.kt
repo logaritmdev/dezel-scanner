@@ -1,14 +1,13 @@
-package ca.logaritm.dezel.scanner.scanner
+package ca.logaritm.scanner.scanner
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.PointF
 import android.media.Image
 import android.os.Handler
-import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import ca.logaritm.dezel.extension.Delegates
-import ca.logaritm.dezel.extension.isHidden
 
 /**
  * @class Scanner
@@ -34,7 +33,7 @@ open class Scanner(context: Context)  {
 	 */
 	open var debug: Boolean by Delegates.OnSet(false) { value ->
 		ScannerExternal.setDebug(this.handle, value)
-		this.preview.isHidden = value == false
+		this.preview.visibility = if (value == false) View.GONE else View.VISIBLE
 	}
 
 	/**
@@ -132,7 +131,7 @@ open class Scanner(context: Context)  {
 		ScannerExternal.process(this.handle, frame.width, frame.height, nv21)
 
 		if (this.debug) {
-			val bitmap = ScannerExternal.getProcessedImage(this.handle)
+			val bitmap = ScannerExternal.getDebuggingImage(this.handle)
 			if (bitmap != null) {
 				this.onProcessFrame(bitmap)
 			}

@@ -33,12 +33,5 @@ export class FlashButton extends Button {
 	// Methods
 	//--------------------------------------------------------------------------
 
-	/**
-	 * @inherited
-	 * @method render
-	 * @since 1.0.0
-	 */
-	public render() {
-		return super.render().append(<ImageView id="image" style="image" source="images/icons/96/2561506.png" />)
-	}
+
 }

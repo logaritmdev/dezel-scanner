@@ -1,0 +1,4 @@
+DocumentOutlineView {
+	height: fill;
+	width: fill;
+}

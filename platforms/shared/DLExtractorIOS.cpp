@@ -12,7 +12,7 @@ DLExtractorPullImage(CGImageRef image, int imgc, int imgr, CGPoint p1, CGPoint p
 {
 	cv::Mat src(imgr, imgc, CV_8UC4);
 
-	DLScannerImportImage(image, src);
+	DLScannerConvertImage(image, src);
 
 	std::vector<cv::Point> points;
 	points.push_back(cv::Point(p1.x, p1.y));
@@ -21,8 +21,8 @@ DLExtractorPullImage(CGImageRef image, int imgc, int imgr, CGPoint p1, CGPoint p
 	points.push_back(cv::Point(p4.x, p4.y));
 
 	DLScannerRef scanner = DLScannerCreate();
-	scanner->imgc = imgc;
-	scanner->imgr = imgr;
+	scanner->naturalImageCols = imgc;
+	scanner->naturalImageRows = imgr;
 
 	cv::Mat extracted;
 	DLScannerExtractTrackedObject(scanner, src, src, extracted, points);

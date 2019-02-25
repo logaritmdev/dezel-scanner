@@ -6,11 +6,11 @@
 #include <CoreFoundation/CoreFoundation.h>
 
 /**
- * @function DLScannerImportImage
+ * @function DLScannerConvertImage
  * @since 0.1.0
  * @hidden
  */
-void DLScannerImportImage(CGImageRef image, cv::Mat &mat);
+void DLScannerConvertImage(CGImageRef image, cv::Mat &mat);
 
 /**
  * @function DLScannerExportImage

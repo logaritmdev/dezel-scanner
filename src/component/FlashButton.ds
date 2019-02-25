@@ -9,6 +9,7 @@ FlashButton {
 		image-height: 32px;
 		image-width: 19px;
 		image-tint: #fff;
+		source: 'images/icons/96/2561506.png';
 	}
 
 	.label {

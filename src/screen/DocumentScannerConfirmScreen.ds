@@ -1,6 +1,6 @@
 DocumentScannerConfirmScreen {
 
-	background-color: #fff;
+	background-color: #000;
 
 	Content {
 		clipped: false;

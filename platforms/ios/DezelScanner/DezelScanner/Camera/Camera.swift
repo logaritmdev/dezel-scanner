@@ -125,7 +125,7 @@ open class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 		}
 
 		self.motionManager.startDeviceMotionUpdates(to: OperationQueue()) { [unowned self] (data, error) in
-
+			
 			if let acceleration = data?.userAcceleration {
 
 				var motion = sqrt(acceleration.x * acceleration.x + acceleration.y * acceleration.y + acceleration.z * acceleration.z)
@@ -159,7 +159,7 @@ open class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 			self.session.stopRunning()
 		}
 
-		self.motionManager.stopAccelerometerUpdates()
+		self.motionManager.stopDeviceMotionUpdates()
 	}
 
 	/**

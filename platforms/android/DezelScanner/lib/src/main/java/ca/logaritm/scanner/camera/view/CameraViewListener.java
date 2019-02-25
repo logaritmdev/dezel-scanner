@@ -1,4 +1,4 @@
-package ca.logaritm.dezel.scanner.camera.view;
+package ca.logaritm.scanner.camera.view;
 
 import android.media.Image;
 

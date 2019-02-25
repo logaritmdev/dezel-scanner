@@ -13,7 +13,7 @@ LOCAL_MODULE    := dezel_scanner
 LOCAL_SRC_FILES := wrappers/DLScannerWrapper.cpp \
                    jni_init.cpp \
                    jni_module_scanner.cpp \
-                   ca_logaritm_dezel_scanner_scanner_ScannerExternal.cpp \
+                   ca_logaritm_scanner_scanner_ScannerExternal.cpp \
                    $(SHARED_PATH)/DLScanner.cpp \
                    $(SHARED_PATH)/DLScannerPrivate.cpp \
                    $(SHARED_PATH)/DLScannerDetection.cpp \

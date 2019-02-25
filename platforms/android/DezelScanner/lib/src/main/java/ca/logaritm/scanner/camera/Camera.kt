@@ -1,4 +1,4 @@
-package ca.logaritm.dezel.scanner.camera
+package ca.logaritm.scanner.camera
 
 import android.content.Context
 import android.content.Context.SENSOR_SERVICE
@@ -8,9 +8,8 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.media.Image
-import android.util.Log
-import ca.logaritm.dezel.scanner.camera.view.CameraView
-import ca.logaritm.dezel.scanner.camera.view.CameraViewListener
+import ca.logaritm.scanner.camera.view.CameraView
+import ca.logaritm.scanner.camera.view.CameraViewListener
 
 open class Camera(context: Context): CameraViewListener, SensorEventListener {
 
@@ -112,7 +111,7 @@ open class Camera(context: Context): CameraViewListener, SensorEventListener {
 
 	/**
 	 * Stops the camera.
-	 * @method stop
+	 * @method convert
 	 * @since 0.1.0
 	 */
 	open fun convert(point: PointF): PointF {
@@ -131,8 +130,9 @@ open class Camera(context: Context): CameraViewListener, SensorEventListener {
 	 * @since 0.1.0
 	 */
 	override fun onCaptureFrame(frame: Image) {
-		this.processedFrameW = frame.width
-		this.processedFrameH = frame.height
+		// the frame is inverted
+		this.processedFrameW = frame.height
+		this.processedFrameH = frame.width
 		this.listener?.onCaptureFrame(this, frame)
 	}
 

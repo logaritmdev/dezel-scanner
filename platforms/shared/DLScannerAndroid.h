@@ -11,34 +11,34 @@
  * @since 0.1.0
  * @hidden
  */
-void DLScannerProcessFrame(JNIEnv* env, DLScannerRef scanner, int imgc, int imgr, jbyteArray buffer);
+void DLScannerProcessFrame(JNIEnv *env, DLScannerRef scanner, int imgc, int imgr, jbyteArray buffer);
 
 /**
- * @function DLScannerGetProcessedImage
+ * @function DLScannerGetDebuggingImage
  * @since 0.1.0
  * @hidden
  */
-jobject DLScannerGetProcessedImage(JNIEnv* env, DLScannerRef scanner);
+jobject DLScannerGetDebuggingImage(JNIEnv *env, DLScannerRef scanner);
 
 /**
  * @function DLScannerGetExtractedImage
  * @since 0.1.0
  * @hidden
  */
-jobject DLScannerGetExtractedImage(JNIEnv* env, DLScannerRef scanner);
+jobject DLScannerGetExtractedImage(JNIEnv *env, DLScannerRef scanner);
 
 /**
- * @function DLScannerImportImage
+ * @function DLScannerConvertImage
  * @since 0.1.0
  * @hidden
  */
-void DLScannerImportImage(JNIEnv* env, jobject bitmap, cv::Mat &dst);
+void DLScannerConvertImage(JNIEnv *env, jobject bitmap, cv::Mat &dst);
 
 /**
  * @function DLScannerExportImage
  * @since 0.1.0
  * @hidden
  */
-jobject DLScannerExportImage(JNIEnv* env, const cv::Mat &mat);
+jobject DLScannerExportImage(JNIEnv *env, const cv::Mat &mat);
 
 #endif

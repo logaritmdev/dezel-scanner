@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.logaritm.dezel.scanner.camera.view;
+package ca.logaritm.scanner.camera.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

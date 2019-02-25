@@ -1,4 +1,4 @@
-package ca.logaritm.dezel.scanner.scanner
+package ca.logaritm.scanner.scanner
 
 import android.graphics.Bitmap
 import android.graphics.PointF

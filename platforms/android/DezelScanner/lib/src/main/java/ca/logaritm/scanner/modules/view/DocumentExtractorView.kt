@@ -1,17 +1,15 @@
-package ca.logaritm.dezel.scanner.modules.view
+package ca.logaritm.scanner.modules.view
 
 import android.graphics.PointF
-import android.util.Log
 import ca.logaritm.dezel.core.*
 import ca.logaritm.dezel.modules.graphic.Image
 import ca.logaritm.dezel.modules.view.View
-import ca.logaritm.dezel.scanner.view.ObjectExtractorView
-import ca.logaritm.dezel.scanner.view.ObjectScannerView
+import ca.logaritm.scanner.view.ObjectExtractorView
 
 open class DocumentExtractorView(context: JavaScriptContext): View(context) {
 
 	//--------------------------------------------------------------------------
-	// MARK: Properties
+	// Properties
 	//--------------------------------------------------------------------------
 
 	/**
@@ -23,20 +21,20 @@ open class DocumentExtractorView(context: JavaScriptContext): View(context) {
 		get() = this.content as ObjectExtractorView
 
 	//--------------------------------------------------------------------------
-	// MARK: Methods
+	// Methods
 	//--------------------------------------------------------------------------
 
 	/**
 	 * @inherited
-	 * @method createView
+	 * @method createContentView
 	 * @since 0.1.0
 	 */
-	override fun createView(): ObjectExtractorView {
+	override fun createContentView(): ObjectExtractorView {
 		return ObjectExtractorView(this.context.application)
 	}
 
 	//--------------------------------------------------------------------------
-	// MARK: JavaScript Properties
+	// JavaScript Properties
 	//--------------------------------------------------------------------------
 
 	/**
@@ -66,7 +64,7 @@ open class DocumentExtractorView(context: JavaScriptContext): View(context) {
 	}
 
 	//--------------------------------------------------------------------------
-	// MARK: JavaScript Methods
+	// JavaScript Methods
 	//--------------------------------------------------------------------------
 
 	/**
@@ -83,7 +81,6 @@ open class DocumentExtractorView(context: JavaScriptContext): View(context) {
 		val p4 = PointF(callback.argument(6).number.toFloat(), callback.argument(7).number.toFloat())
 
 		val image = this.view.extract(p1, p2, p3, p4)
-		Log.e("TEST", "TEXTRACT IMAGE " + image);
 		if (image != null) {
 			callback.returns(Image.with(image, this.context).holder)
 		}

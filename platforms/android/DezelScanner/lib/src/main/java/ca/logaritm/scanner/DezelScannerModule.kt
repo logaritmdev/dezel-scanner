@@ -1,9 +1,9 @@
-package ca.logaritm.dezel.scanner
+package ca.logaritm.scanner
 
 import ca.logaritm.dezel.core.JavaScriptContext
 import ca.logaritm.dezel.core.Module
-import ca.logaritm.dezel.scanner.modules.view.DocumentExtractorView
-import ca.logaritm.dezel.scanner.modules.view.DocumentScannerView
+import ca.logaritm.scanner.modules.view.DocumentExtractorView
+import ca.logaritm.scanner.modules.view.DocumentScannerView
 
 /**
  * @class DezelScannerModule

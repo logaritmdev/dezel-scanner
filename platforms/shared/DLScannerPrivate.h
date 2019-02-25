@@ -27,8 +27,10 @@ enum DLScannerState {
  */
 struct OpaqueDLScanner {
 	DLScannerState state = SCANNING;
-	int imgc = 0;
-	int imgr = 0;
+	int naturalImageCols = 0;
+	int naturalImageRows = 0;
+	int resizedImageCols = 0;
+	int resizedImageRows = 0;
 	bool debug = false;
 	bool enabled = true;
 	DLDetectedObjectRef object = NULL;
@@ -37,8 +39,8 @@ struct OpaqueDLScanner {
 	DLScannerMissObjectCallback missObjectCallback = NULL;
 	DLScannerLoseObjectCallback loseObjectCallback = NULL;
 	void* data = NULL;
-	cv::Mat processed;
-	cv::Mat extracted;
+	cv::Mat debuggingImage;
+	cv::Mat extractedImage;
 };
 
 /**

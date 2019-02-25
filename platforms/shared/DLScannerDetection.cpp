@@ -16,16 +16,18 @@ DLScannerProcessImage(DLScannerRef scanner, int imgc, int imgr, const cv::Mat &s
 		return;
 	}
 
-	scanner->imgc = imgc;
-	scanner->imgr = imgr;
+	cv::Mat out;
+	cv::Mat mat;
 
 	float r = (float) imgc / (float) imgr;
 
 	int cols = DL_SCANNER_RESIZE_COLS;
 	int rows = DL_SCANNER_RESIZE_COLS / r;
 
-	cv::Mat out;
-	cv::Mat mat;
+	scanner->naturalImageCols = imgc;
+	scanner->naturalImageRows = imgr;
+	scanner->resizedImageCols = cols;
+	scanner->resizedImageRows = rows;
 
 	resize(src, mat, cv::Size(cols, rows));
 
@@ -59,7 +61,7 @@ DLScannerProcessImage(DLScannerRef scanner, int imgc, int imgr, const cv::Mat &s
 			drawContours(out, maybes, -1, cv::Scalar(0, 255, 0, 255), 1);
 			drawContours(out, valids, -1, cv::Scalar(0, 0, 255, 255), 1);
 
-			scanner->processed = out.clone();
+			scanner->debuggingImage = out.clone();
 		}
 
 		/*
@@ -186,7 +188,7 @@ DLScannerContinueTrackingObject(DLScannerRef scanner, const cv::Mat &src, const 
 
 		cv::Mat extracted;
 		DLScannerExtractTrackedObject(scanner, src, mat, extracted, points);
-		scanner->extracted = extracted;
+		scanner->extractedImage = extracted;
 
 		vector<cv::Point> scaled;
 		vector<cv::Point> ordered;

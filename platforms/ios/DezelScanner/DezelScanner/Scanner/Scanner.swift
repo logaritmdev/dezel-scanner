@@ -147,7 +147,7 @@ open class Scanner : NSObject  {
 			DLScannerProcessFrame(self.handle, Int32(image.width), Int32(image.height), image)
 
 			if (self.debug) {
-				if let data = DLScannerGetProcessedImage(self.handle) {
+				if let data = DLScannerGetDebuggingImage(self.handle) {
 					self.didProcessFrame(image: UIImage(pointer: data))
 				}
 			}

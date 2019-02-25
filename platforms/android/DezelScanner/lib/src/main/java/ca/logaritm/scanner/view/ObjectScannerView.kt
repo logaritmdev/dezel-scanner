@@ -1,18 +1,16 @@
-package ca.logaritm.dezel.scanner.view
+package ca.logaritm.scanner.view
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.PointF
 import android.media.Image
-import android.util.Log
 import android.view.ViewGroup
-import ca.logaritm.dezel.scanner.camera.Camera
-import ca.logaritm.dezel.scanner.camera.CameraListener
-import ca.logaritm.dezel.scanner.camera.view.CameraView
-import ca.logaritm.dezel.scanner.scanner.Scanner
-import ca.logaritm.dezel.scanner.scanner.ScannerListener
+import ca.logaritm.scanner.camera.Camera
+import ca.logaritm.scanner.camera.CameraListener
+import ca.logaritm.scanner.camera.view.CameraView
+import ca.logaritm.scanner.scanner.Scanner
+import ca.logaritm.scanner.scanner.ScannerListener
 import ca.logaritm.dezel.view.graphic.Convert
 
 open class ObjectScannerView(context: Context) : ViewGroup(context), CameraListener, ScannerListener {
@@ -89,7 +87,7 @@ open class ObjectScannerView(context: Context) : ViewGroup(context), CameraListe
 		this.scanner.listener = this
 		//this.scanner.preview.alpha = 0.75f
 
-		this.scanner.debug = true
+		// this.scanner.debug = true
 	}
 
 	/**

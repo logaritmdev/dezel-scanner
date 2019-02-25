@@ -68,7 +68,7 @@ JNI_OnLoad(JavaVM* vm, void* reserved)
 
 	ScannerClass = JNIGetClass(
 		env,
-		"ca/logaritm/dezel/scanner/scanner/Scanner"
+		"ca/logaritm/scanner/scanner/Scanner"
 	);
 
 	Bitmap_ARGB_8888 = JNIGetStaticField(

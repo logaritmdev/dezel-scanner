@@ -68,7 +68,7 @@ export class DocumentScannerConfirmScreen extends Screen<DocumentScannerConfirmR
 					} />
 				</Header>
 				<Content>
-					<ImageView id="preview" style="preview" border="1px red" source={this.image} />
+					<ImageView id="preview" style="preview" source={this.image} />
 				</Content>
 				<Footer>
 					<Button style="accept" onPress={this.onAcceptButtonPress} />

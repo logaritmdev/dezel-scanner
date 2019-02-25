@@ -40,6 +40,15 @@ DocumentScannerScreen {
 		}
 	}
 
+	DocumentOutlineView {
+		border: 5px red;
+		drawable: true;
+		left: 0;
+		top: 0;
+		height: fill;
+		width: fill;
+	}
+
 	ShutterButton {
 		anchor-left: 50%;
 		anchor-top: 50%;
@@ -63,12 +72,6 @@ DocumentScannerScreen {
 		left: 50%;
 		top: 50%;
 		width: 48px;
-	}
-
-	.outline {
-		drawable: true;
-		left: 0;
-		top: 0;
 	}
 
 	.message {

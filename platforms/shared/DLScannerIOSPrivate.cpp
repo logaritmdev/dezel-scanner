@@ -1,7 +1,7 @@
 #include "DLScannerIOSPrivate.h"
 
 void
-DLScannerImportImage(CGImageRef image, cv::Mat &mat)
+DLScannerConvertImage(CGImageRef image, cv::Mat &mat)
 {
 	CGColorSpaceRef space = CGImageGetColorSpace(image);
 	CGFloat cols = CGImageGetWidth(image);

@@ -108,7 +108,7 @@ export class DocumentScannerScreen extends Screen<Array<Image>> {
 		return (
 			<Fragment>
 				<Header>
-					<NavigationBar closeButton={
+					<NavigationBar mainButton={
 						<NavigationBarCloseButton label="Retour" onPress={() => this.dismiss()} />
 					} />
 				</Header>
@@ -122,7 +122,7 @@ export class DocumentScannerScreen extends Screen<Array<Image>> {
 						onMissDocument={this.onMissDocument}
 						onCaptureImage={this.onCaptureImage}
 					/>
-					<DocumentOutlineView id="outline" style="outline" />
+					<DocumentOutlineView id="outline" />
 					<SpinnerView id="spinner" style="spinner" />
 					<TextView id="message" style="message" />
 				</Content>
@@ -187,11 +187,11 @@ export class DocumentScannerScreen extends Screen<Array<Image>> {
 	 * @since 0.1.0
 	 */
 	public onBeforeEnter(event: Event<ScreenEnterEvent>) {
-		console.log('ON BEFORE ENTERdsadsa ')
+
 		this.message.text = this.labels.search
 
 		this.outline.path = undefined
-		console.log('TEST RESTART SCANNER HERE !')
+
 		this.scanner.restartScanner()
 
 		let transition = event.data.transition
@@ -337,8 +337,11 @@ export class DocumentScannerScreen extends Screen<Array<Image>> {
 
 			if (result == DocumentScannerConfirmResult.ACCEPT) {
 				event.cancel()
-				this.dismiss()
 			}
+		})
+
+		screen.once('dismisscancel', () => {
+			this.dismiss()
 		})
 
 		this.present(screen, 'dissolve')
@@ -401,7 +404,6 @@ export class DocumentScannerScreen extends Screen<Array<Image>> {
 			if (this.result) {
 				this.result.push(image)
 			}
-			console.log('Found image', image)
 		}
 
 		this.dismiss()

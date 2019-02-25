@@ -261,7 +261,7 @@ export class DocumentScannerExtractScreen<Image> extends Screen {
 			this.tlp, this.trp,
 			this.blp, this.brp
 		)
-		console.log('EXTRACTED', extracted)
+
 		if (extracted) {
 			this.result = extracted
 		}

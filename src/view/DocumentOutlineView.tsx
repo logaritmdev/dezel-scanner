@@ -2,6 +2,8 @@ import { Event, ViewRedrawEvent } from 'dezel'
 import { View } from 'dezel'
 import { Point } from '../geom/Point'
 
+import './DocumentOutlineView.ds'
+
 /**
  * @symbol PATH
  * @since 0.1.0
@@ -72,15 +74,6 @@ export class DocumentOutlineView extends View {
 		canvas.fillStyle = this.outlineFillColor
 		canvas.strokeStyle = this.outlineLineColor
 		canvas.lineWidth = 2
-
-		// canvas.beginPath()
-		// canvas.moveTo(path[0].x, path[0].y)
-		// canvas.lineTo(path[1].x, path[1].y)
-		// canvas.lineTo(path[2].x, path[2].y)
-		// canvas.lineTo(path[3].x, path[3].y)
-		// canvas.closePath()
-
-		// canvas.fill()
 
 		canvas.beginPath()
 		canvas.moveTo(path[0].x, path[0].y)

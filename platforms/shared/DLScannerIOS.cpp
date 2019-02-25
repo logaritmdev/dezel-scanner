@@ -6,23 +6,21 @@
 #include "DLScannerDetection.h"
 #include "DLScannerPrivate.h"
 
-void
-DLScannerProcessFrame(DLScannerRef scanner, int imgc, int imgr, CGImageRef image)
+void DLScannerProcessFrame(DLScannerRef scanner, int imgc, int imgr, CGImageRef image)
 {
 	cv::Mat src(imgr, imgc, CV_8UC4);
-	DLScannerImportImage(image, src);
+	DLScannerConvertImage(image, src);
 	DLScannerProcessImage(scanner, imgc, imgr, src);
 }
 
 CGImageRef
-DLScannerGetProcessedImage(DLScannerRef scanner)
+DLScannerGetDebuggingImage(DLScannerRef scanner)
 {
-	return DLScannerExportImage(scanner->processed);
+	return DLScannerExportImage(scanner->debuggingImage);
 }
 
 CGImageRef
 DLScannerGetExtractedImage(DLScannerRef scanner)
 {
-	return DLScannerExportImage(scanner->extracted);
+	return DLScannerExportImage(scanner->extractedImage);
 }
-

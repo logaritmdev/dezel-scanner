@@ -56,13 +56,12 @@ open class DocumentScannerView : View, ObjectScannerViewDelegate {
 
 	/**
 	 * @inherited
-	 * @method createView
-	 * @since 0.1.0
+	 * @method createContentView
+	 * @since 0.5.0
 	 */
-	override open func createView() -> UIView {
+	override open func createContentView() -> UIView {
 		return ObjectScannerView(frame: .zero)
 	}
-
 
 	/**
      * @method updateServiceStatus
